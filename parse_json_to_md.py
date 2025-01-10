@@ -51,7 +51,7 @@ def render_md_string(papers_dict, all_cost=None):
         + datetime.today().strftime("%m/%d/%Y")
         + "\nTotal cost: $"
         + str(all_cost)
-        + "\nTotal relevant papers: "
+        + "\n\nTotal relevant papers: "
         + str(len(papers_dict))
         + "\n\n"
         + "Paper selection prompt and criteria at the bottom\n\n"

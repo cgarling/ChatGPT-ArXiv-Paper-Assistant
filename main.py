@@ -239,9 +239,9 @@ if __name__ == "__main__":
     values = list(sort_dict.values())
     sorted_keys = [keys[idx] for idx in argsort(values)[::-1]]
     selected_papers = {key: selected_papers[key] for key in sorted_keys}
-    if config["OUTPUT"].getboolean("debug_messages"):
-        print(sort_dict)
-        print(selected_papers)
+    # if config["OUTPUT"].getboolean("debug_messages"):
+    #     print(sort_dict)
+    #     print(selected_papers)
 
     # pick endpoints and push the summaries
     if len(papers) > 0:
