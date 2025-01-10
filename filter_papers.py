@@ -52,12 +52,30 @@ def filter_papers_by_hindex(all_authors, papers, config):
 
 
 def calc_price(model, usage):
-    if model == "gpt-4-1106-preview":
-        return (0.01 * usage.prompt_tokens + 0.03 * usage.completion_tokens) / 1000.0
-    if model == "gpt-4":
-        return (0.03 * usage.prompt_tokens + 0.06 * usage.completion_tokens) / 1000.0
-    if (model == "gpt-3.5-turbo") or (model == "gpt-3.5-turbo-1106"):
-        return (0.0015 * usage.prompt_tokens + 0.002 * usage.completion_tokens) / 1000.0
+    if model in ("gpt-3.5-turbo",):
+        return (7.5 * usage.prompt_tokens + 22.5 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-3.5-turbo-0125",):
+        return (2.5 * usage.prompt_tokens + 7.5 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-4",):
+        return (150 * usage.prompt_tokens + 300 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-4-32k", "gpt-4-dalle", "gpt-4-v"):
+        return (300 * usage.prompt_tokens + 600 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-4-all",):
+        return (300 * usage.prompt_tokens + 300 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-4-turbo",):
+        return (300 * usage.prompt_tokens + 900 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-4-turbo-preview",):
+        return (50 * usage.prompt_tokens + 150 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-4o", "gpt-4o-2024-08-06", "gpt-4o-2024-11-20"):
+        return (25 * usage.prompt_tokens + 100 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-4o-all",):
+        return (300 * usage.prompt_tokens + 1200 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-4o-mini",):
+        return (7.5 * usage.prompt_tokens + 30 * usage.completion_tokens) / 1_000_000
+    elif model in ("gpt-ask-internet",):
+        return (50 * usage.prompt_tokens + 50 * usage.completion_tokens) / 1_000_000
+    else:
+        return 0
 
 
 @retry.retry(tries=3, delay=2)
