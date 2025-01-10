@@ -254,6 +254,8 @@ def filter_by_gpt(
         if config["OUTPUT"].getboolean("debug_messages"):
             print("Total cost: $" + str(all_cost))
 
+    return all_cost
+
 
 if __name__ == "__main__":
     config = configparser.ConfigParser()

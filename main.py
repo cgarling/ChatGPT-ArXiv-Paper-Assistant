@@ -224,7 +224,7 @@ if __name__ == "__main__":
     selected_papers, all_papers, sort_dict = filter_by_author(
         all_authors, papers, author_id_set, config
     )
-    filter_by_gpt(
+    all_cost = filter_by_gpt(
         all_authors,
         papers,
         config,
@@ -250,7 +250,7 @@ if __name__ == "__main__":
                 json.dump(selected_papers, outfile, indent=4)
         if config["OUTPUT"].getboolean("dump_md"):
             with open(os.path.join(output_folder, "output.md"), "w") as f:
-                f.write(render_md_string(selected_papers))
+                f.write(render_md_string(selected_papers, all_cost=all_cost))
         # only push to slack for non-empty dicts
         if config["OUTPUT"].getboolean("push_to_slack"):
             SLACK_KEY = os.environ.get("SLACK_KEY")
