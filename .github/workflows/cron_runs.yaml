@@ -36,5 +36,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: arxiv-scanner-outputs
-        path: out/
+        path: out/latest/
         retention-days: 5

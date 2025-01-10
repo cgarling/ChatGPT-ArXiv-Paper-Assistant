@@ -12,7 +12,7 @@ from retry import retry
 from tqdm import tqdm
 
 from arxiv_scraper import get_papers_from_arxiv_rss_api
-from filter_papers import filter_by_author, filter_by_gpt
+from filter_papers import NOW_DAY, NOW_MONTH, NOW_YEAR, filter_by_author, filter_by_gpt
 from parse_json_to_md import render_md_string
 from push_to_slack import push_to_slack
 from arxiv_scraper import EnhancedJSONEncoder
@@ -22,7 +22,7 @@ T = TypeVar("T")
 
 def batched(items: list[T], batch_size: int) -> list[T]:
     # takes a list and returns a list of list with batch_size
-    return [items[i : i + batch_size] for i in range(0, len(items), batch_size)]
+    return [items[i: i + batch_size] for i in range(0, len(items), batch_size)]
 
 
 def argsort(seq):
@@ -189,9 +189,10 @@ if __name__ == "__main__":
     OPENAI_KEY = os.environ.get("OPENAI_KEY")
     OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL")
     if OPENAI_KEY is None:
-        raise ValueError(
-            "OpenAI key is not set - please set OPENAI_KEY to your OpenAI key"
-        )
+        raise ValueError("OpenAI key is not set - please set OPENAI_KEY to your OpenAI key")
+    print(f"S2_API_KEY: {S2_API_KEY}")
+    print(f"OPENAI_KEY: {OPENAI_KEY}")
+    print(f"OPENAI_BASE_URL: {OPENAI_BASE_URL}")
     openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
     # load the author list
     with io.open("configs/authors.txt", "r") as fopen:
@@ -208,18 +209,16 @@ if __name__ == "__main__":
         print("Getting author info for " + str(len(all_authors)) + " authors")
     all_authors = get_authors(list(all_authors), S2_API_KEY)
 
+    output_folder = os.path.join(config["OUTPUT"]["output_path"], f"{NOW_YEAR}-{NOW_MONTH}", NOW_DAY)
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
     if config["OUTPUT"].getboolean("dump_debug_file"):
-        with open(
-            config["OUTPUT"]["output_path"] + "papers.debug.json", "w"
-        ) as outfile:
+        with open(os.path.join(output_folder, "papers.debug.json"), "w") as outfile:
             json.dump(papers, outfile, cls=EnhancedJSONEncoder, indent=4)
-        with open(
-            config["OUTPUT"]["output_path"] + "all_authors.debug.json", "w"
-        ) as outfile:
+        with open(os.path.join(output_folder, "all_authors.debug.json"), "w") as outfile:
             json.dump(all_authors, outfile, cls=EnhancedJSONEncoder, indent=4)
-        with open(
-            config["OUTPUT"]["output_path"] + "author_id_set.debug.json", "w"
-        ) as outfile:
+        with open(os.path.join(output_folder, "author_id_set.debug.json"), "w") as outfile:
             json.dump(list(author_id_set), outfile, cls=EnhancedJSONEncoder, indent=4)
 
     selected_papers, all_papers, sort_dict = filter_by_author(
@@ -247,17 +246,22 @@ if __name__ == "__main__":
     # pick endpoints and push the summaries
     if len(papers) > 0:
         if config["OUTPUT"].getboolean("dump_json"):
-            with open(config["OUTPUT"]["output_path"] + "output.json", "w") as outfile:
+            with open(os.path.join(output_folder, "output.json"), "w") as outfile:
                 json.dump(selected_papers, outfile, indent=4)
         if config["OUTPUT"].getboolean("dump_md"):
-            with open(config["OUTPUT"]["output_path"] + "output.md", "w") as f:
+            with open(os.path.join(output_folder, "output.md"), "w") as f:
                 f.write(render_md_string(selected_papers))
         # only push to slack for non-empty dicts
         if config["OUTPUT"].getboolean("push_to_slack"):
             SLACK_KEY = os.environ.get("SLACK_KEY")
             if SLACK_KEY is None:
-                print(
-                    "Warning: push_to_slack is true, but SLACK_KEY is not set - not pushing to slack"
-                )
+                print("Warning: push_to_slack is true, but SLACK_KEY is not set - not pushing to slack")
             else:
                 push_to_slack(selected_papers)
+
+    # make link to the latest result
+    latest_output_folder = os.path.join(config["OUTPUT"]["output_path"], "latest")
+    if os.path.exists(latest_output_folder) or os.path.islink(latest_output_folder):
+        os.unlink(latest_output_folder)
+    os.symlink(output_folder, latest_output_folder)
+    print(f"Latest output: \"{output_folder}\" --> \"{latest_output_folder}\"")

@@ -1,7 +1,9 @@
 import configparser
 import dataclasses
 import json
+import os.path
 import re
+import time
 from typing import List
 
 import retry
@@ -10,6 +12,10 @@ from tqdm import tqdm
 
 from arxiv_scraper import Paper
 from arxiv_scraper import EnhancedJSONEncoder
+
+NOW_YEAR = time.strftime("%Y")
+NOW_MONTH = time.strftime("%m")
+NOW_DAY = time.strftime("%d")
 
 
 def filter_by_author(all_authors, papers, author_targets, config):
@@ -197,22 +203,19 @@ def filter_by_gpt(
         criterion = f.read()
     with open("configs/postfix_prompt.txt", "r") as f:
         postfix_prompt = f.read()
+
     all_cost = 0
+
     if config["SELECTION"].getboolean("run_openai"):
         # filter first by hindex of authors to reduce costs.
         paper_list = filter_papers_by_hindex(all_authors, papers, config)
         if config["OUTPUT"].getboolean("debug_messages"):
             print(str(len(paper_list)) + " papers after hindex filtering")
-        cost = 0
         paper_list, cost = filter_papers_by_title(
             paper_list, config, openai_client, base_prompt, criterion
         )
         if config["OUTPUT"].getboolean("debug_messages"):
-            print(
-                str(len(paper_list))
-                + " papers after title filtering with cost of $"
-                + str(cost)
-            )
+            print(str(len(paper_list)) + " papers after title filtering with cost of $" + str(cost))
         all_cost += cost
 
         # batch the remaining papers and invoke GPT
@@ -245,7 +248,7 @@ def filter_by_gpt(
             scored_batches.append(scored_in_batch)
         if config["OUTPUT"].getboolean("dump_debug_file"):
             with open(
-                config["OUTPUT"]["output_path"] + "gpt_paper_batches.debug.json", "w"
+                os.path.join(config["OUTPUT"]["output_path"], f"{NOW_YEAR}-{NOW_MONTH}", NOW_DAY, "gpt_paper_batches.debug.json"), "w"
             ) as outfile:
                 json.dump(scored_batches, outfile, cls=EnhancedJSONEncoder, indent=4)
         if config["OUTPUT"].getboolean("debug_messages"):
@@ -313,6 +316,6 @@ if __name__ == "__main__":
     selected_papers = {key: paper_outputs[key] for key in sorted_keys}
 
     with open(
-        config["OUTPUT"]["output_path"] + "filter_paper_test.debug.json", "w"
+        os.path.join(config["OUTPUT"]["output_path"], f"{NOW_YEAR}-{NOW_MONTH}", NOW_DAY, "filter_paper_test.debug.json"), "w"
     ) as outfile:
         json.dump(selected_papers, outfile, cls=EnhancedJSONEncoder, indent=4)
