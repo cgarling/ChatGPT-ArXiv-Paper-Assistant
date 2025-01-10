@@ -1,22 +1,45 @@
- 1. New methodological improvements to RLHF or instruction-following which are specific fine-tuning steps that are taken to make language models better at following user instructions across a range of tasks.
-    - Relevant: papers that discuss specific methods like RLHF, or instruction-tuning datasets, improving these methods, or analyzing them. Usually these papers will explicitly mention RLHF, instruction-following or instruction-tuning.
-    - Not relevant: papers about adaptation to some task. Simply following instructions or inputs are not sufficient.
- 2. Shows new powerful test set contamination or membership inference methods for language models. Test set contamination is the phenomenon where a language model observes a benchmark dataset during pretraining.
-    - Relevant: test statistics that can detect contamination of benchmarks in language models. statistics that can provide guarantees are more interesting. membership inference methods that are general enough to apply to language models are also relevant.
-    - Not relevant: any papers that do not consider language models, or that do not consider test set contamination.
- 3. Shows a significant advance in the performance of diffusion language models.
-    - Relevant: papers that study language models that are also diffusion models. Continuous diffusions are even more relevant, while discrete diffusions are less so.
-    - Not relevant: papers about image diffusions like DALL-E or Stable Diffusion, or papers that do not explicitly mention language models or applications to text.
- 4. Describes new paradigms to evaluating open-ended text generation. Evaluating the outputs of language models is hard, especially in open-ended settings like for chatbots.
-    - Relevant: papers that fundamentally rethink language model evaluation -- especially by accounting for subjectivity or using adversaries.
-    - Not relevant: specific evaluations for specific tasks, identifying new properties or flaws of language models, or simply collecting new data.
- 5. Conducts surveys or provides data into real-world usage and safety properties of language models.
-    - Relevant: papers that create new datasets or surveys on real-world usage of language models.
-    - Not relevant: papers that apply language models to new real-world tasks.
- 6. Studies 'scaling laws' in the context of neural networks. Scaling laws refer to the very clear power-law relationship between the size or computational power used to train a model and the performance of that model.
-    - Relevant: theoretical or conceptual explanation behind scaling laws for language models.
-    - Not relevant: papers that have experiments at different model scales (but do not explicitly fit a scaling law) or papers that mention scaling laws, but the scaling laws are not the central subject of the paper
+## Relevant Topics:
 
- In suggesting papers to your friend, remember that he enjoys papers on statistical machine learning, and generative modeling in natural language processing.
- Your friend also likes learning about surprising empirical results in language models, as well as clever statistical tricks.
- He does not want to read papers that are about primarily applications of methods to specific domains.
+1. **Representation Learning**: New developments in feature engineering, optimization techniques, and representational mechanisms for neural networks.
+    - **Relevant**: Papers introducing novel autoencoders, sparse representations, or methods for contrastive learning. Works that propose theoretical insights into the representation capabilities of deep networks.
+    - **Not Relevant**: Generic application papers that merely utilize standard representation learning methods without proposing innovations.
+
+2. **Model Research**: Advances in model architectures, compression, and editing for enhancing neural network efficiency and flexibility.
+    - **Model Architectures**:
+        - **Relevant**: Studies focusing on Mixture-of-Experts (MoE), transformers, or innovative architectures with implications for scalability or interpretability.
+        - **Not Relevant**: Papers that merely apply existing architectures to new tasks without structural innovations.
+    - **Model Compression**:
+        - **Relevant**: Techniques for pruning, quantization, low-rank decomposition, or other methods for reducing model size or inference time.
+        - **Not Relevant**: Papers focusing only on deployment-specific optimizations without novel compression strategies.
+
+3. **Large Language Models (LLMs)**: Contributions to pretraining, scalability, inference optimization, or theoretical understanding of large language models.
+    - **Relevant**: Papers that address efficient training, scalable pretraining methodologies, novel architectures, or insights into LLM behavior and performance.
+    - **Not Relevant**: Domain-specific applications of LLMs or papers with limited relevance to generalizable LLM advancements.
+
+4. **AI for Science**: Foundational research of AI in scientific discovery, particularly molecular or protein modeling, or other novel breakthroughs.
+    - **Relevant**: Papers proposing innovative training or structures of AI in molecule generation, protein folding.
+    - **Not Relevant**: Standard or domain-specific applications of AI in science without proposing new methodologies or architectures.
+
+5. **Emerging Trends and Novelty**: Exploration of fundamentally new ideas or frameworks in AI research.
+    - **Relevant**: Papers introducing interdisciplinary methods, novel evaluation paradigms, or experimental results that challenge existing assumptions.
+    - **Not Relevant**: Trend-following or incremental studies lacking substantive innovation.
+
+## Additional Instructions:
+
+1. **Prioritization Framework**:
+    - **Relevance 9 (Must-Read)**: Strongly correlated papers that present milestone achievements or groundbreaking insights in the above focus areas.
+    - **Relevance 7 (Recommended)**: Papers correlated with focus areas, or intriguing but less critical findings.
+    - **Relevance 5 (Optional)**: Trend-following, complex, or less immediately impactful works with future potential.
+    - **Relevance 3 (Marginal)**: Highly complex or tangential papers with limited relevance to core interests.
+    - **Relevance 1 (New Areas)**: Papers outside the core research scope.
+
+2. **Keywords & Signals**: Papers should exhibit:
+    - **Relevance**: Use of terms like “Mixture of Experts (MoE),” “Routing,” “Dynamic,” “Molecular,” “Sparse,” “Compression,” “Pruning,” “Quantization,” “Representation Learning.”
+    - **Clarity**: Clear articulation of problem statements and methods.
+    - **Impact**: High potential to influence research or address critical challenges.
+    - **Innovation**: Introduction of new architectures, algorithms, or theoretical insights.
+
+3. **Exclusions**:
+    - Most of the time, only less then 5% of the papers should be considered preserved, and all others should be filtered.
+    - Avoid papers without sufficient experimental validation or reproducibility.
+    - Exclude works solely focused on specific applications unless they propose broadly applicable techniques.
