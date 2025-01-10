@@ -21,7 +21,7 @@ This is the minimal necessary steps to get the scanner to run. It is highly reco
 2. Copy `config/paper_topics.template.txt` to `config/paper_topics.txt` and fill it out with the types of papers you want to follow
 3. Copy `config/authors.template.txt` to `config/authors.txt` and list the authors you actually want to follow. The numbers behind the author are important. They are semantic scholar author IDs which you can find by looking up the authors on semantic scholar and taking the numbers at the end of the URL.
 4. Set your desired ArXiv categories in `config/config.ini`.
-5. Set your openai key (`OAI_KEY`) as ``a [github secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository)
+5. Set your openai key (`OPENAI_KEY`) and (`OPENAI_BASE_URL`) as ``a [github secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository)
 6. In your repo settings, set github page build sources to be [github actions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow)
 
 At this point your bot should run daily and publish a static website. You can test this by running the github action workflow manually.
@@ -40,7 +40,7 @@ Each day at 1pm UTC, the bot will run and post to slack and publish a github pag
 
 The steps are generally the same as above, but you have to set up the environment via `requirements.txt`
 
-Instead of passing credentials via github secrets, you have to set environment variables `OAI_KEY`, `SLACK_KEY`, `SLACK_CHANNEL_ID`.
+Instead of passing credentials via github secrets, you have to set environment variables `OPENAI_KEY`, `SLACK_KEY`, `SLACK_CHANNEL_ID`.
 
 To run everything, just call `main.py`
 
