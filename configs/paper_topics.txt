@@ -34,7 +34,7 @@ The scoring range spans from 1 to 10, and you may assign **ANY VALUE (e.g., 9, 7
   - Focus: Clearly tied to our main topics but less specialized or deeply focused than a 10.
   - Examples: Significant overlap with MoE, LLMs, or representation learning but lacking a major theoretical leap.
 
-- **Relevance 6 (Optional)**
+- **Relevance 5 (Optional)**
   - Focus: Moderate link to our topics—covers relevant ideas but with limited depth or foundational scope.
   - Examples: Work referencing MoE or LLM in a broader context; incremental studies with partial but not extensive theoretical exploration.
 
@@ -56,7 +56,7 @@ The scoring range spans from 1 to 10, and you may assign **ANY VALUE (e.g., 9, 7
   - Definition: Substantial insights/enhancements, though not a full paradigm shift.
   - Examples: Advanced compression variation yielding significantly better results; an extended theoretical framework that’s important but not revolutionary.
 
-- **Novelty 6 (Moderate/Potential)**
+- **Novelty 5 (Moderate/Potential)**
   - Definition: Incremental contributions with possible long-term benefits, not immediately transformative.
   - Examples: Moderately novel extension to an existing architecture; refining current methods without fundamentally altering them.
 
