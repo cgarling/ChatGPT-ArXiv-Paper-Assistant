@@ -1,21 +1,20 @@
-import json
 import configparser
+import io
+import json
 import os
+import shutil
 import time
+from typing import Generator, TypeVar
 
 from openai import OpenAI
 from requests import Session
-from typing import TypeVar, Generator
-import io
-
 from retry import retry
 from tqdm import tqdm
 
-from arxiv_scraper import get_papers_from_arxiv_rss_api
+from arxiv_scraper import EnhancedJSONEncoder, get_papers_from_arxiv_rss_api
 from filter_papers import NOW_DAY, NOW_MONTH, NOW_YEAR, filter_by_author, filter_by_gpt
 from parse_json_to_md import render_md_string
 from push_to_slack import push_to_slack
-from arxiv_scraper import EnhancedJSONEncoder
 
 T = TypeVar("T")
 
@@ -180,6 +179,21 @@ def parse_authors(lines):
     return authors, author_ids
 
 
+def copy_all_files(source_dir, target_dir):
+    os.makedirs(target_dir, exist_ok=True)
+
+    for item in os.listdir(source_dir):
+        source_item = os.path.join(source_dir, item)
+        target_item = os.path.join(target_dir, item)
+
+        if os.path.isfile(source_item):
+            shutil.copy2(source_item, target_item)
+            print(f"Copied: {source_item} -> {target_item}")
+        elif os.path.isdir(source_item):
+            shutil.copytree(source_item, target_item, dirs_exist_ok=True)
+            print(f"Copied: {source_item} -> {target_item}")
+
+
 if __name__ == "__main__":
     # now load config.ini
     config = configparser.ConfigParser()
@@ -260,8 +274,11 @@ if __name__ == "__main__":
                 push_to_slack(selected_papers)
 
     # make link to the latest result
-    latest_output_folder = os.path.join(config["OUTPUT"]["output_path"], "latest")
-    if os.path.exists(latest_output_folder) or os.path.islink(latest_output_folder):
-        os.unlink(latest_output_folder)
-    os.symlink(output_folder, latest_output_folder)
-    print(f"Latest output: \"{output_folder}\" --> \"{latest_output_folder}\"")
+    # latest_output_folder = os.path.join(config["OUTPUT"]["output_path"], "latest")
+    # if os.path.exists(latest_output_folder) or os.path.islink(latest_output_folder):
+    #     os.unlink(latest_output_folder)
+    # os.symlink(output_folder, latest_output_folder)
+    # print(f"Latest output: \"{output_folder}\" --> \"{latest_output_folder}\"")
+
+    # copy files
+    copy_all_files(output_folder, config["OUTPUT"]["output_path"])
