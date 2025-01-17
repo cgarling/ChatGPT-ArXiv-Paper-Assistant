@@ -1,84 +1,25 @@
 ## Relevant Topics
 
-1. **Representation Learning**
-   - **Relevant**: Novel approaches to autoencoders, sparse/contrastive learning, dictionary learning, or theoretical insights into how deep networks encode information.
-   - **Not Relevant**: Application-only work using standard representation learning without innovative insights.
+1. Representation Learning
+   - Relevant: Feature learning, sparse/contrastive learning, dictionary learning, or theoretical insights into how deep networks encode information.
+   - Irrelevant: Application-only work using standard representation learning without innovative insights.
 
-2. **Model Research** (Architectures, Compression)
-   - **Relevant**: Mixture-of-Experts, Transformers, Conditional/Dynamic Networks, advanced compression (sparsity, pruning, quantization, low-rank, KV cache), or theoretical/algorithmic innovations for flexibility or efficiency.
-   - **Not Relevant**: Simply applying existing architectures to new tasks without structural/theoretical innovation.
+2. Model Architecture
+   - Relevant: Mixture-of-Experts (MoE), Transformers, Conditional/Dynamic Networks, Autoencoders, and other foundational structures.
+   - Irrelevant: Simply applying existing architectures to new tasks without structural/theoretical innovation.
 
-3. **Large Language Models (LLMs)**
-   - **Relevant**: Novel pretraining/scaling/inference methods, theoretical insights on LLM behavior or performance, specialized architectures (MoE, routing) or training breakthroughs.
-   - **Not Relevant**: Domain-specific usage or small tweaks (e.g., instruction tuning) with minimal theoretical advancement.
+3. Model Compression
+   - Relevant: Sparsity, pruning, quantization, low-rank, KV cache, or theoretical/algorithmic innovations for efficiency, etc.
+   - Irrelevant: Simply applying existing compression to new tasks.
 
-4. **AI for Science**
-   - **Relevant**: Foundational research in molecule/protein modeling (e.g., new training paradigms, advanced generative methods, or theoretical perspectives), or major architecture-level innovation.
-   - **Not Relevant**: Conventional, domain-limited applications lacking cross-domain insights.
+4. Large Language Models (LLMs)
+   - Relevant: Strong theoretical insights on LLM behavior, architecture/training breakthroughs (e.g., MoE).
+   - Irrelevant: Domain-specific usage or small tweaks (e.g., instruction tuning), lack of theoretical advancement (e.g., benchmarks/datasets, inference tricks like RAG).
 
-5. **Emerging Trends and Novelty**
-   - **Relevant**: Interdisciplinary frameworks, cutting-edge theoretical work challenging assumptions, or new paradigms reshaping AI research.
-   - **Not Relevant**: Trend-following or incremental extensions with little originality.
+5. AI for Science
+   - Relevant: Foundational research in molecule/protein modeling (e.g., new training paradigms, advanced generative methods, or theoretical perspectives), or major architecture-level innovation.
+   - Irrelevant: Conventional, domain-limited applications lacking insights on the foundational side.
 
-## Scoring Criteria
-
-The scoring range spans from 1 to 10, and you may assign **ANY VALUE (e.g., 9, 7, 5, 4, 2)** within that interval—beyond just the suggested reference scores—to achieve a more nuanced evaluation.
-
-### Relevance Scoring
-
-- **Relevance 10 (Must-Read)**
-  - Focus: Fully aligned with core topics (MoE, LLMs, representation learning, compression) **and/or** strong foundational insights/theory.
-  - Examples: Major emphasis on MoE or LLM strategies with clear theoretical contributions; extensive foundational coverage of representation learning/compression.
-
-- **Relevance 8 (Recommended)**
-  - Focus: Clearly tied to our main topics but less specialized or deeply focused than a 10.
-  - Examples: Significant overlap with MoE, LLMs, or representation learning but lacking a major theoretical leap.
-
-- **Relevance 5 (Optional)**
-  - Focus: Moderate link to our topics—covers relevant ideas but with limited depth or foundational scope.
-  - Examples: Work referencing MoE or LLM in a broader context; incremental studies with partial but not extensive theoretical exploration.
-
-- **Relevance 3 (Marginal)**
-  - Focus: Touches our areas peripherally, with minimal attention to foundational aspects or direct overlap.
-  - Examples: Brief mention of compression or LLMs but mostly centered on another domain; only a cursory link to our core topics.
-
-- **Relevance 1 (Ignore)**
-  - Focus: Largely outside our interests, with little/no association to our topics or foundational research.
-  - Examples: Purely application-level tasks without novel theoretical/methodological content; entirely different fields like computer vision 3D learning, reinforcement learning, etc.
-
-### Novelty Scoring
-
-- **Novelty 10 (Breakthrough)**
-  - Definition: Groundbreaking methods/theory introducing new directions or solving major challenges.
-  - Examples: Entirely new MoE routing paradigm; a novel theoretical result transforming representation learning.
-
-- **Novelty 8 (Major Improvements)**
-  - Definition: Substantial insights/enhancements, though not a full paradigm shift.
-  - Examples: Advanced compression variation yielding significantly better results; an extended theoretical framework that’s important but not revolutionary.
-
-- **Novelty 5 (Moderate/Potential)**
-  - Definition: Incremental contributions with possible long-term benefits, not immediately transformative.
-  - Examples: Moderately novel extension to an existing architecture; refining current methods without fundamentally altering them.
-
-- **Novelty 3 (Modest/Tangential)**
-  - Definition: Minor or domain-specific improvements with limited broader impact.
-  - Examples: Slight modifications to known methods that don’t change the broader landscape.
-
-- **Novelty 1 (Low/Application-Focused)**
-  - Definition: Minimal originality, applying standard approaches without real innovation.
-  - Examples: Using an off-the-shelf model without adding new insights; purely application-driven studies with no methodological advancement.
-
-## Additional Instructions
-
-1. **Foundation vs. Application**
-   - Foundational/theoretical contributions (new theorems, architectures, or strong methodological insights) are **high priority**.
-   - Purely application-focused papers (no novel architecture/theory) are **lower** in relevance/novelty.
-
-2. **Keywords & Signals**
-   - Look for “Mixture of Experts,” “Routing,” “Sparse,” “Compression,” “Pruning,” “Quantization,” “Representation Learning,” “Low-rank,” “Theoretical Analysis,” “Scalability,” “LLM,” “Foundation Models,” etc.
-   - Check for theoretical/methodological innovation, strong proofs/experiments, or new frameworks.
-
-3. **Exclusions**
-   - Papers that are **purely application-focused** with no novel architecture, theory, or technique.
-   - If a paper’s main contribution is incremental or purely domain-specific (e.g., a standard CNN fine-tuned on a new dataset) and does not improve understanding in our focus areas, it may be filtered out.
-   - If the paper does not provide any new insights, theoretical results, or methodological contributions beyond off-the-shelf methods, exclude it.
+6. Emerging Trends
+   - Relevant: Cutting-edge theoretical work challenging assumptions, or broad new paradigms/concepts in AI research.
+   - Irrelevant: Trend-following or incremental extensions on existing methods.
