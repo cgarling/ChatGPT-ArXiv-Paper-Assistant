@@ -93,7 +93,7 @@ The filtering logic is pretty simple. We first check for author match.
 2. Check the authors of the paper. If the author semantic scholar id matches someone in `authors.txt` it goes in the candidate set with a default score of `author_match_score`.
 
 We then check for GPT-evaluated relevance. We do this in two steps.
-1. Filter out any papers that have no authors with h-index above `hcutoff` in `config.ini`. This is to reduce costs.
+1. Filter out any papers that have no authors with h-index above `h_cutoff` in `config.ini`. This is to reduce costs.
 2. All remaining examples get batched, and are evaluated by a GPT model specified by `model` in `config.ini`. **You should only use GPT3.5 for debugging. It does not work well for this purpose!**
 This step uses the following prompt setup defined in `configs/`
 

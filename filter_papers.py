@@ -31,7 +31,7 @@ def select_by_author(all_authors, papers, selected_papers, sort_dict, author_tar
 
 
 def filter_papers_by_hindex(all_authors, papers, config):
-    # filters papers by checking to see if there's at least one author with > hcutoff hindex
+    # filters papers by checking to see if there's at least one author with > h_cutoff hindex
     paper_list = []
     for paper in papers:
         max_h = 0
@@ -40,7 +40,7 @@ def filter_papers_by_hindex(all_authors, papers, config):
                 max_h = max(
                     max_h, max([alias["hIndex"] for alias in all_authors[author]])
                 )
-        if max_h >= float(config["FILTERING"]["hcutoff"]):
+        if max_h >= float(config["FILTERING"]["h_cutoff"]):
             paper_list.append(paper)
     print(str(len(paper_list)) + " papers after hindex filtering")
     return paper_list
