@@ -8,7 +8,7 @@ from openai import OpenAI
 from tqdm import tqdm
 
 from arxiv_scraper import EnhancedJSONEncoder, Paper
-from environment import CONFIG, OPENAI_BASE_URL, OPENAI_KEY, OUTPUT_DEBUG_FILE_FORMAT
+from environment import BASE_PROMPT, CONFIG, OPENAI_BASE_URL, OPENAI_KEY, OUTPUT_DEBUG_FILE_FORMAT, POSTFIX_PROMPT, TOPIC_PROMPT
 
 
 def select_by_author(all_authors, papers, selected_papers, sort_dict, author_targets, config):
@@ -132,7 +132,7 @@ def batched(items, batch_size):
 
 
 def filter_papers_by_title(
-    papers, config, openai_client, base_prompt, criterion
+    papers, openai_client, base_prompt, topic_prompt, config
 ) -> List[Paper]:
     filter_postfix = 'Identify any papers that are absolutely and completely irrelavent to the criteria, and you are absolutely sure your friend will not enjoy, formatted as a list of arxiv ids like ["ID1", "ID2", "ID3"..]. Be extremely cautious, and if you are unsure at all, do not add a paper in this list. You will check it in detail later.\n Directly respond with the list, do not add ANY extra text before or after the list. Even if every paper seems irrelevant, please keep at least TWO papers'
     batches_of_papers = batched(papers, 20)
@@ -141,7 +141,7 @@ def filter_papers_by_title(
     for batch in batches_of_papers:
         papers_string = "".join([paper_to_titles(paper) for paper in batch])
         full_prompt = (
-            base_prompt + "\n " + criterion + "\n" + papers_string + filter_postfix
+            base_prompt + "\n " + topic_prompt + "\n" + papers_string + filter_postfix
         )
         model = config["SELECTION"]["model"]
         completion = call_chatgpt(full_prompt, openai_client, model)
@@ -166,36 +166,34 @@ def paper_to_titles(paper_entry: Paper) -> str:
     return "ArXiv ID: " + paper_entry.arxiv_id + " Title: " + paper_entry.title + "\n"
 
 
-def run_on_batch(
-    paper_batch, base_prompt, criterion, postfix_prompt, openai_client, config
-):
-    batch_str = [paper_to_string(paper) for paper in paper_batch]
-    full_prompt = "\n".join(
+def get_full_prompt(base_prompt, topic_prompt, postfix_prompt, batch_str):
+    full_prompt = "\n\n".join(
         [
             base_prompt,
-            criterion + "\n",
-            "\n\n".join(batch_str) + "\n",
+            topic_prompt,
+            "## Papers",
+            "\n\n".join(batch_str),
             postfix_prompt,
         ]
     )
+    return full_prompt
+
+
+def run_on_batch(
+    paper_batch, openai_client, base_prompt, topic_prompt, postfix_prompt, config
+):
+    batch_str = [paper_to_string(paper) for paper in paper_batch]
+    full_prompt = get_full_prompt(base_prompt, topic_prompt, postfix_prompt, batch_str)
     json_dicts, cost = run_and_parse_chatgpt(full_prompt, openai_client, config)
     return json_dicts, cost
 
 
-def filter_by_gpt(papers, selected_papers, sort_dict, config):
-    # deal with config parsing
-    with open("configs/base_prompt.txt", "r") as f:
-        base_prompt = f.read()
-    with open("configs/paper_topics.txt", "r") as f:
-        criterion = f.read()
-    with open("configs/postfix_prompt.txt", "r") as f:
-        postfix_prompt = f.read()
-
+def filter_by_gpt(papers, selected_papers, sort_dict, base_prompt, topic_prompt, postfix_prompt, config):
     all_papers = {paper.arxiv_id: paper for paper in papers}
     all_cost = 0
 
     openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
-    papers, cost = filter_papers_by_title(papers, config, openai_client, base_prompt, criterion)
+    papers, cost = filter_papers_by_title(papers, openai_client, base_prompt, topic_prompt, config)
     print(str(len(papers)) + " papers after title filtering with cost of $" + str(cost))
     all_cost += cost
 
@@ -205,7 +203,7 @@ def filter_by_gpt(papers, selected_papers, sort_dict, config):
     for batch in tqdm(batch_of_papers):
         scored_in_batch = []
         json_dicts, cost = run_on_batch(
-            batch, base_prompt, criterion, postfix_prompt, openai_client, config
+            batch, openai_client, base_prompt, topic_prompt, postfix_prompt, config
         )
         all_cost += cost
         for jdict in json_dicts:
@@ -239,14 +237,6 @@ def filter_by_gpt(papers, selected_papers, sort_dict, config):
 if __name__ == "__main__":
     openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
 
-    # deal with config parsing
-    with open("configs/base_prompt.txt", "r") as f:
-        base_prompt = f.read()
-    with open("configs/paper_topics.txt", "r") as f:
-        criterion = f.read()
-    with open("configs/postfix_prompt.txt", "r") as f:
-        postfix_prompt = f.read()
-
     # loads papers from 'in/debug_papers.json' and filters them
     with open("in/debug_papers.json", "r") as f:
         paper_list_in_dict = json.load(f)
@@ -269,7 +259,7 @@ if __name__ == "__main__":
     total_cost = 0
     for batch in tqdm(papers):
         json_dicts, cost = run_on_batch(
-            batch, base_prompt, criterion, postfix_prompt, openai_client, CONFIG
+            batch, openai_client, BASE_PROMPT, TOPIC_PROMPT, POSTFIX_PROMPT, CONFIG
         )
         total_cost += cost
         for paper in batch:

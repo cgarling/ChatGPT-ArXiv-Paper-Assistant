@@ -2,10 +2,9 @@
 Code to render the output.json into a format suitable for a slackbot, and to push it to slack using webhooks
 """
 import json
-import os
 from datetime import datetime
-
 from typing import List, TypeVar
+
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
@@ -17,7 +16,7 @@ T = TypeVar("T")
 
 def batched(items: list[T], batch_size: int) -> list[T]:
     # takes a list and returns a list of list with batch_size
-    return [items[i : i + batch_size] for i in range(0, len(items), batch_size)]
+    return [items[i: i + batch_size] for i in range(0, len(items), batch_size)]
 
 
 def send_main_message(block_list: List, channel_id, client):
@@ -137,7 +136,7 @@ def build_block_list(title_strings, paper_strings):
             "text": {
                 "type": "plain_text",
                 "text": "Paper alert bot update on "
-                + datetime.today().strftime("%m/%d/%Y"),
+                        + datetime.today().strftime("%m/%d/%Y"),
             },
         },
         {
@@ -145,8 +144,8 @@ def build_block_list(title_strings, paper_strings):
             "text": {
                 "type": "mrkdwn",
                 "text": "Total relevant papers (max 50 in thread): "
-                + str(len(title_strings))
-                + "\n Top 20 titles shown below",
+                        + str(len(title_strings))
+                        + "\n Top 20 titles shown below",
             },
         },
         {"type": "divider"},

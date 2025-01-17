@@ -1,6 +1,9 @@
 import json
 from datetime import datetime
 
+from environment import BASE_PROMPT, POSTFIX_PROMPT, TOPIC_PROMPT
+from filter_papers import get_full_prompt
+
 
 def render_paper(paper_entry: dict, idx: int) -> str:
     """
@@ -44,8 +47,6 @@ def render_title_and_author(paper_entry: dict, idx: int) -> str:
 
 def render_md_string(papers_dict, all_cost=None):
     # header
-    with open("configs/paper_topics.txt", "r") as f:
-        criterion = f.read()
     output_string = (
         "# Personalized Daily Arxiv Papers "
         + datetime.today().strftime("%m/%d/%Y")
@@ -69,7 +70,7 @@ def render_md_string(papers_dict, all_cost=None):
     # join all papers into one string
     output_string = output_string + "\n".join(paper_strings)
     output_string += "\n\n---\n\n"
-    output_string += f"## Paper selection prompt\n{criterion}"
+    output_string += f"# Paper selection prompt\n{get_full_prompt(BASE_PROMPT, TOPIC_PROMPT, POSTFIX_PROMPT, [])}"
     return output_string
 
 

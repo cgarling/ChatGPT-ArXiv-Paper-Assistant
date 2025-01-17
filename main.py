@@ -1,5 +1,5 @@
 import json
-import json
+import os
 import time
 from typing import Generator, TypeVar
 
@@ -8,7 +8,18 @@ from retry import retry
 from tqdm import tqdm
 
 from arxiv_scraper import EnhancedJSONEncoder, get_papers_from_arxiv_rss_api
-from environment import AUTHOR_ID_SET, CONFIG, OUTPUT_DEBUG_FILE_FORMAT, OUTPUT_JSON_FILE_FORMAT, OUTPUT_MD_FILE_FORMAT, S2_API_KEY, SLACK_KEY
+from environment import (
+    AUTHOR_ID_SET,
+    BASE_PROMPT,
+    CONFIG,
+    OUTPUT_DEBUG_FILE_FORMAT,
+    OUTPUT_JSON_FILE_FORMAT,
+    OUTPUT_MD_FILE_FORMAT,
+    POSTFIX_PROMPT,
+    S2_API_KEY,
+    SLACK_KEY,
+    TOPIC_PROMPT
+)
 from filter_papers import filter_by_gpt, filter_papers_by_hindex, select_by_author
 from parse_json_to_md import render_md_string
 from push_to_slack import push_to_slack
@@ -214,6 +225,9 @@ if __name__ == "__main__":
             papers,
             selected_papers,
             sort_dict,
+            BASE_PROMPT,
+            TOPIC_PROMPT,
+            POSTFIX_PROMPT,
             CONFIG,
         )
     else:
@@ -254,3 +268,7 @@ if __name__ == "__main__":
 
     # copy files
     copy_file_or_dir(OUTPUT_MD_FILE_FORMAT.format("output.md"), CONFIG["OUTPUT"]["output_path"])
+    os.rename(
+        os.path.join(CONFIG["OUTPUT"]["output_path"], os.path.basename(OUTPUT_MD_FILE_FORMAT.format("output.md"))),
+        os.path.join(CONFIG["OUTPUT"]["output_path"], "output.json"),
+    )

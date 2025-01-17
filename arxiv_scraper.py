@@ -1,14 +1,14 @@
 import configparser
 import dataclasses
 import json
+import re
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from html import unescape
 from typing import List, Optional
-import re
-import arxiv
 
+import arxiv
 import feedparser
-from dataclasses import dataclass
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):
@@ -43,12 +43,12 @@ def get_papers_from_arxiv_api(area: str, timestamp, last_id) -> List[Paper]:
     start_date = timestamp - timedelta(days=4)
     search = arxiv.Search(
         query="("
-        + area
-        + ") AND submittedDate:["
-        + start_date.strftime("%Y%m%d")
-        + "* TO "
-        + end_date.strftime("%Y%m%d")
-        + "*]",
+              + area
+              + ") AND submittedDate:["
+              + start_date.strftime("%Y%m%d")
+              + "* TO "
+              + end_date.strftime("%Y%m%d")
+              + "*]",
         max_results=None,
         sort_by=arxiv.SortCriterion.SubmittedDate,
     )

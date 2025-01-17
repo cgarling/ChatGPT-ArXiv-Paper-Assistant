@@ -50,6 +50,14 @@ with open("configs/authors.txt", "r", encoding="utf-8") as fopen:
     author_names, author_ids = parse_authors(fopen.readlines())
 AUTHOR_ID_SET = set(author_ids)
 
+# load prompts
+with open("configs/base_prompt.txt", "r") as f:
+    BASE_PROMPT = f.read()
+with open("configs/paper_topics.txt", "r") as f:
+    TOPIC_PROMPT = f.read()
+with open("configs/postfix_prompt.txt", "r") as f:
+    POSTFIX_PROMPT = f.read()
+
 # output path
 OUTPUT_DEBUG_DIR = os.path.join(CONFIG["OUTPUT"]["output_path"], "debug", f"{NOW_YEAR}-{NOW_MONTH}")
 OUTPUT_DEBUG_FILE_FORMAT = os.path.join(OUTPUT_DEBUG_DIR, f"{NOW_YEAR}-{NOW_MONTH}-{NOW_DAY}-" + "{}")
