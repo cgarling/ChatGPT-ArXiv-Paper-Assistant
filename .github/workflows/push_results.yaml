@@ -3,7 +3,7 @@ name: Push Generated Results
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Run daily arxiv"]
+    workflows: [ "Run daily arxiv" ]
     types:
       - completed
 
@@ -15,31 +15,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: auto_update
 
-    - name: Verify /out directory exists
-      run: |
-        if [ ! -d "out" ]; then
-          echo "/out directory does not exist. Aborting workflow."
-          exit 1
-        fi
+      - name: Download /out folder artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: arxiv-scanner-outputs
+          path: out/
 
-    - name: Check for changes in /out folder
-      id: check_changes
-      run: |
-        if git diff --quiet out/; then
-          echo "has_changes=false" >> $GITHUB_ENV
-        else
-          echo "has_changes=true" >> $GITHUB_ENV
-        fi
+      - name: Verify /out directory and contents
+        run: |
+          if [ -d "out" ]; then
+            echo "Contents in /out:"
+            ls -la out/
+          else
+            echo "/out directory does not exist. Aborting."
+            exit 1
 
-    - name: Commit and push /out folder
-      if: env.has_changes == 'true'
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add out/
-        git commit -m "[skip ci] Automated update from workflow: $(date +"%Y-%m-%d %H:%M:%S")"
-        git push origin HEAD:auto-update
-        echo "Changes in /out pushed to the repository."
+      - name: Check for changes in /out folder
+        id: check_changes
+        run: |
+          if git diff --quiet out/; then
+            echo "has_changes=false" >> $GITHUB_ENV
+          else
+            echo "has_changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit and push /out folder
+        if: env.has_changes == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add out/
+          git commit -m "[skip ci] Automated update from workflow: $(date +"%Y-%m-%d %H:%M:%S")"
+          git push origin HEAD:auto_update
+          echo "Changes in /out pushed to the repository."
