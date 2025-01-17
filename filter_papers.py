@@ -8,7 +8,7 @@ from openai import OpenAI
 from tqdm import tqdm
 
 from arxiv_scraper import EnhancedJSONEncoder, Paper
-from environment import BASE_PROMPT, CONFIG, OPENAI_BASE_URL, OPENAI_KEY, OUTPUT_DEBUG_FILE_FORMAT, POSTFIX_PROMPT, TOPIC_PROMPT
+from environment import BASE_PROMPT, CONFIG, OPENAI_BASE_URL, OPENAI_API_KEY, OUTPUT_DEBUG_FILE_FORMAT, POSTFIX_PROMPT, TOPIC_PROMPT
 
 
 def select_by_author(all_authors, papers, selected_papers, sort_dict, author_targets, config):
@@ -192,7 +192,7 @@ def filter_by_gpt(papers, selected_papers, sort_dict, base_prompt, topic_prompt,
     all_papers = {paper.arxiv_id: paper for paper in papers}
     all_cost = 0
 
-    openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
+    openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
     papers, title_cost = filter_papers_by_title(papers, openai_client, base_prompt, topic_prompt, config)
     print(f"{len(papers)} papers after title filtering with cost of ${title_cost}")
     all_cost += title_cost
@@ -239,7 +239,7 @@ def filter_by_gpt(papers, selected_papers, sort_dict, base_prompt, topic_prompt,
 
 
 if __name__ == "__main__":
-    openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
+    openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
 
     # loads papers from 'in/debug_papers.json' and filters them
     with open("in/debug_papers.json", "r") as f:

@@ -27,19 +27,19 @@ NOW_DAY = time.strftime("%d")
 
 # keys
 S2_API_KEY = os.environ.get("S2_KEY")
-OPENAI_KEY = os.environ.get("OPENAI_KEY")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL")
 SLACK_KEY = os.environ.get("SLACK_KEY")
 SLACK_CHANNEL_ID = os.environ.get("SLACK_CHANNEL_ID")
 
 print(f"S2_API_KEY: {S2_API_KEY}")
-print(f"OPENAI_KEY: {OPENAI_KEY}")
+print(f"OPENAI_API_KEY: {OPENAI_API_KEY}")
 print(f"OPENAI_BASE_URL: {OPENAI_BASE_URL}")
 print(f"SLACK_KEY: {SLACK_KEY}")
 print(f"SLACK_CHANNEL_ID: {SLACK_CHANNEL_ID}")
 
-if OPENAI_KEY is None:
-    raise ValueError("OpenAI key is not set - please set OPENAI_KEY to your OpenAI key")
+if OPENAI_API_KEY is None:
+    raise ValueError("OpenAI key is not set - please set OPENAI_API_KEY to your OpenAI key")
 
 # load config.ini
 CONFIG = configparser.ConfigParser()
