@@ -1,32 +1,19 @@
-import configparser
 import dataclasses
 import json
-import os.path
 import re
-import time
 from typing import List
 
 import retry
 from openai import OpenAI
 from tqdm import tqdm
 
-from arxiv_scraper import Paper
-from arxiv_scraper import EnhancedJSONEncoder
-
-NOW_YEAR = time.strftime("%Y")
-NOW_MONTH = time.strftime("%m")
-NOW_DAY = time.strftime("%d")
+from arxiv_scraper import EnhancedJSONEncoder, Paper
+from environment import CONFIG, OPENAI_BASE_URL, OPENAI_KEY, OUTPUT_DEBUG_FILE_FORMAT
 
 
-def filter_by_author(all_authors, papers, author_targets, config):
-    # filter and parse the papers
-    selected_papers = {}  # pass to output
-    all_papers = {}  # dict for later filtering
-    sort_dict = {}  # dict storing key and score
-
+def select_by_author(all_authors, papers, selected_papers, sort_dict, author_targets, config):
     # author based selection
     for paper in papers:
-        all_papers[paper.arxiv_id] = paper
         for author in paper.authors:
             if author in all_authors:
                 for alias in all_authors[author]:
@@ -39,7 +26,8 @@ def filter_by_author(all_authors, papers, author_targets, config):
                             config["SELECTION"]["author_match_score"]
                         )
                         break
-    return selected_papers, all_papers, sort_dict
+    print(f"Selected {len(selected_papers)} papers based on author match")
+    return selected_papers
 
 
 def filter_papers_by_hindex(all_authors, papers, config):
@@ -54,6 +42,7 @@ def filter_papers_by_hindex(all_authors, papers, config):
                 )
         if max_h >= float(config["FILTERING"]["hcutoff"]):
             paper_list.append(paper)
+    print(str(len(paper_list)) + " papers after hindex filtering")
     return paper_list
 
 
@@ -139,7 +128,7 @@ def paper_to_string(paper_entry: Paper) -> str:
 
 def batched(items, batch_size):
     # takes a list and returns a list of list with batch_size
-    return [items[i : i + batch_size] for i in range(0, len(items), batch_size)]
+    return [items[i: i + batch_size] for i in range(0, len(items), batch_size)]
 
 
 def filter_papers_by_title(
@@ -164,7 +153,7 @@ def filter_papers_by_title(
                 if paper.arxiv_id not in filtered_set:
                     final_list.append(paper)
                 else:
-                    print("Filtered out paper " + paper.arxiv_id)
+                    print(f"Filtered out paper {paper.arxiv_id} by title")
         except Exception as ex:
             print("Exception happened " + str(ex))
             print("Failed to parse LM output as list " + out_text)
@@ -193,9 +182,7 @@ def run_on_batch(
     return json_dicts, cost
 
 
-def filter_by_gpt(
-    all_authors, papers, config, openai_client, all_papers, selected_papers, sort_dict
-):
+def filter_by_gpt(papers, selected_papers, sort_dict, config):
     # deal with config parsing
     with open("configs/base_prompt.txt", "r") as f:
         base_prompt = f.read()
@@ -204,64 +191,54 @@ def filter_by_gpt(
     with open("configs/postfix_prompt.txt", "r") as f:
         postfix_prompt = f.read()
 
+    all_papers = {paper.arxiv_id: paper for paper in papers}
     all_cost = 0
 
-    if config["SELECTION"].getboolean("run_openai"):
-        # filter first by hindex of authors to reduce costs.
-        paper_list = filter_papers_by_hindex(all_authors, papers, config)
-        print(str(len(paper_list)) + " papers after hindex filtering")
-        paper_list, cost = filter_papers_by_title(
-            paper_list, config, openai_client, base_prompt, criterion
-        )
-        print(str(len(paper_list)) + " papers after title filtering with cost of $" + str(cost))
-        all_cost += cost
+    openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
+    papers, cost = filter_papers_by_title(papers, config, openai_client, base_prompt, criterion)
+    print(str(len(papers)) + " papers after title filtering with cost of $" + str(cost))
+    all_cost += cost
 
-        # batch the remaining papers and invoke GPT
-        batch_of_papers = batched(paper_list, int(config["SELECTION"]["batch_size"]))
-        scored_batches = []
-        for batch in tqdm(batch_of_papers):
-            scored_in_batch = []
-            json_dicts, cost = run_on_batch(
-                batch, base_prompt, criterion, postfix_prompt, openai_client, config
+    # batch the remaining papers and invoke GPT
+    batch_of_papers = batched(papers, int(config["SELECTION"]["batch_size"]))
+    scored_batches = []
+    for batch in tqdm(batch_of_papers):
+        scored_in_batch = []
+        json_dicts, cost = run_on_batch(
+            batch, base_prompt, criterion, postfix_prompt, openai_client, config
+        )
+        all_cost += cost
+        for jdict in json_dicts:
+            if (
+                int(jdict["RELEVANCE"])
+                >= int(config["FILTERING"]["relevance_cutoff"])
+                and jdict["NOVELTY"] >= int(config["FILTERING"]["novelty_cutoff"])
+                and jdict["ARXIVID"] in all_papers
+            ):
+                selected_papers[jdict["ARXIVID"]] = {
+                    **dataclasses.asdict(all_papers[jdict["ARXIVID"]]),
+                    **jdict,
+                }
+                sort_dict[jdict["ARXIVID"]] = jdict["RELEVANCE"] + jdict["NOVELTY"]
+            scored_in_batch.append(
+                {
+                    **dataclasses.asdict(all_papers[jdict["ARXIVID"]]),
+                    **jdict,
+                }
             )
-            all_cost += cost
-            for jdict in json_dicts:
-                if (
-                    int(jdict["RELEVANCE"])
-                    >= int(config["FILTERING"]["relevance_cutoff"])
-                    and jdict["NOVELTY"] >= int(config["FILTERING"]["novelty_cutoff"])
-                    and jdict["ARXIVID"] in all_papers
-                ):
-                    selected_papers[jdict["ARXIVID"]] = {
-                        **dataclasses.asdict(all_papers[jdict["ARXIVID"]]),
-                        **jdict,
-                    }
-                    sort_dict[jdict["ARXIVID"]] = jdict["RELEVANCE"] + jdict["NOVELTY"]
-                scored_in_batch.append(
-                    {
-                        **dataclasses.asdict(all_papers[jdict["ARXIVID"]]),
-                        **jdict,
-                    }
-                )
-            scored_batches.append(scored_in_batch)
-        if config["OUTPUT"].getboolean("dump_debug_file"):
-            with open(
-                os.path.join(config["OUTPUT"]["output_path"], f"{NOW_YEAR}-{NOW_MONTH}", NOW_DAY, "gpt_paper_batches.debug.json"), "w"
-            ) as outfile:
-                json.dump(scored_batches, outfile, cls=EnhancedJSONEncoder, indent=4)
-        print("Total cost: $" + str(all_cost))
+        scored_batches.append(scored_in_batch)
+
+    if config["OUTPUT"].getboolean("dump_debug_file"):
+        with open(OUTPUT_DEBUG_FILE_FORMAT.format("gpt_paper_batches.json"), "w") as outfile:
+            json.dump(scored_batches, outfile, cls=EnhancedJSONEncoder, indent=4)
+    print("Total cost: $" + str(all_cost))
 
     return all_cost
 
 
 if __name__ == "__main__":
-    config = configparser.ConfigParser()
-    config.read("configs/config.ini")
-    # now load the api keys
-    keyconfig = configparser.ConfigParser()
-    keyconfig.read("configs/keys.ini")
-    S2_API_KEY = keyconfig["KEYS"]["semanticscholar"]
-    openai_client = OpenAI(api_key=keyconfig["KEYS"]["openai"])
+    openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
+
     # deal with config parsing
     with open("configs/base_prompt.txt", "r") as f:
         base_prompt = f.read()
@@ -269,10 +246,11 @@ if __name__ == "__main__":
         criterion = f.read()
     with open("configs/postfix_prompt.txt", "r") as f:
         postfix_prompt = f.read()
+
     # loads papers from 'in/debug_papers.json' and filters them
     with open("in/debug_papers.json", "r") as f:
-        # with open("in/gpt_paper_batches.debug-11-10.json", "r") as f:
         paper_list_in_dict = json.load(f)
+
     papers = [
         [
             Paper(
@@ -291,7 +269,7 @@ if __name__ == "__main__":
     total_cost = 0
     for batch in tqdm(papers):
         json_dicts, cost = run_on_batch(
-            batch, base_prompt, criterion, postfix_prompt, openai_client, config
+            batch, base_prompt, criterion, postfix_prompt, openai_client, CONFIG
         )
         total_cost += cost
         for paper in batch:
@@ -303,18 +281,18 @@ if __name__ == "__main__":
             }
             sort_dict[jdict["ARXIVID"]] = jdict["RELEVANCE"] + jdict["NOVELTY"]
 
-        # sort the papers by relevance and novelty
+    # sort the papers by relevance and novelty
     print("total cost:" + str(total_cost))
     keys = list(sort_dict.keys())
     values = list(sort_dict.values())
 
+
     def argsort(seq):
         return sorted(range(len(seq)), key=seq.__getitem__)
+
 
     sorted_keys = [keys[idx] for idx in argsort(values)[::-1]]
     selected_papers = {key: paper_outputs[key] for key in sorted_keys}
 
-    with open(
-        os.path.join(config["OUTPUT"]["output_path"], f"{NOW_YEAR}-{NOW_MONTH}", NOW_DAY, "filter_paper_test.debug.json"), "w"
-    ) as outfile:
+    with open(OUTPUT_DEBUG_FILE_FORMAT.format("filter_paper_test.json"), "w") as outfile:
         json.dump(selected_papers, outfile, cls=EnhancedJSONEncoder, indent=4)

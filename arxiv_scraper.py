@@ -74,10 +74,10 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> List[Paper]:
     # get the feed from http://export.arxiv.org/rss/ and use the updated timestamp to avoid duplicates
     updated = datetime.utcnow() - timedelta(days=1)
     # format this into the string format 'Fri, 03 Nov 2023 00:30:00 GMT'
+    url = f"https://export.arxiv.org/rss/{area}"
     updated_string = updated.strftime("%a, %d %b %Y %H:%M:%S GMT")
-    feed = feedparser.parse(
-        f"http://export.arxiv.org/rss/{area}", modified=updated_string
-    )
+    print(f"Getting papers from {url}")
+    feed = feedparser.parse(url, modified=updated_string)
     if feed.status == 304:
         if config is not None:
             print("No new papers since " + updated_string + " for " + area)

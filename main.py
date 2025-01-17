@@ -1,20 +1,18 @@
-import configparser
-import io
 import json
-import os
-import shutil
+import json
 import time
 from typing import Generator, TypeVar
 
-from openai import OpenAI
 from requests import Session
 from retry import retry
 from tqdm import tqdm
 
 from arxiv_scraper import EnhancedJSONEncoder, get_papers_from_arxiv_rss_api
-from filter_papers import NOW_DAY, NOW_MONTH, NOW_YEAR, filter_by_author, filter_by_gpt
+from environment import AUTHOR_ID_SET, CONFIG, OUTPUT_DEBUG_FILE_FORMAT, OUTPUT_JSON_FILE_FORMAT, OUTPUT_MD_FILE_FORMAT, S2_API_KEY, SLACK_KEY
+from filter_papers import filter_by_gpt, filter_papers_by_hindex, select_by_author
 from parse_json_to_md import render_md_string
 from push_to_slack import push_to_slack
+from utils import copy_file_or_dir
 
 T = TypeVar("T")
 
@@ -102,9 +100,7 @@ def get_one_author(session, author: str, S2_API_KEY: str) -> str:
     if S2_API_KEY is None:
         headers = {}
     else:
-        headers = {
-            "X-API-KEY": S2_API_KEY,
-        }
+        headers = {"X-API-KEY": S2_API_KEY}
     with session.get(
         "https://api.semanticscholar.org/graph/v1/author/search",
         params=params,
@@ -163,109 +159,87 @@ def get_papers_from_arxiv(config):
     return paper_set
 
 
-def parse_authors(lines):
-    # parse the comma-separated author list, ignoring lines that are empty and starting with #
-    author_ids = []
-    authors = []
-    for line in lines:
-        if line.startswith("#"):
-            continue
-        if not line.strip():
-            continue
-        author_split = line.split(",")
-        author_ids.append(author_split[1].strip())
-        authors.append(author_split[0].strip())
-    return authors, author_ids
-
-
-def copy_all_files(source_dir, target_dir):
-    os.makedirs(target_dir, exist_ok=True)
-
-    for item in os.listdir(source_dir):
-        source_item = os.path.join(source_dir, item)
-        target_item = os.path.join(target_dir, item)
-
-        if os.path.isfile(source_item):
-            shutil.copy2(source_item, target_item)
-            print(f"Copied: {source_item} -> {target_item}")
-        elif os.path.isdir(source_item):
-            shutil.copytree(source_item, target_item, dirs_exist_ok=True)
-            print(f"Copied: {source_item} -> {target_item}")
-
-
 if __name__ == "__main__":
-    # now load config.ini
-    config = configparser.ConfigParser()
-    config.read("configs/config.ini")
+    # get the paper list from arxiv
+    papers = list(get_papers_from_arxiv(CONFIG))
 
-    S2_API_KEY = os.environ.get("S2_KEY")
-    OPENAI_KEY = os.environ.get("OPENAI_KEY")
-    OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL")
-    if OPENAI_KEY is None:
-        raise ValueError("OpenAI key is not set - please set OPENAI_KEY to your OpenAI key")
-    print(f"S2_API_KEY: {S2_API_KEY}")
-    print(f"OPENAI_KEY: {OPENAI_KEY}")
-    print(f"OPENAI_BASE_URL: {OPENAI_BASE_URL}")
-    openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
-    # load the author list
-    with io.open("configs/authors.txt", "r") as fopen:
-        author_names, author_ids = parse_authors(fopen.readlines())
-    author_id_set = set(author_ids)
+    # get the author list from papers
+    if CONFIG["SELECTION"].getboolean("run_author_match"):
+        all_authors = set()
+        for paper in papers:
+            all_authors.update(set(paper.authors))
+        print("Getting author info for " + str(len(all_authors)) + " authors")
+        all_authors = get_authors(list(all_authors), S2_API_KEY)
+    else:
+        print("Skipping author info")
+        all_authors = {}
 
-    papers = list(get_papers_from_arxiv(config))
     # dump all papers for debugging
-
-    all_authors = set()
-    for paper in papers:
-        all_authors.update(set(paper.authors))
-    print("Getting author info for " + str(len(all_authors)) + " authors")
-    all_authors = get_authors(list(all_authors), S2_API_KEY)
-
-    output_folder = os.path.join(config["OUTPUT"]["output_path"], f"{NOW_YEAR}-{NOW_MONTH}", NOW_DAY)
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
-
-    if config["OUTPUT"].getboolean("dump_debug_file"):
-        with open(os.path.join(output_folder, "papers.debug.json"), "w") as outfile:
+    if CONFIG["OUTPUT"].getboolean("dump_debug_file"):
+        with open(OUTPUT_DEBUG_FILE_FORMAT.format("config.json"), "w") as outfile:
+            json.dump({section: dict(CONFIG[section]) for section in CONFIG.sections()}, outfile, cls=EnhancedJSONEncoder, indent=4)
+        with open(OUTPUT_DEBUG_FILE_FORMAT.format("AUTHOR_ID_SET.json"), "w") as outfile:
+            json.dump(list(AUTHOR_ID_SET), outfile, cls=EnhancedJSONEncoder, indent=4)
+        with open(OUTPUT_DEBUG_FILE_FORMAT.format("papers.json"), "w") as outfile:
             json.dump(papers, outfile, cls=EnhancedJSONEncoder, indent=4)
-        with open(os.path.join(output_folder, "all_authors.debug.json"), "w") as outfile:
+        with open(OUTPUT_DEBUG_FILE_FORMAT.format("all_authors.json"), "w") as outfile:
             json.dump(all_authors, outfile, cls=EnhancedJSONEncoder, indent=4)
-        with open(os.path.join(output_folder, "author_id_set.debug.json"), "w") as outfile:
-            json.dump(list(author_id_set), outfile, cls=EnhancedJSONEncoder, indent=4)
 
-    selected_papers, all_papers, sort_dict = filter_by_author(
-        all_authors, papers, author_id_set, config
-    )
-    all_cost = filter_by_gpt(
-        all_authors,
-        papers,
-        config,
-        openai_client,
-        all_papers,
-        selected_papers,
-        sort_dict,
-    )
+    # initialize vars for filtering
+    selected_papers = {}
+    sort_dict = {}  # dict storing key and score
+
+    # select papers by author
+    if CONFIG["SELECTION"].getboolean("run_author_match"):
+        selected_papers = select_by_author(
+            all_authors,
+            papers,
+            selected_papers,
+            sort_dict,
+            AUTHOR_ID_SET,
+            CONFIG
+        )
+    else:
+        print("Skipping selection by author")
+
+    # filter papers by h-index
+    if CONFIG["SELECTION"].getboolean("run_author_match"):
+        papers = filter_papers_by_hindex(all_authors, papers, CONFIG)
+    else:
+        print("Skipping h-index filtering")
+
+    # filter papers by GPT
+    if CONFIG["SELECTION"].getboolean("run_openai"):
+        all_cost = filter_by_gpt(
+            papers,
+            selected_papers,
+            sort_dict,
+            CONFIG,
+        )
+    else:
+        print("Skipping GPT filtering")
+        all_cost = 0
 
     # sort the papers by relevance and novelty
     keys = list(sort_dict.keys())
     values = list(sort_dict.values())
     sorted_keys = [keys[idx] for idx in argsort(values)[::-1]]
     selected_papers = {key: selected_papers[key] for key in sorted_keys}
-    if config["OUTPUT"].getboolean("debug_messages"):
+    if CONFIG["OUTPUT"].getboolean("debug_messages"):
         print(sort_dict)
         print(selected_papers)
 
     # pick endpoints and push the summaries
     if len(papers) > 0:
-        if config["OUTPUT"].getboolean("dump_json"):
-            with open(os.path.join(output_folder, "output.json"), "w") as outfile:
+        if CONFIG["OUTPUT"].getboolean("dump_json"):
+            with open(OUTPUT_JSON_FILE_FORMAT.format("output.json"), "w") as outfile:
                 json.dump(selected_papers, outfile, indent=4)
-        if config["OUTPUT"].getboolean("dump_md"):
-            with open(os.path.join(output_folder, "output.md"), "w") as f:
+        if CONFIG["OUTPUT"].getboolean("dump_md"):
+            with open(OUTPUT_MD_FILE_FORMAT.format("output.md"), "w") as f:
                 f.write(render_md_string(selected_papers, all_cost=all_cost))
+
         # only push to slack for non-empty dicts
-        if config["OUTPUT"].getboolean("push_to_slack"):
-            SLACK_KEY = os.environ.get("SLACK_KEY")
+        if CONFIG["OUTPUT"].getboolean("push_to_slack"):
             if SLACK_KEY is None:
                 print("Warning: push_to_slack is true, but SLACK_KEY is not set - not pushing to slack")
             else:
@@ -279,4 +253,4 @@ if __name__ == "__main__":
     # print(f"Latest output: \"{output_folder}\" --> \"{latest_output_folder}\"")
 
     # copy files
-    copy_all_files(output_folder, config["OUTPUT"]["output_path"])
+    copy_file_or_dir(OUTPUT_MD_FILE_FORMAT.format("output.md"), CONFIG["OUTPUT"]["output_path"])

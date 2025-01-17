@@ -10,6 +10,7 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
 from arxiv_scraper import Paper
+from environment import SLACK_CHANNEL_ID, SLACK_KEY
 
 T = TypeVar("T")
 
@@ -167,8 +168,7 @@ def build_block_list(title_strings, paper_strings):
 
 
 def push_to_slack(papers_dict):
-    channel_id = os.environ["SLACK_CHANNEL_ID"]
-    client = WebClient(token=os.environ["SLACK_KEY"])
+    client = WebClient(token=SLACK_KEY)
     # render each paper
     if len(papers_dict) == 0:
         return
@@ -180,12 +180,12 @@ def push_to_slack(papers_dict):
     ]
     blocks, thread_blocks = build_block_list(title_strings, paper_strings)
     # push to slack
-    ts = send_main_message(blocks, channel_id, client)
-    send_thread(thread_blocks, channel_id, ts, client)
+    ts = send_main_message(blocks, SLACK_CHANNEL_ID, client)
+    send_thread(thread_blocks, SLACK_CHANNEL_ID, ts, client)
 
 
 if __name__ == "__main__":
     # parse output.json into a dict
-    with open("out/output.json", "r") as f:
+    with open("out/old/2025-01/output.json", "r") as f:
         output = json.load(f)
     push_to_slack(output)

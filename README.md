@@ -123,7 +123,7 @@ Please install the pre-commit hook by running `pre-commit install`
 ### Testing and improving the GPT filter
 The `filter_papers.py` code can also be run as a standalone script.
 This will take a batch of papers in `in/debug_papers.json`, run whatever config and prompts you have
-and return an output to `out/filter_paper_test.debug.json`. If you find the bot makes mistakes, you can find the associated batch in `out/gpt_paper_batches.debug.json` and copy that into the relevant `debug_papers` file.
+and return an output to `out/debug/filter_paper_test.json`. If you find the bot makes mistakes, you can find the associated batch in `out/debug/gpt_paper_batches.json` and copy that into the relevant `debug_papers` file.
 
 This lets you build a benchmark for the filter and to see what comes out on the other side.
 
