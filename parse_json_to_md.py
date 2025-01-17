@@ -70,7 +70,7 @@ def render_md_string(papers_dict, all_cost=None):
     # join all papers into one string
     output_string = output_string + "\n".join(paper_strings)
     output_string += "\n\n---\n\n"
-    output_string += f"# Paper selection prompt\n{get_full_prompt(BASE_PROMPT, TOPIC_PROMPT, POSTFIX_PROMPT, [])}"
+    output_string += f"# Paper selection prompt\n{get_full_prompt(BASE_PROMPT, TOPIC_PROMPT, POSTFIX_PROMPT, ["[PAPER LIST HERE]",])}"
     return output_string
 
 

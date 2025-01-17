@@ -193,19 +193,19 @@ def filter_by_gpt(papers, selected_papers, sort_dict, base_prompt, topic_prompt,
     all_cost = 0
 
     openai_client = OpenAI(api_key=OPENAI_KEY, base_url=OPENAI_BASE_URL)
-    papers, cost = filter_papers_by_title(papers, openai_client, base_prompt, topic_prompt, config)
-    print(str(len(papers)) + " papers after title filtering with cost of $" + str(cost))
-    all_cost += cost
+    papers, title_cost = filter_papers_by_title(papers, openai_client, base_prompt, topic_prompt, config)
+    print(f"{len(papers)} papers after title filtering with cost of ${title_cost}")
+    all_cost += title_cost
 
     # batch the remaining papers and invoke GPT
-    batch_of_papers = batched(papers, int(config["SELECTION"]["batch_size"]))
+    preserved_paper_cnt = 0
+    abstract_cost = 0
     scored_batches = []
-    for batch in tqdm(batch_of_papers):
+    for batch in tqdm(batched(papers, int(config["SELECTION"]["batch_size"]))):
         scored_in_batch = []
         json_dicts, cost = run_on_batch(
             batch, openai_client, base_prompt, topic_prompt, postfix_prompt, config
         )
-        all_cost += cost
         for jdict in json_dicts:
             if (
                 int(jdict["RELEVANCE"])
@@ -218,13 +218,17 @@ def filter_by_gpt(papers, selected_papers, sort_dict, base_prompt, topic_prompt,
                     **jdict,
                 }
                 sort_dict[jdict["ARXIVID"]] = jdict["RELEVANCE"] + jdict["NOVELTY"]
+                preserved_paper_cnt += 1
             scored_in_batch.append(
                 {
                     **dataclasses.asdict(all_papers[jdict["ARXIVID"]]),
                     **jdict,
                 }
             )
+        abstract_cost += cost
         scored_batches.append(scored_in_batch)
+    print(f"{preserved_paper_cnt} papers after abstract filtering with cost of ${abstract_cost}")
+    all_cost += abstract_cost
 
     if config["OUTPUT"].getboolean("dump_debug_file"):
         with open(OUTPUT_DEBUG_FILE_FORMAT.format("gpt_paper_batches.json"), "w") as outfile:

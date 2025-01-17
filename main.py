@@ -152,11 +152,11 @@ def get_authors(
             if auth_map is not None:
                 author_metadata_dict[author] = auth_map
             # add a 20ms wait time to avoid rate limiting
-            # otherwise, semantic scholar aggressively rate limits, so do 1s
+            # otherwise, semantic scholar aggressively rate limits, so do 0.5s
             if S2_API_KEY is not None:
                 time.sleep(0.02)
             else:
-                time.sleep(1.0)
+                time.sleep(0.5)
     return author_metadata_dict
 
 
@@ -270,5 +270,5 @@ if __name__ == "__main__":
     copy_file_or_dir(OUTPUT_MD_FILE_FORMAT.format("output.md"), CONFIG["OUTPUT"]["output_path"])
     os.rename(
         os.path.join(CONFIG["OUTPUT"]["output_path"], os.path.basename(OUTPUT_MD_FILE_FORMAT.format("output.md"))),
-        os.path.join(CONFIG["OUTPUT"]["output_path"], "output.json"),
+        os.path.join(CONFIG["OUTPUT"]["output_path"], "output.md"),
     )
