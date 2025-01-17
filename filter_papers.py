@@ -209,13 +209,11 @@ def filter_by_gpt(
     if config["SELECTION"].getboolean("run_openai"):
         # filter first by hindex of authors to reduce costs.
         paper_list = filter_papers_by_hindex(all_authors, papers, config)
-        if config["OUTPUT"].getboolean("debug_messages"):
-            print(str(len(paper_list)) + " papers after hindex filtering")
+        print(str(len(paper_list)) + " papers after hindex filtering")
         paper_list, cost = filter_papers_by_title(
             paper_list, config, openai_client, base_prompt, criterion
         )
-        if config["OUTPUT"].getboolean("debug_messages"):
-            print(str(len(paper_list)) + " papers after title filtering with cost of $" + str(cost))
+        print(str(len(paper_list)) + " papers after title filtering with cost of $" + str(cost))
         all_cost += cost
 
         # batch the remaining papers and invoke GPT
@@ -251,8 +249,7 @@ def filter_by_gpt(
                 os.path.join(config["OUTPUT"]["output_path"], f"{NOW_YEAR}-{NOW_MONTH}", NOW_DAY, "gpt_paper_batches.debug.json"), "w"
             ) as outfile:
                 json.dump(scored_batches, outfile, cls=EnhancedJSONEncoder, indent=4)
-        if config["OUTPUT"].getboolean("debug_messages"):
-            print("Total cost: $" + str(all_cost))
+        print("Total cost: $" + str(all_cost))
 
     return all_cost
 

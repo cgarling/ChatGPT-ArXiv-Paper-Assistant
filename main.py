@@ -159,8 +159,7 @@ def get_papers_from_arxiv(config):
     for area in area_list:
         papers = get_papers_from_arxiv_rss_api(area.strip(), config)
         paper_set.update(set(papers))
-    if config["OUTPUT"].getboolean("debug_messages"):
-        print("Number of papers:" + str(len(paper_set)))
+    print("Number of papers:" + str(len(paper_set)))
     return paper_set
 
 
@@ -219,8 +218,7 @@ if __name__ == "__main__":
     all_authors = set()
     for paper in papers:
         all_authors.update(set(paper.authors))
-    if config["OUTPUT"].getboolean("debug_messages"):
-        print("Getting author info for " + str(len(all_authors)) + " authors")
+    print("Getting author info for " + str(len(all_authors)) + " authors")
     all_authors = get_authors(list(all_authors), S2_API_KEY)
 
     output_folder = os.path.join(config["OUTPUT"]["output_path"], f"{NOW_YEAR}-{NOW_MONTH}", NOW_DAY)
@@ -253,9 +251,9 @@ if __name__ == "__main__":
     values = list(sort_dict.values())
     sorted_keys = [keys[idx] for idx in argsort(values)[::-1]]
     selected_papers = {key: selected_papers[key] for key in sorted_keys}
-    # if config["OUTPUT"].getboolean("debug_messages"):
-    #     print(sort_dict)
-    #     print(selected_papers)
+    if config["OUTPUT"].getboolean("debug_messages"):
+        print(sort_dict)
+        print(selected_papers)
 
     # pick endpoints and push the summaries
     if len(papers) > 0:
