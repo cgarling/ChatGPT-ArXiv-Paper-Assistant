@@ -258,16 +258,9 @@ if __name__ == "__main__":
             else:
                 push_to_slack(selected_papers)
 
-    # make link to the latest result
-    # latest_output_folder = os.path.join(config["OUTPUT"]["output_path"], "latest")
-    # if os.path.exists(latest_output_folder) or os.path.islink(latest_output_folder):
-    #     os.unlink(latest_output_folder)
-    # os.symlink(output_folder, latest_output_folder)
-    # print(f"Latest output: \"{output_folder}\" --> \"{latest_output_folder}\"")
-
-    # copy files
-    copy_file_or_dir(OUTPUT_MD_FILE_FORMAT.format("output.md"), CONFIG["OUTPUT"]["output_path"])
-    os.rename(
-        os.path.join(CONFIG["OUTPUT"]["output_path"], os.path.basename(OUTPUT_MD_FILE_FORMAT.format("output.md"))),
-        os.path.join(CONFIG["OUTPUT"]["output_path"], "output.md"),
-    )
+        # copy files
+        copy_file_or_dir(OUTPUT_MD_FILE_FORMAT.format("output.md"), CONFIG["OUTPUT"]["output_path"])
+        os.rename(
+            os.path.join(CONFIG["OUTPUT"]["output_path"], os.path.basename(OUTPUT_MD_FILE_FORMAT.format("output.md"))),
+            os.path.join(CONFIG["OUTPUT"]["output_path"], "output.md"),
+        )
