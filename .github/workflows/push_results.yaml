@@ -28,6 +28,16 @@ jobs:
           name: arxiv-scanner-outputs
           path: out/
 
+      - name: Verify /out directory and contents
+        run: |
+          if [ -d "out" ]; then
+            echo "Contents in /out:"
+            ls -la out/
+          else
+            echo "/out directory does not exist. Aborting."
+            exit 1
+          fi
+
       - name: Check if main and auto_update are identical
         id: check_branches
         run: |
@@ -45,16 +55,6 @@ jobs:
         if: env.skip_merge == 'false'
         run: |
           git merge origin/main --no-edit
-
-      - name: Verify /out directory and contents
-        run: |
-          if [ -d "out" ]; then
-            echo "Contents in /out:"
-            ls -la out/
-          else
-            echo "/out directory does not exist. Aborting."
-            exit 1
-          fi
 
       - name: Check for changes in /out folder
         id: check_changes
