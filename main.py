@@ -104,7 +104,7 @@ def get_author_batch(
         return response.json()
 
 
-@retry(tries=3, delay=2.0)
+@retry(tries=3, delay=3.0)
 def get_one_author(session, author: str, S2_API_KEY: str) -> str:
     # query the right endpoint https://api.semanticscholar.org/graph/v1/author/search?query=adam+smith
     params = {"query": author, "fields": "authorId,name,hIndex", "limit": "10"}
@@ -117,16 +117,11 @@ def get_one_author(session, author: str, S2_API_KEY: str) -> str:
         params=params,
         headers=headers,
     ) as response:
-        # try catch for errors
-        try:
-            response.raise_for_status()
-            response_json = response.json()
-            if len(response_json["data"]) >= 1:
-                return response_json["data"]
-            else:
-                return None
-        except Exception as ex:
-            print("exception happened" + str(ex))
+        response.raise_for_status()
+        response_json = response.json()
+        if len(response_json["data"]) >= 1:
+            return response_json["data"]
+        else:
             return None
 
 
@@ -148,15 +143,19 @@ def get_authors(
     author_metadata_dict = {}
     with Session() as session:
         for author in tqdm(all_authors):
-            auth_map = get_one_author(session, author, S2_API_KEY)
+            try:
+                auth_map = get_one_author(session, author, S2_API_KEY)
+            except Exception as ex:
+                print("exception happened" + str(ex))
+                auth_map = None
             if auth_map is not None:
                 author_metadata_dict[author] = auth_map
             # add a 20ms wait time to avoid rate limiting
-            # otherwise, semantic scholar aggressively rate limits, so do 0.8s
+            # otherwise, semantic scholar aggressively rate limits, so do 1.0s
             if S2_API_KEY is not None:
                 time.sleep(0.02)
             else:
-                time.sleep(0.8)
+                time.sleep(1.0)
     return author_metadata_dict
 
 
