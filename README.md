@@ -2,8 +2,9 @@
 
 > Forked from https://github.com/tatsu-lab/gpt_paper_assistant. I fixed some bugs and added new features to make it easier to use. See the [change log](#changelog) for details.
 
-This repo implements a very simple daily scanner for Arxiv that uses GPT4 and author matches to find papers you might find interesting.
+This repo implements a very simple daily scanner for Arxiv that uses CharGPT and author matches to find papers you might find interesting.
 It will run daily via github actions and can post this information to slack via a bot or just render it in a static github-pages website.
+The results will be pushed to the `auto_update` branch automatically.
 
 A simple demo of the daily papers can be seen [here](https://daizedong.github.io/gpt_paper_assistant).
 
@@ -21,17 +22,16 @@ This is the minimal necessary steps to get the scanner to run. It is highly reco
 4. Set your desired ArXiv categories in `config/config.ini`.
 5. Set your openai key `OPENAI_API_KEY` and base url `OPENAI_BASE_URL` (if you need one) as [github secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository).
 6. In your repo settings, set github page build sources to be [github actions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow).
-7. Manually create a branch named `auto_update` in your repo. This is for pushing outputs so that it will not affect the `main` branch.
 
 At this point your bot should run daily and publish a static website. The results will be pushed to the `auto_update` branch automatically. You can test this by running the github action workflow manually.
 
 **Optional**:
 
-8. (Recommended) Take a look at `configs/config.ini` to tweak how things are filtered.
-9. Get and set up a semantic scholar API key (`S2_KEY`) as a github secret. Otherwise the author search step will be very slow. (For now the keys are tight, so you may not be able to get one.)
+7. (Recommended) Take a look at `configs/config.ini` to tweak how things are filtered.
+8. Get and set up a semantic scholar API key (`S2_KEY`) as a github secret. Otherwise the author search step will be very slow. (For now the keys are tight, so you may not be able to get one.)
 9. [Set up a slack bot](https://api.slack.com/start/quickstart), get the OAuth key, set it to `SLACK_KEY` as a github secret.
 10. Make a channel for the bot (and invite it to the channel), get its [Slack channel id](https://stackoverflow.com/questions/40940327/what-is-the-simplest-way-to-find-a-slack-team-id-and-a-channel-id), set it as `SLACK_CHANNEL_ID` in a github secret.
-12. Set the github repo private to avoid github actions being [set to inactive after 60 days](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow).
+11. Set the github repo private to avoid github actions being [set to inactive after 60 days](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow).
 
 Each day at 1pm UTC, the bot will run and post to slack and publish a github pages website (see the `publish_md` and `cron_runs` actions for details).
 
@@ -54,10 +54,10 @@ This whole thing takes almost no compute, so you can rent the cheapest VM from A
 appropriately set up the environment variables and add the following crontab
 
 ```
-0 13 * * * python ~/arxiv_scanner/main.py
+0 5 * * * python ~/arxiv_scanner/main.py
 ```
 
-This crontab will run the script every 1pm UTC, 6pm pacific.
+This crontab will run the script every 5am UTC.
 
 ## Making the `paper_topics.txt` prompt
 
@@ -125,19 +125,23 @@ Finally, all papers are sorted by the max of their `author_match_score` and the 
 
 ## Changelog
 
+- **1/21/2025**
+    - Fixed the auto-push workflow.
 - **1/18/2025**
     - Fixed the invalid retry logic for author searching.
 - **1/17/2025**
     - Added a workflow that automatically pushes outputs to the `auto_update` branch.
-    - Added a toggle that decides whether to search authors before paper filtering. This will save time for debugging.
+    - Added a toggle that decides whether to search authors before paper filtering.
     - Rearranged the output directory, separating the formal outputs and debug logs.
-    - Enhanced the logging logic. Now it prints out more information about the number of preserved papers and costs.
+    - Enhanced the logging logic. Now it prints out more information about preserved papers and costs.
 - **1/10/2025**
     - Set the version of `httpx` package to `0.27.2` for compatibility.
     - Supported setting the `base_url` for OpenAI API.
     - Supported counting costs fot the latest GPT-4o series models.
 - **2/15/2024**
-    - Fixed a bug with author parsing in the RSS format + cost estimates for title filtering being off + crash when 0 papers are on the feed.
+    - Fixed a bug with author parsing in the RSS format.
+    - Cost estimates for title filtering being off.
+    - Crash when 0 papers are on the feed.
 - **2/7/2024**
     - Fixed a critical issue from ArXiv changing their RSS format.
     - Added and enabled a title filtering to reduce costs.
