@@ -112,10 +112,12 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> List[Paper]:
         summary = unescape(re.sub("\n", " ", summary))
         # strip the last pair of parentehses containing (arXiv:xxxx.xxxxx [area.XX])
         title = re.sub("\(arXiv:[0-9]+\.[0-9]+v[0-9]+ \[.*\]\)$", "", paper.title)
+        # strip the abstract
+        abstract = summary.split("Abstract: ")[-1]
         # remove the link part of the id
         id = paper.link.split("/")[-1]
         # make a new paper
-        new_paper = Paper(authors=authors, title=title, abstract=summary, arxiv_id=id)
+        new_paper = Paper(authors=authors, title=title, abstract=abstract, arxiv_id=id)
         paper_list.append(new_paper)
 
     return paper_list, timestamp, last_id
