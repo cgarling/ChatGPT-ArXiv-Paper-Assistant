@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-from environment import BASE_PROMPT, POSTFIX_PROMPT, TOPIC_PROMPT
+from environment import BASE_PROMPT, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
 from filter_papers import get_full_prompt
 
 
@@ -70,7 +70,7 @@ def render_md_string(papers_dict, all_cost=None):
     # join all papers into one string
     output_string = output_string + "\n".join(paper_strings)
     output_string += "\n\n---\n\n"
-    output_string += f"# Paper selection prompt\n{get_full_prompt(BASE_PROMPT, TOPIC_PROMPT, POSTFIX_PROMPT, ['[PAPER LIST HERE]', ])}"
+    output_string += f"# Paper selection prompt\n{get_full_prompt(BASE_PROMPT, TOPIC_PROMPT, SCORE_PROMPT, POSTFIX_PROMPT, ['[PAPER LIST HERE]', ])}"
     return output_string
 
 

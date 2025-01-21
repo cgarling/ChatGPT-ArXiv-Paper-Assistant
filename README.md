@@ -17,7 +17,7 @@ This is the minimal necessary steps to get the scanner to run. It is highly reco
 ### Running on github actions
 
 1. Copy/fork this repo to a new github repo and [enable scheduled workflows](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow) if you fork it.
-2. Copy `config/paper_topics.template.txt` to `config/paper_topics.txt` and fill it out with the types of papers you want to follow
+2. Copy `prompts/paper_topics.template.txt` to `prompts/paper_topics.txt` and fill it out with the types of papers you want to follow.
 3. Copy `config/authors.template.txt` to `config/authors.txt` and list the authors you actually want to follow. The numbers behind the author are important. They are semantic scholar author IDs which you can find by looking up the authors on semantic scholar and taking the numbers at the end of the URL.
 4. Set your desired ArXiv categories in `config/config.ini`.
 5. Set your openai key `OPENAI_API_KEY` and base url `OPENAI_BASE_URL` (if you need one) as [github secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository).
@@ -27,11 +27,12 @@ At this point your bot should run daily and publish a static website. The result
 
 **Optional**:
 
-7. (Recommended) Take a look at `configs/config.ini` to tweak how things are filtered.
-8. Get and set up a semantic scholar API key (`S2_KEY`) as a github secret. Otherwise the author search step will be very slow. (For now the keys are tight, so you may not be able to get one.)
-9. [Set up a slack bot](https://api.slack.com/start/quickstart), get the OAuth key, set it to `SLACK_KEY` as a github secret.
-10. Make a channel for the bot (and invite it to the channel), get its [Slack channel id](https://stackoverflow.com/questions/40940327/what-is-the-simplest-way-to-find-a-slack-team-id-and-a-channel-id), set it as `SLACK_CHANNEL_ID` in a github secret.
-11. Set the github repo private to avoid github actions being [set to inactive after 60 days](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow).
+7. (Recommended) Adjust the content in `prompts/score_criteria.txt` by your requirements. For example, you can add some examples for each class for reference.
+8. (Recommended) Take a look at `configs/config.ini` to tweak how things are filtered.
+9. Get and set up a semantic scholar API key (`S2_KEY`) as a github secret. Otherwise the author search step will be very slow. (For now the keys are tight, so you may not be able to get one.)
+10. [Set up a slack bot](https://api.slack.com/start/quickstart), get the OAuth key, set it to `SLACK_KEY` as a github secret.
+11. Make a channel for the bot (and invite it to the channel), get its [Slack channel id](https://stackoverflow.com/questions/40940327/what-is-the-simplest-way-to-find-a-slack-team-id-and-a-channel-id), set it as `SLACK_CHANNEL_ID` in a github secret.
+12. Set the github repo private to avoid github actions being [set to inactive after 60 days](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow).
 
 Each day at 1pm UTC, the bot will run and post to slack and publish a github pages website (see the `publish_md` and `cron_runs` actions for details).
 
