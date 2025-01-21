@@ -128,6 +128,7 @@ Finally, all papers are sorted by the max of their `author_match_score` and the 
 
 - **1/21/2025**
     - Fixed the auto-push workflow.
+    - Supported setting prompts for scoring.
 - **1/18/2025**
     - Fixed the invalid retry logic for author searching.
 - **1/17/2025**
