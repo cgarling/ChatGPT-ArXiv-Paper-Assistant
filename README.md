@@ -89,7 +89,7 @@ He does not want to read papers that are about primarily applications of methods
 ## Details of how it works
 
 The script grabs a candidate set of ArXiv papers for a specific day, via the RSS feeds. To avoid double-announcing papers, it will only grab an RSS feed within the last day. To avoid missing papers, you'd want to run this every day.
-**It filters out any `UPDATED` papers and announces only new ones.**
+**It filters out any `UPDATED` papers and announces only new ones, including the transferred (cross) ones from another topic.**
 
 The filtering logic is pretty simple. We first check for author match.
 

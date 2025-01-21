@@ -88,13 +88,16 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> List[Paper]:
     if len(feed.entries) == 0:
         print("No entries found for " + area)
         return [], None, None
+    else:
+        print(f"{len(entries)} entries found for " + area)
     last_id = feed.entries[0].link.split("/")[-1]
     # parse last modified date
     timestamp = datetime.strptime(feed.feed["updated"], "%a, %d %b %Y %H:%M:%S +0000")
+    announce_type = set(config["FILTERING"].get("announce_type", "new").split(","))
     paper_list = []
     for paper in entries:
         # ignore updated papers
-        if paper["arxiv_announce_type"] != "new":
+        if not paper["arxiv_announce_type"] in announce_type:
             continue
         # extract area
         paper_area = paper.tags[0]["term"]
