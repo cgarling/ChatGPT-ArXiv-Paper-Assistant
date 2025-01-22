@@ -209,7 +209,7 @@ if __name__ == "__main__":
 
     # filter papers by GPT
     if CONFIG["SELECTION"].getboolean("run_openai"):
-        all_cost = filter_by_gpt(
+        total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens = filter_by_gpt(
             papers,
             selected_papers,
             sort_dict,
@@ -221,7 +221,7 @@ if __name__ == "__main__":
         )
     else:
         print("Skipping GPT filtering")
-        all_cost = 0
+        total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens = 0.0, 0.0, 0, 0
 
     # sort the papers by relevance and novelty
     keys = list(sort_dict.keys())
@@ -239,7 +239,11 @@ if __name__ == "__main__":
                 json.dump(selected_papers, outfile, indent=4)
         if CONFIG["OUTPUT"].getboolean("dump_md"):
             with open(OUTPUT_MD_FILE_FORMAT.format("output.md"), "w") as f:
-                f.write(render_md_string(selected_papers, all_cost=all_cost))
+                f.write(render_md_string(selected_papers, **{
+                    "All Cost": f"${total_prompt_cost + total_completion_cost} (${total_prompt_cost} Prompt + ${total_completion_cost} Completion)",
+                    "Total Prompt Tokens": total_prompt_tokens,
+                    "Total Completion Tokens": total_completion_tokens
+                }))
 
         # only push to slack for non-empty dicts
         if CONFIG["OUTPUT"].getboolean("push_to_slack"):

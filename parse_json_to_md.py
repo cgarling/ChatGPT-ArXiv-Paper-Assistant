@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 from environment import BASE_PROMPT, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
-from filter_papers import get_full_prompt
+from filter_papers import get_full_prompt_for_abstract_filtering
 
 
 def render_title_and_author(paper_entry: dict, idx: int) -> str:
@@ -45,13 +45,12 @@ def render_paper(paper_entry: dict, idx: int) -> str:
     return paper_string + "\n---\n"
 
 
-def render_md_string(papers_dict, all_cost=None):
+def render_md_string(papers_dict, **kwargs):
     # header
     output_string = (
         "# Personalized Daily Arxiv Papers "
         + datetime.today().strftime("%m/%d/%Y")
-        + "\nTotal cost: $"
-        + str(all_cost)
+        + "\n\n".join([f"{k}: {v}" for k, v in kwargs.items()])
         + "\n\nTotal relevant papers: "
         + str(len(papers_dict))
         + "\n\n"
@@ -70,7 +69,7 @@ def render_md_string(papers_dict, all_cost=None):
     # join all papers into one string
     output_string = output_string + "\n".join(paper_strings)
     output_string += "\n\n---\n\n"
-    output_string += f"# Paper selection prompt\n{get_full_prompt(BASE_PROMPT, TOPIC_PROMPT, SCORE_PROMPT, POSTFIX_PROMPT, ['[PAPER LIST HERE]', ])}"
+    output_string += f"# Paper selection prompt\n{get_full_prompt_for_abstract_filtering(BASE_PROMPT, TOPIC_PROMPT, SCORE_PROMPT, POSTFIX_PROMPT, ['[PAPER LIST HERE]', ])}"
     return output_string
 
 
