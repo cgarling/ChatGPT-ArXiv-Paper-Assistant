@@ -293,7 +293,7 @@ def filter_papers_by_abstract(
                 sort_dict[jdict["ARXIVID"]] = jdict["RELEVANCE"] + jdict["NOVELTY"]
                 preserved_paper_cnt += 1
             else:
-                print(f"Filtered out paper {jdict['ARXIVID']} by score (RELEVANCE={jdict["RELEVANCE"]}, NOVELTY={jdict["NOVELTY"]}) ({id_paper_mapping[jdict["ARXIVID"]].title})")
+                print(f"Filtered out paper {jdict['ARXIVID']} by score (RELEVANCE={jdict['RELEVANCE']}, NOVELTY={jdict['NOVELTY']}) ({id_paper_mapping[jdict['ARXIVID']].title})")
 
             scored_in_batch.append(
                 {

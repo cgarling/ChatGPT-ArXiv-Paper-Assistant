@@ -52,6 +52,7 @@ def render_md_string(papers_dict, head_table=None):
     headers = head_table["headers"]
     data = head_table["data"]
     head_table_strings = tabulate(data, headers=headers, tablefmt="github")
+
     # render each paper
     title_strings = [
         render_title_and_author(paper, i + 1)
@@ -61,19 +62,29 @@ def render_md_string(papers_dict, head_table=None):
         render_paper(paper, i + 1)
         for i, paper in enumerate(papers_dict.values())
     ]
-    # cat output string
-    output_string = (
-        f"# Personalized Daily Arxiv Papers {datetime.today().strftime('%m/%d/%Y')}\n\n"
-        f"{'' if head_table is None else head_table_strings}\n\n"
-        f"Total relevant papers: {len(papers_dict)}\n\n"
-        f"**Table of contents with paper titles:**\n\n"
-        f"{'\n\n'.join(title_strings)}\n\n"
-        f"---\n\n"
-        f"{'\n\n---\n\n'.join(paper_strings)}\n\n"
-        f"---\n\n"
-        f"# Paper Selection Prompt\n\n"
-        f"{get_full_prompt_for_abstract_filtering(BASE_PROMPT, TOPIC_PROMPT, SCORE_PROMPT, POSTFIX_PROMPT, ['[PAPER LIST HERE]', ])}"
+
+    # render prompt
+    prompt_strings = get_full_prompt_for_abstract_filtering(
+        BASE_PROMPT,
+        TOPIC_PROMPT,
+        SCORE_PROMPT,
+        POSTFIX_PROMPT,
+        ['[PAPER LIST HERE]']
     )
+
+    # cat output string
+    output_string = "\n\n".join([
+        f"# Personalized Daily Arxiv Papers {datetime.today().strftime('%m/%d/%Y')}",
+        "" if head_table is None else head_table_strings,
+        f"Total relevant papers: {len(papers_dict)}",
+        "**Table of contents with paper titles:**",
+        "\n\n".join(title_strings),
+        "---",
+        "\n\n---\n\n".join(paper_strings),
+        "---",
+        "# Paper Selection Prompt",
+        prompt_strings
+    ])
     return output_string
 
 
