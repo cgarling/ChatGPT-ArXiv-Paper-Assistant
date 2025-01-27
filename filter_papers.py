@@ -159,7 +159,10 @@ def get_batch_size(batch_size, paper_num, config):
     adaptive_threshold = int(config["SELECTION"]["adaptive_threshold"])
 
     if use_adaptive and adaptive_threshold > 0:
-        scale_factor = math.ceil(math.log(paper_num / adaptive_threshold, 2) + 1)
+        if paper_num <= adaptive_threshold:
+            scale_factor = 1
+        else:
+            scale_factor = math.ceil(math.log(paper_num / adaptive_threshold, 2) + 1)
     else:
         scale_factor = 1
 
