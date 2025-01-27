@@ -130,6 +130,10 @@ Finally, all papers are sorted by the max of their `author_match_score` and the 
 
 ## Changelog
 
+- **1/28/2025**
+    - Fixed adaptive batch size when `paper_num <= adaptive_threshold`.
+    - Fixed the rename when `output.md` already exists.
+    - Added details in the return information for selected/filtered papers.
 - **1/25/2025**
     - Fixed the exception when no paper is available.
 - **1/22/2025**
