@@ -76,7 +76,7 @@ def render_md_string(arxiv_paper_dict, selected_paper_dict, head_table=None):
     output_string = "\n\n".join([
         f"# Personalized Daily Arxiv Papers {datetime.today().strftime('%m/%d/%Y')}",
         "" if head_table is None else head_table_strings,
-        f"Total scanned papers: {len(arxiv_paper_dict)}",
+        f"Total scanned papers: {sum([len(paper_list) for paper_list in arxiv_paper_dict.values()])}",
         f"Total relevant papers: {len(selected_paper_dict)}",
         "**Table of contents with paper titles:**",
         "\n\n".join(title_strings),

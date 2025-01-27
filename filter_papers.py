@@ -14,39 +14,55 @@ from environment import BASE_PROMPT, CONFIG, OPENAI_API_KEY, OPENAI_BASE_URL, OU
 """author filtering"""
 
 
-def select_by_author(all_authors, papers, selected_papers, sort_dict, author_targets, config):
-    # author based selection
-    for paper in papers:
-        for author in paper.authors:
-            if author in all_authors:
-                for alias in all_authors[author]:
-                    if alias["authorId"] in author_targets:
-                        selected_papers[paper.arxiv_id] = {
-                            **dataclasses.asdict(paper),
-                            **{"COMMENT": "Author match"},
-                        }
-                        sort_dict[paper.arxiv_id] = float(
-                            config["SELECTION"]["author_match_score"]
-                        )
-                        break
-    print(f"Selected {len(selected_papers)} papers based on author match")
-    return selected_papers
+def select_by_author(all_authors, paper_list, author_targets, config):
+    # author-based selection
+    new_paper_list = []
+    selected_results = {}
+
+    for paper in paper_list:
+        selected = any(
+            alias["authorId"] in author_targets
+            for author in paper.authors if author in all_authors
+            for alias in all_authors[author]
+        )
+        if selected:
+            selected_results[paper.arxiv_id] = {
+                "COMMENT": "Author match",
+                "SCORE": float(config["SELECTION"]["author_match_score"]),
+                **dataclasses.asdict(paper),
+            }
+        else:
+            new_paper_list.append(paper)
+
+    print(f"Selected {len(selected_results)} papers based on author match, remaining {len(new_paper_list)} papers")
+    return new_paper_list, selected_results
 
 
-def filter_papers_by_hindex(all_authors, papers, config):
+def filter_papers_by_hindex(all_authors, paper_list, config):
     # filters papers by checking to see if there's at least one author with > h_cutoff hindex
-    paper_list = []
-    for paper in papers:
-        max_h = 0
-        for author in paper.authors:
-            if author in all_authors:
-                max_h = max(
-                    max_h, max([alias["hIndex"] for alias in all_authors[author]])
-                )
-        if max_h >= float(config["FILTERING"]["h_cutoff"]):
-            paper_list.append(paper)
-    print(str(len(paper_list)) + " papers after hindex filtering")
-    return paper_list
+    new_paper_list = []
+    filtered_results = {}
+
+    for paper in paper_list:
+        max_hindex = max(
+            [
+                alias["hIndex"]
+                for author in paper.authors if author in all_authors
+                for alias in all_authors[author]
+            ]
+        )
+        filtered = (max_hindex >= float(config["FILTERING"]["h_cutoff"]))
+        if filtered:
+            filtered_results[paper.arxiv_id] = {
+                "COMMENT": f"H-index filtered (max is {max_hindex}<{config["FILTERING"]["h_cutoff"]})",
+                "SCORE": 0,
+                **dataclasses.asdict(paper),
+            }
+        else:
+            new_paper_list.append(paper)
+
+    print(f"Filtered {len(filtered_results)} papers based on h-index, remaining {len(new_paper_list)} papers")
+    return new_paper_list, filtered_results
 
 
 """gpt filtering"""
@@ -186,17 +202,18 @@ def call_chatgpt(full_prompt, openai_client, model):
 
 
 def filter_papers_by_title(
-    papers, openai_client, base_prompt, topic_prompt, config
-) -> Tuple[List[Paper], float, float, int, int]:
-    batch_size = get_batch_size(int(config["SELECTION"]["title_batch_size"]), len(papers), config)
+    paper_list, openai_client, base_prompt, topic_prompt, config
+) -> Tuple[List[Paper], Dict, float, float, int, int]:
+    batch_size = get_batch_size(int(config["SELECTION"]["title_batch_size"]), len(paper_list), config)
     print(f"Using batch size of {batch_size} for title filtering")
-    batches_of_papers = batched(papers, batch_size)
+    batches_of_papers = batched(paper_list, batch_size)
 
+    new_paper_list = []
+    filtered_results = {}
     total_prompt_cost = 0.0
     total_completion_cost = 0.0
     prompt_tokens = 0
     completion_tokens = 0
-    final_list = []
 
     for batch in tqdm(batches_of_papers, desc="Filtering title"):
         papers_string = "".join([paper_to_titles(paper) for paper in batch])
@@ -214,21 +231,26 @@ def filter_papers_by_title(
         try:
             filtered_set = set(json.loads(out_text))
             for paper in batch:
-                if paper.arxiv_id not in filtered_set:
-                    final_list.append(paper)
-                else:
+                if paper.arxiv_id in filtered_set:
+                    filtered_results[paper.arxiv_id] = {
+                        "COMMENT": f"Title filtered",
+                        "SCORE": 0,
+                        **dataclasses.asdict(paper),
+                    }
                     print(f"Filtered out paper {paper.arxiv_id} by title ({paper.title})")
+                else:
+                    new_paper_list.append(paper)
         except Exception as ex:
             print("Exception happened " + str(ex))
             print("Failed to parse LM output as list " + out_text)
             print(completion)
             continue
 
-    print(f"{len(final_list)} papers after title filtering with cost of ${total_prompt_cost + total_completion_cost}:\n"
+    print(f"Filtered {len(filtered_results)} papers based on title with cost of ${total_prompt_cost + total_completion_cost}, remaining {len(new_paper_list)} papers:\n"
           f"({prompt_tokens} prompt tokens cost ${total_prompt_cost})\n"
           f"({completion_tokens} completion tokens cost ${total_completion_cost})")
 
-    return final_list, total_prompt_cost, total_completion_cost, prompt_tokens, completion_tokens
+    return new_paper_list, filtered_results, total_prompt_cost, total_completion_cost, prompt_tokens, completion_tokens
 
 
 def parse_chatgpt(raw_out_text, config):
@@ -237,13 +259,17 @@ def parse_chatgpt(raw_out_text, config):
     out_text = re.sub("```", "", out_text)
     out_text = re.sub(r"\n+", "\n", out_text)
     out_text = re.sub("},", "}", out_text).strip()
+
     # split out_text line by line and parse each as a json.
     json_dicts = []
+    invalid_cnt = 0  # the number of papers that cannot be identified according to the model output
+
     for line in out_text.split("\n"):
         # try catch block to attempt to parse json
         try:
             json_dicts.append(json.loads(line))
         except Exception as ex:
+            invalid_cnt += 1
             if config["OUTPUT"].getboolean("debug_messages"):
                 print("Exception happened " + str(ex))
                 print("Failed to parse LM output as json")
@@ -251,22 +277,24 @@ def parse_chatgpt(raw_out_text, config):
                 print("RAW output")
                 print(raw_out_text)
             continue
-    return json_dicts
+    return json_dicts, invalid_cnt
 
 
 def filter_papers_by_abstract(
-    papers, id_paper_mapping, selected_papers, sort_dict, openai_client, base_prompt, topic_prompt, score_prompt, postfix_prompt, config
-) -> Tuple[List[List[Dict]], float, float, int, int]:
-    batch_size = get_batch_size(int(config["SELECTION"]["abstract_batch_size"]), len(papers), config)
+    paper_list, id_paper_mapping, openai_client, base_prompt, topic_prompt, score_prompt, postfix_prompt, config
+) -> Tuple[List[List[Dict]], Dict, Dict, float, float, int, int]:
+    batch_size = get_batch_size(int(config["SELECTION"]["abstract_batch_size"]), len(paper_list), config)
     print(f"Using batch size of {batch_size} for abstract filtering")
-    batches_of_papers = batched(papers, batch_size)
+    batches_of_papers = batched(paper_list, batch_size)
 
-    preserved_paper_cnt = 0
+    invalid_cnt = 0  # the number of papers that cannot be identified according to the model output
+    scored_batches = []
+    selected_results = {}
+    filtered_results = {}
     total_prompt_cost = 0.0
     total_completion_cost = 0.0
     prompt_tokens = 0
     completion_tokens = 0
-    scored_batches = []
 
     for batch in tqdm(batches_of_papers, desc="Filtering abstract"):
         scored_in_batch = []
@@ -282,66 +310,71 @@ def filter_papers_by_abstract(
         completion_tokens += completion.usage.completion_tokens
         out_text = completion.choices[0].message.content
 
-        json_dicts = parse_chatgpt(out_text, config)
-        for jdict in json_dicts:
-            if (
-                int(jdict["RELEVANCE"]) >= int(config["FILTERING"]["relevance_cutoff"]) and
-                int(jdict["NOVELTY"]) >= int(config["FILTERING"]["novelty_cutoff"]) and
-                jdict["ARXIVID"] in id_paper_mapping
-            ):
-                selected_papers[jdict["ARXIVID"]] = {
-                    **dataclasses.asdict(id_paper_mapping[jdict["ARXIVID"]]),
-                    **jdict,
-                }
-                sort_dict[jdict["ARXIVID"]] = jdict["RELEVANCE"] + jdict["NOVELTY"]
-                preserved_paper_cnt += 1
-            else:
-                print(f"Filtered out paper {jdict['ARXIVID']} by score (RELEVANCE={jdict['RELEVANCE']}, NOVELTY={jdict['NOVELTY']}) ({id_paper_mapping[jdict['ARXIVID']].title})")
+        json_dicts, this_invalid_cnt = parse_chatgpt(out_text, config)
+        invalid_cnt += this_invalid_cnt
 
-            scored_in_batch.append(
-                {
-                    **dataclasses.asdict(id_paper_mapping[jdict["ARXIVID"]]),
-                    **jdict,
-                }
+        for jdict in json_dicts:
+            if jdict["ARXIVID"] not in id_paper_mapping:
+                invalid_cnt += 1
+                if config["OUTPUT"].getboolean("debug_messages"):
+                    print("Exception happened:")
+                    print(f"ARXIVID {jdict['ARXIVID']} not found in `id_paper_mapping`")
+                continue
+
+            result = {
+                "SCORE": jdict["RELEVANCE"] + jdict["NOVELTY"],
+                **jdict,
+                **dataclasses.asdict(id_paper_mapping[jdict["ARXIVID"]]),
+            }
+            scored_in_batch.append(result)
+
+            filtered = (
+                int(jdict["RELEVANCE"]) < int(config["FILTERING"]["relevance_cutoff"]) or
+                int(jdict["NOVELTY"]) < int(config["FILTERING"]["novelty_cutoff"])
             )
+            if filtered:
+                filtered_results[jdict["ARXIVID"]] = result
+                print(f"Filtered out paper {jdict['ARXIVID']} by score (RELEVANCE={jdict['RELEVANCE']}, NOVELTY={jdict['NOVELTY']}) ({id_paper_mapping[jdict['ARXIVID']].title})")
+            else:
+                selected_results[jdict["ARXIVID"]] = result
 
         scored_batches.append(scored_in_batch)
 
-    print(f"{preserved_paper_cnt} papers after abstract filtering with cost of ${total_prompt_cost + total_completion_cost}:\n"
+    print(f"Filtered {len(filtered_results)} papers based on abstract with cost of ${total_prompt_cost + total_completion_cost}, remaining {len(selected_results)} papers:\n"
           f"({prompt_tokens} prompt tokens cost ${total_prompt_cost})\n"
           f"({completion_tokens} completion tokens cost ${total_completion_cost})")
 
-    return scored_batches, total_prompt_cost, total_completion_cost, prompt_tokens, completion_tokens
+    return scored_batches, selected_results, filtered_results, total_prompt_cost, total_completion_cost, prompt_tokens, completion_tokens
 
 
-def filter_by_gpt(papers, selected_papers, sort_dict, base_prompt, topic_prompt, score_prompt, postfix_prompt, config):
+def filter_by_gpt(paper_list, base_prompt, topic_prompt, score_prompt, postfix_prompt, config):
+    total_filtered_results = {}
     total_prompt_cost = 0.0
     total_completion_cost = 0.0
     total_prompt_tokens = 0
     total_completion_tokens = 0
 
     openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
-    id_paper_mapping = {paper.arxiv_id: paper for paper in papers}
+    id_paper_mapping = {paper.arxiv_id: paper for paper in paper_list}
 
     # filter papers by titles
-    papers, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_title(
-        papers,
+    paper_list, filtered_results, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_title(
+        paper_list,
         openai_client,
         base_prompt,
         topic_prompt,
         config
     )
+    total_filtered_results.update(filtered_results)
     total_prompt_cost += prompt_cost
     total_completion_cost += completion_cost
     total_prompt_tokens += prompt_tokens
     total_completion_tokens += completion_tokens
 
     # filter remaining papers by abstracts
-    scored_batches, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_abstract(
-        papers,
+    scored_batches, selected_results, filtered_results, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_abstract(
+        paper_list,
         id_paper_mapping,
-        selected_papers,
-        sort_dict,
         openai_client,
         base_prompt,
         topic_prompt,
@@ -349,6 +382,7 @@ def filter_by_gpt(papers, selected_papers, sort_dict, base_prompt, topic_prompt,
         postfix_prompt,
         config
     )
+    total_filtered_results.update(filtered_results)
     total_prompt_cost += prompt_cost
     total_completion_cost += completion_cost
     total_prompt_tokens += prompt_tokens
@@ -362,7 +396,7 @@ def filter_by_gpt(papers, selected_papers, sort_dict, base_prompt, topic_prompt,
           f"({total_prompt_tokens} prompt tokens cost ${total_prompt_cost})\n"
           f"({total_completion_tokens} completion tokens cost ${total_completion_cost})")
 
-    return total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens
+    return selected_results, total_filtered_results, total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens
 
 
 if __name__ == "__main__":
