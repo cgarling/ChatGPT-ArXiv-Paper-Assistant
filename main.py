@@ -139,17 +139,18 @@ def get_authors(
 
 def get_papers_from_arxiv(config):
     area_list = config["FILTERING"]["arxiv_category"].split(",")
-    paper_set = set()
+    arxiv_paper_dict = {}
     for area in area_list:
         papers = get_papers_from_arxiv_rss_api(area.strip(), config)
-        paper_set.update(set(papers))
-    print("Number of papers:" + str(len(paper_set)))
-    return paper_set
+        arxiv_paper_dict[area] = papers
+    return arxiv_paper_dict
 
 
 if __name__ == "__main__":
     # get the paper list from arxiv
-    papers = list(get_papers_from_arxiv(CONFIG))
+    arxiv_paper_dict = get_papers_from_arxiv(CONFIG)
+    papers = list(set(v for area_papers in arxiv_paper_dict.values() for v in area_papers))
+    print("Total number of papers:" + str(len(papers)))
     if len(papers) == 0:
         print("No papers found")
         exit(0)
@@ -228,6 +229,7 @@ if __name__ == "__main__":
     if CONFIG["OUTPUT"].getboolean("dump_json"):
         with open(OUTPUT_JSON_FILE_FORMAT.format("output.json"), "w") as outfile:
             json.dump(selected_papers, outfile, indent=4)
+
     if CONFIG["OUTPUT"].getboolean("dump_md"):
         head_table = {
             "headers": ["", "Prompt", "Completion", "Total"],
@@ -237,7 +239,7 @@ if __name__ == "__main__":
             ]
         }
         with open(OUTPUT_MD_FILE_FORMAT.format("output.md"), "w") as f:
-            f.write(render_md_string(selected_papers, head_table=head_table))
+            f.write(render_md_string(arxiv_paper_dict, selected_papers, head_table=head_table))
 
     # only push to slack for non-empty dicts
     if CONFIG["OUTPUT"].getboolean("push_to_slack"):
