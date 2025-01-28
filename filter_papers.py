@@ -71,6 +71,35 @@ ABSTRACT_CUTOFF = 4000
 
 MODEL_PRICING = {
     # name: prompt, cache, completion
+
+    # https://openai.com/api/pricing
+    # "gpt-3.5-turbo": {"prompt": 7.5, "completion": 22.5},
+    # "gpt-3.5-turbo-0125": {"prompt": 0.5, "completion": 1.5},
+    # "gpt-3.5-turbo-instruct": {"prompt": 1.5, "completion": 2},
+    # "gpt-3.5-turbo-1106": {"prompt": 1, "completion": 2},
+    # "gpt-3.5-turbo-0613": {"prompt": 1.5, "completion": 2},
+    # "gpt-3.5-turbo-16k-0613": {"prompt": 3, "completion": 4},
+    # "gpt-3.5-turbo-0301": {"prompt": 1.5, "completion": 2},
+    # "gpt-4": {"prompt": 30, "completion": 60},
+    # "gpt-4-32k": {"prompt": 60, "completion": 120},
+    # "gpt-4-turbo": {"prompt": 10, "completion": 30},
+    # "gpt-4-turbo-2024-04-09": {"prompt": 10, "completion": 30},
+    # "gpt-4-0125-preview": {"prompt": 10, "completion": 30},
+    # "gpt-4-1106-preview": {"prompt": 10, "completion": 30},
+    # "gpt-4-vision-preview": {"prompt": 10, "completion": 30},
+    # "gpt-4o-latest": {"prompt": 5, "completion": 15},
+    # "gpt-4o": {"prompt": 2.5, "completion": 10, "cache": 1.25},
+    # "gpt-4o-2024-08-06": {"prompt": 2.5, "completion": 10, "cache": 1.25},
+    # "gpt-4o-2024-11-20": {"prompt": 2.5, "completion": 10, "cache": 1.25},
+    # "gpt-4o-mini": {"prompt": 0.15, "completion": 0.6, "cache": 0.075},
+    # "gpt-4o-mini-2024-07-18": {"prompt": 0.15, "completion": 0.6, "cache": 0.075},
+    # "o1": {"prompt": 15, "completion": 60, "cache": 7.5},
+    # "o1-2024-12-17": {"prompt": 15, "completion": 60, "cache": 7.5},
+    # "o1-preview": {"prompt": 15, "completion": 60, "cache": 7.5},
+    # "o1-preview-2024-09-12": {"prompt": 15, "completion": 60, "cache": 7.5},
+    # "o1-mini": {"prompt": 3, "completion": 12, "cache": 1.5},
+    # "o1-mini-2024-09-12": {"prompt": 3, "completion": 12, "cache": 1.5},
+
     # https://api.datapipe.app/pricing
     "gpt-3.5-turbo": {"prompt": 7.5, "completion": 22.5},
     "gpt-3.5-turbo-0125": {"prompt": 2.5, "completion": 7.5},
@@ -87,6 +116,7 @@ MODEL_PRICING = {
     "gpt-4o-all": {"prompt": 300, "completion": 1200},
     "gpt-4o-mini": {"prompt": 7.5, "completion": 30},
     "gpt-ask-internet": {"prompt": 50, "completion": 50},
+
     # https://api-docs.deepseek.com/quick_start/pricing
     "deepseek-chat": {"prompt": 0.14, "completion": 0.28},
     "deepseek-reasoner": {"prompt": 0.55, "completion": 2.19},
