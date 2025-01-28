@@ -6,14 +6,13 @@ from typing import Generator, TypeVar
 from requests import Session
 from retry import retry
 from tqdm import tqdm
-from utils.io import delete_file_or_dir
 
 from arxiv_scraper import EnhancedJSONEncoder, get_papers_from_arxiv_rss_api
 from environment import AUTHOR_ID_SET, BASE_PROMPT, CONFIG, OUTPUT_DEBUG_FILE_FORMAT, OUTPUT_JSON_FILE_FORMAT, OUTPUT_MD_FILE_FORMAT, POSTFIX_PROMPT, S2_API_KEY, SCORE_PROMPT, SLACK_KEY, TOPIC_PROMPT
 from filter_papers import batched, filter_by_gpt, filter_papers_by_hindex, select_by_author
 from parse_json_to_md import render_md_string
 from push_to_slack import push_to_slack
-from utils import copy_file_or_dir
+from utils import copy_file_or_dir, delete_file_or_dir
 
 T = TypeVar("T")
 
@@ -151,7 +150,6 @@ if __name__ == "__main__":
     # get the paper list from arxiv
     arxiv_paper_dict = get_papers_from_arxiv(CONFIG)
     paper_list = list(set(v for area_papers in arxiv_paper_dict.values() for v in area_papers))
-    paper_list = paper_list[:5]
     print("Total number of papers:" + str(len(paper_list)))
     if len(paper_list) == 0:
         print("No papers found")
