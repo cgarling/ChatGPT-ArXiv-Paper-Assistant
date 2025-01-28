@@ -87,6 +87,9 @@ MODEL_PRICING = {
     "gpt-4o-all": {"prompt": 300, "completion": 1200},
     "gpt-4o-mini": {"prompt": 7.5, "completion": 30},
     "gpt-ask-internet": {"prompt": 50, "completion": 50},
+    # https://api-docs.deepseek.com/quick_start/pricing
+    "deepseek-chat": {"prompt": 0.14, "completion": 0.28},
+    "deepseek-reasoner": {"prompt": 0.55, "completion": 2.19},
 }
 
 
