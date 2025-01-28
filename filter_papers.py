@@ -69,45 +69,45 @@ def filter_papers_by_hindex(all_authors, paper_list, config):
 
 ABSTRACT_CUTOFF = 4000
 
+MODEL_PRICING = {
+    # name: prompt, cache, completion
+    # https://api.datapipe.app/pricing
+    "gpt-3.5-turbo": {"prompt": 7.5, "completion": 22.5},
+    "gpt-3.5-turbo-0125": {"prompt": 2.5, "completion": 7.5},
+    "gpt-4": {"prompt": 150, "completion": 300},
+    "gpt-4-32k": {"prompt": 300, "completion": 600},
+    "gpt-4-dalle": {"prompt": 300, "completion": 600},
+    "gpt-4-v": {"prompt": 300, "completion": 600},
+    "gpt-4-all": {"prompt": 300, "completion": 300},
+    "gpt-4-turbo": {"prompt": 300, "completion": 900},
+    "gpt-4-turbo-preview": {"prompt": 50, "completion": 150},
+    "gpt-4o": {"prompt": 25, "completion": 100},
+    "gpt-4o-2024-08-06": {"prompt": 25, "completion": 100},
+    "gpt-4o-2024-11-20": {"prompt": 25, "completion": 100},
+    "gpt-4o-all": {"prompt": 300, "completion": 1200},
+    "gpt-4o-mini": {"prompt": 7.5, "completion": 30},
+    "gpt-ask-internet": {"prompt": 50, "completion": 50},
+}
+
 
 def calc_price(model, usage):
-    if model in ("gpt-3.5-turbo",):
-        prompt_cost = 7.5 * usage.prompt_tokens / 1_000_000
-        completion_cost = 22.5 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-3.5-turbo-0125",):
-        prompt_cost = 2.5 * usage.prompt_tokens / 1_000_000
-        completion_cost = 7.5 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-4",):
-        prompt_cost = 150 * usage.prompt_tokens / 1_000_000
-        completion_cost = 300 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-4-32k", "gpt-4-dalle", "gpt-4-v"):
-        prompt_cost = 300 * usage.prompt_tokens / 1_000_000
-        completion_cost = 600 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-4-all",):
-        prompt_cost = 300 * usage.prompt_tokens / 1_000_000
-        completion_cost = 300 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-4-turbo",):
-        prompt_cost = 300 * usage.prompt_tokens / 1_000_000
-        completion_cost = 900 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-4-turbo-preview",):
-        prompt_cost = 50 * usage.prompt_tokens / 1_000_000
-        completion_cost = 150 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-4o", "gpt-4o-2024-08-06", "gpt-4o-2024-11-20"):
-        prompt_cost = 25 * usage.prompt_tokens / 1_000_000
-        completion_cost = 100 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-4o-all",):
-        prompt_cost = 300 * usage.prompt_tokens / 1_000_000
-        completion_cost = 1200 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-4o-mini",):
-        prompt_cost = 7.5 * usage.prompt_tokens / 1_000_000
-        completion_cost = 30 * usage.completion_tokens / 1_000_000
-    elif model in ("gpt-ask-internet",):
-        prompt_cost = 50 * usage.prompt_tokens / 1_000_000
-        completion_cost = 50 * usage.completion_tokens / 1_000_000
-    else:
-        prompt_cost = 0
-        completion_cost = 0
-    return prompt_cost, completion_cost
+    if model not in MODEL_PRICING:
+        print(f"Model \"{model}\" not found in pricing table, skip pricing calculation")
+        return 0, 0
+
+    cached_tokens = usage.model_extra["prompt_tokens_details"]["cached_tokens"]
+    prompt_tokens = usage.prompt_tokens - cached_tokens
+    completion_tokens = usage.completion_tokens
+
+    cache_pricing = MODEL_PRICING[model]["cache"] if "cache" in MODEL_PRICING[model] else MODEL_PRICING[model]["prompt"]
+    prompt_pricing = MODEL_PRICING[model]["prompt"]
+    completion_pricing = MODEL_PRICING[model]["completion"]
+
+    cache_cost = cache_pricing * cached_tokens / 1_000_000
+    prompt_cost = prompt_pricing * prompt_tokens / 1_000_000
+    completion_cost = completion_pricing * completion_tokens / 1_000_000
+
+    return cache_cost + prompt_cost, completion_cost
 
 
 def paper_to_titles(paper_entry: Paper) -> str:
