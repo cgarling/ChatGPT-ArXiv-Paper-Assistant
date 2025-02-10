@@ -5,11 +5,11 @@
 > I fixed some bugs and added various new features to make it easier to use.
 > See the [change log](#changelog) for details.
 
-This repo implements a very simple daily scanner for Arxiv that uses CharGPT and author matches to find papers you might find interesting.
+This repo implements a very simple daily scanner for Arxiv that uses OpenAI API to find papers you might find interesting.
 It will run daily via github actions and can post this information to slack via a bot or just render it in a static github-pages website.
 The results will be pushed to the `auto_update` branch automatically.
 
-A simple demo of the daily papers can be seen [here](https://daizedong.github.io/gpt_paper_assistant).
+A simple demo of the daily papers can be seen [here](https://daizedong.github.io/ChatGPT-ArXiv-Paper-Assistant).
 
 As a cost estimate, running this on all of `cs.LG` and `cs.AI` (about 50 papers for abstract filtering) with `batch_size=5` cost $1.04 on 1/17/2025.
 
