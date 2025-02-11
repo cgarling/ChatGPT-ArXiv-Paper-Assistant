@@ -1,11 +1,14 @@
 import dataclasses
+import datetime
 import json
 import math
 import re
+import time
+from typing import Dict, List, Tuple
+
 import retry
 from openai import OpenAI
 from tqdm import tqdm
-from typing import Dict, List, Tuple
 
 from arxiv_scraper import EnhancedJSONEncoder, Paper
 from environment import BASE_PROMPT, CONFIG, OPENAI_API_KEY, OPENAI_BASE_URL, OUTPUT_DEBUG_FILE_FORMAT, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
@@ -171,14 +174,38 @@ def batched(items, batch_size):
     return [items[i: i + batch_size] for i in range(0, len(items), batch_size)]
 
 
+start_query_time = None
+query_cnt = 0
+
+
 @retry.retry(tries=3, delay=2)
 def call_chatgpt(full_prompt, openai_client, model):
-    return openai_client.chat.completions.create(
-        model=model,
-        messages=[{"role": "user", "content": full_prompt}],
-        temperature=0.0,
-        seed=0,
-    )
+    def call():
+        return openai_client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": full_prompt}],
+            temperature=0.0,
+            seed=0,
+        )
+
+    if int(CONFIG["SELECTION"]["limit_per_minute"]) <= 0:  # no limit
+        return call()
+
+    else:  # limit the query num within a minute
+        global start_query_time, query_cnt
+
+        while True:
+            now_time = datetime.datetime.now()
+            if start_query_time is None or now_time - start_query_time > datetime.timedelta(minutes=1):
+                start_query_time = now_time
+                query_cnt = 0
+
+            if query_cnt < int(CONFIG["SELECTION"]["limit_per_minute"]):
+                query_cnt += 1
+                return call()
+            else:  # wait for a second and recheck
+                time.sleep(1)
+                continue
 
 
 def filter_papers_by_title(
@@ -207,6 +234,7 @@ def filter_papers_by_title(
         prompt_tokens += completion.usage.prompt_tokens
         completion_tokens += completion.usage.completion_tokens
         out_text = completion.choices[0].message.content
+        print({"prompt": {"tokens": completion.usage.prompt_tokens, "cost": prompt_cost}, "completion": {"tokens": completion.usage.completion_tokens, "cost": completion_cost}})
 
         try:
             filtered_set = set(json.loads(out_text))
@@ -289,6 +317,7 @@ def filter_papers_by_abstract(
         prompt_tokens += completion.usage.prompt_tokens
         completion_tokens += completion.usage.completion_tokens
         out_text = completion.choices[0].message.content
+        print({"prompt": {"tokens": completion.usage.prompt_tokens, "cost": prompt_cost}, "completion": {"tokens": completion.usage.completion_tokens, "cost": completion_cost}})
 
         json_dicts, this_invalid_cnt = parse_chatgpt(out_text, config)
         invalid_cnt += this_invalid_cnt
