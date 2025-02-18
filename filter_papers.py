@@ -223,7 +223,7 @@ def filter_papers_by_title(
     completion_tokens = 0
 
     for batch in tqdm(batches_of_papers, desc="Filtering title"):
-        papers_string = "".join([paper_to_titles(paper) for paper in batch])
+        papers_string = [paper_to_titles(paper) for paper in batch]
         full_prompt = get_full_prompt_for_title_filtering(base_prompt, topic_prompt, papers_string)
         model = config["SELECTION"]["model"]
         completion = call_chatgpt(full_prompt, openai_client, model)
