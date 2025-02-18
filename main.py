@@ -226,7 +226,7 @@ if __name__ == "__main__":
         k: v
         for k, v in sorted(
             selected_paper_dict.items(),
-            key=lambda x: (x[1]["SCORE"], x[1].get("RELEVANCE", 0)),  # sort first by total scores then by relevance
+            key=lambda x: (x[1].get("SCORE", 0), x[1].get("RELEVANCE", 0)),  # sort first by total scores then by relevance
             reverse=True
         )
     }

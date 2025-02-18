@@ -429,17 +429,23 @@ def filter_by_gpt(paper_list, base_prompt, topic_prompt, score_prompt, postfix_p
     total_completion_tokens = 0
 
     openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
-    id_paper_mapping = {paper.arxiv_id: paper for paper in paper_list}
+    id_paper_mapping: Dict[str, Paper] = {paper.arxiv_id: paper for paper in paper_list}
 
     # filter papers by titles
-    paper_list, filtered_results, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_title(
-        paper_list,
-        openai_client,
-        base_prompt,
-        topic_prompt,
-        config,
-        retry=int(config["SELECTION"]["title_retry"]),
-    )
+    if config["SELECTION"].getboolean("run_title_filter"):
+        paper_list, filtered_results, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_title(
+            paper_list,
+            openai_client,
+            base_prompt,
+            topic_prompt,
+            config,
+            retry=int(config["SELECTION"]["title_retry"]),
+        )
+    else:
+        filtered_results = {}
+        prompt_cost, completion_cost, prompt_tokens, completion_tokens = 0.0, 0.0, 0, 0
+        print("Skipping GPT title filtering")
+
     total_filtered_results.update(filtered_results)
     total_prompt_cost += prompt_cost
     total_completion_cost += completion_cost
@@ -447,17 +453,25 @@ def filter_by_gpt(paper_list, base_prompt, topic_prompt, score_prompt, postfix_p
     total_completion_tokens += completion_tokens
 
     # filter remaining papers by abstracts
-    scored_batches, selected_results, filtered_results, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_abstract(
-        paper_list,
-        id_paper_mapping,
-        openai_client,
-        base_prompt,
-        topic_prompt,
-        score_prompt,
-        postfix_prompt,
-        config,
-        retry=int(config["SELECTION"]["abstract_retry"]),
-    )
+    if config["SELECTION"].getboolean("run_abstract_filter"):
+        scored_batches, selected_results, filtered_results, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_abstract(
+            paper_list,
+            id_paper_mapping,
+            openai_client,
+            base_prompt,
+            topic_prompt,
+            score_prompt,
+            postfix_prompt,
+            config,
+            retry=int(config["SELECTION"]["abstract_retry"]),
+        )
+    else:
+        scored_batches = []
+        selected_results = {paper.arxiv_id: {**dataclasses.asdict(paper)} for paper in paper_list}
+        filtered_results = {}
+        prompt_cost, completion_cost, prompt_tokens, completion_tokens = 0.0, 0.0, 0, 0
+        print("Skipping GPT abstract filtering")
+
     total_filtered_results.update(filtered_results)
     total_prompt_cost += prompt_cost
     total_completion_cost += completion_cost
