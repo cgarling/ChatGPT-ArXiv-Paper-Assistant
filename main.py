@@ -230,9 +230,9 @@ if __name__ == "__main__":
             reverse=True
         )
     }
-    if CONFIG["OUTPUT"].getboolean("debug_messages"):
-        print("Sorted selection paper dict")
-        print(selected_paper_dict)
+    # if CONFIG["OUTPUT"].getboolean("debug_messages"):
+    #     print("Sorted selection paper dict")
+    #     print(selected_paper_dict)
 
     # pick endpoints and push the summaries
     if CONFIG["OUTPUT"].getboolean("dump_json"):

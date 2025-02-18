@@ -133,7 +133,7 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, 
         summary = re.sub("<[^<]+?>", "", paper.summary)
         summary = unescape(re.sub("\n", " ", summary))
         # strip the last pair of parentehses containing (arXiv:xxxx.xxxxx [area.XX])
-        title = re.sub("\(arXiv:[0-9]+\.[0-9]+v[0-9]+ \[.*\]\)$", "", paper.title)
+        title = re.sub(r"\(arXiv:[0-9]+\.[0-9]+v[0-9]+ \[.*\]\)$", "", paper.title)
         # strip the abstract
         abstract = summary.split("Abstract: ")[-1]
         # remove the link part of the id
