@@ -249,9 +249,9 @@ def filter_papers_by_title(
                 else:
                     new_paper_list.append(paper)
         except Exception as ex:
-            print("Exception happened " + str(ex))
-            print("Failed to parse LM output as list " + out_text)
-            print(completion)
+            if config["OUTPUT"].getboolean("debug_messages"):
+                print(f"Exception happened: Failed to parse LM output as list ({ex})")
+                print(f"`out_text`: {out_text}")
             continue
 
     print(f"Filtered {len(filtered_results)} papers based on title with cost of ${total_prompt_cost + total_completion_cost}, remaining {len(new_paper_list)} papers:\n"
@@ -279,11 +279,9 @@ def parse_chatgpt(raw_out_text, config):
         except Exception as ex:
             invalid_cnt += 1
             if config["OUTPUT"].getboolean("debug_messages"):
-                print("Exception happened " + str(ex))
-                print("Failed to parse LM output as json")
-                print(out_text)
-                print("RAW output")
-                print(raw_out_text)
+                print(f"Exception happened: Failed to parse LM output as json ({ex})")
+                print(f"RAW output: {raw_out_text}")
+                print(f"`out_text`: {out_text}")
             continue
     return json_dicts, invalid_cnt
 
@@ -305,7 +303,7 @@ def filter_papers_by_abstract(
     completion_tokens = 0
 
     for batch in tqdm(batches_of_papers, desc="Filtering abstract"):
-        scored_in_batch = []
+        this_scored_batch = []
         batch_str = [paper_to_string(paper) for paper in batch]
         full_prompt = get_full_prompt_for_abstract_filtering(base_prompt, topic_prompt, score_prompt, postfix_prompt, batch_str)
         model = config["SELECTION"]["model"]
@@ -326,18 +324,15 @@ def filter_papers_by_abstract(
             if jdict["ARXIVID"] not in id_paper_mapping:
                 invalid_cnt += 1
                 if config["OUTPUT"].getboolean("debug_messages"):
-                    print("Exception happened:")
-                    print(f"ARXIVID {jdict['ARXIVID']} not found in `id_paper_mapping`")
+                    print(f"Exception happened: ARXIVID \"{jdict['ARXIVID']}\" not found in `id_paper_mapping`")
                 continue
 
             result = {
                 "SCORE": jdict["RELEVANCE"] + jdict["NOVELTY"],
-                "RELEVANCE": jdict["RELEVANCE"],
-                "NOVELTY": jdict["NOVELTY"],
                 **jdict,
                 **dataclasses.asdict(id_paper_mapping[jdict["ARXIVID"]]),
             }
-            scored_in_batch.append(result)
+            this_scored_batch.append(result)
 
             filtered = (
                 int(jdict["RELEVANCE"]) < int(config["FILTERING"]["relevance_cutoff"]) or
@@ -349,7 +344,7 @@ def filter_papers_by_abstract(
             else:
                 selected_results[jdict["ARXIVID"]] = result
 
-        scored_batches.append(scored_in_batch)
+        scored_batches.append(this_scored_batch)
 
     print(f"Filtered {len(filtered_results)} papers based on abstract with cost of ${total_prompt_cost + total_completion_cost}, remaining {len(selected_results)} papers:\n"
           f"({prompt_tokens} prompt tokens cost ${total_prompt_cost})\n"

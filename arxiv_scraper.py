@@ -9,6 +9,9 @@ from typing import Any, List, Optional
 
 import arxiv
 import feedparser
+import requests
+
+from environment import CONFIG, OUTPUT_DEBUG_FILE_FORMAT
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):
@@ -73,6 +76,7 @@ def get_papers_from_arxiv_api(area: str, timestamp, last_id) -> List[Paper]:
 def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, None, None] | tuple[List[Paper], datetime, Any]:
     # get the feed from http://export.arxiv.org/rss/ and use the updated timestamp to avoid duplicates
     updated = datetime.utcnow() - timedelta(days=1)
+
     # format this into the string format 'Fri, 03 Nov 2023 00:30:00 GMT'
     url = f"https://export.arxiv.org/rss/{area}"
     updated_string = updated.strftime("%a, %d %b %Y %H:%M:%S GMT")
@@ -80,30 +84,45 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, 
     feed = feedparser.parse(url, modified=updated_string)
     if feed.status == 304:
         if config is not None:
-            print("No new papers since " + updated_string + " for " + area)
-        # if there are no new papers return an empty list
-        return [], None, None
+            print(f"No {config['FILTERING'].get('announce_type', 'new').replace(',', '/')} papers since {updated_string} for {area}")
+        return [], None, None  # if there are no new paper return an empty list
+
     # get the list of entries
     entries = feed.entries
-    if len(feed.entries) == 0:
-        print("No entries found for " + area)
-        return [], None, None
-    else:
-        print(f"{len(entries)} entries found for " + area)
-    last_id = feed.entries[0].link.split("/")[-1]
-    # parse last modified date
-    timestamp = datetime.strptime(feed.feed["updated"], "%a, %d %b %Y %H:%M:%S +0000")
-    announce_type = set(config["FILTERING"].get("announce_type", "new").split(","))
+    if len(entries) == 0:
+        print(f"No entries found for {area}")
+        return [], None, None  # if there are no new paper return an empty list
+    print(f"{len(entries)} entries found for {area}")
+
+    if CONFIG["OUTPUT"].getboolean("dump_debug_file"):
+        try:
+            response = requests.get(url, timeout=10)
+            if response.status_code == 200:
+                with open(OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.rss"), "w", encoding="utf-8") as outfile:
+                    outfile.write(response.text)
+            else:
+                print(f"Warning: Failed to fetch RSS content, status code {response.status_code}")
+        except Exception as e:
+            print(f"Error fetching RSS content: {e}")
+
+    # parse last-modified date
     paper_list = []
+    timestamp = datetime.strptime(feed.feed["updated"], "%a, %d %b %Y %H:%M:%S +0000")
+    last_id = entries[0].link.split("/")[-1]
+    announce_type = set(config["FILTERING"].get("announce_type", "new").split(","))
+
     for paper in entries:
         # ignore updated papers
         if not paper["arxiv_announce_type"] in announce_type:
+            if config["OUTPUT"].getboolean("debug_messages"):
+                print(f"Ignoring \"{paper.title}\" by `announce_type` ({paper["arxiv_announce_type"]})")
             continue
         # extract area
         paper_area = paper.tags[0]["term"]
         # ignore papers not in primary area
         if (area != paper_area) and (config["FILTERING"].getboolean("force_primary")):
-            print(f"ignoring {paper.title}")
+            if config["OUTPUT"].getboolean("debug_messages"):
+                print(f"Ignoring \"{paper.title}\" by `paper_area` ({paper_area})")
             continue
         # otherwise make a new paper, for the author field make sure to strip the HTML tags
         authors = [
@@ -122,6 +141,8 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, 
         # make a new paper
         new_paper = Paper(authors=authors, title=title, abstract=abstract, arxiv_id=id)
         paper_list.append(new_paper)
+
+    print(f"{len(paper_list)} papers left for {area}")
 
     return paper_list, timestamp, last_id
 

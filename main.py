@@ -170,7 +170,7 @@ if __name__ == "__main__":
     if CONFIG["OUTPUT"].getboolean("dump_debug_file"):
         with open(OUTPUT_DEBUG_FILE_FORMAT.format("config.json"), "w") as outfile:
             json.dump({section: dict(CONFIG[section]) for section in CONFIG.sections()}, outfile, cls=EnhancedJSONEncoder, indent=4)
-        with open(OUTPUT_DEBUG_FILE_FORMAT.format("AUTHOR_ID_SET.json"), "w") as outfile:
+        with open(OUTPUT_DEBUG_FILE_FORMAT.format("author_id_set.json"), "w") as outfile:
             json.dump(list(AUTHOR_ID_SET), outfile, cls=EnhancedJSONEncoder, indent=4)
         with open(OUTPUT_DEBUG_FILE_FORMAT.format("papers.json"), "w") as outfile:
             json.dump(paper_list, outfile, cls=EnhancedJSONEncoder, indent=4)

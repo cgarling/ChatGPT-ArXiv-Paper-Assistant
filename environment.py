@@ -61,8 +61,8 @@ with open("prompts/postfix_prompt.txt", "r", encoding="utf-8") as f:
     POSTFIX_PROMPT = f.read()
 
 # output path
-OUTPUT_DEBUG_DIR = os.path.join(CONFIG["OUTPUT"]["output_path"], "debug", f"{NOW_YEAR}-{NOW_MONTH}")
-OUTPUT_DEBUG_FILE_FORMAT = os.path.join(OUTPUT_DEBUG_DIR, f"{NOW_YEAR}-{NOW_MONTH}-{NOW_DAY}-" + "{}")
+OUTPUT_DEBUG_DIR = os.path.join(CONFIG["OUTPUT"]["output_path"], "debug", f"{NOW_YEAR}-{NOW_MONTH}", f"{NOW_YEAR}-{NOW_MONTH}-{NOW_DAY}")
+OUTPUT_DEBUG_FILE_FORMAT = os.path.join(OUTPUT_DEBUG_DIR, "{}")
 create_dir(OUTPUT_DEBUG_DIR)
 
 OUTPUT_MD_DIR = os.path.join(CONFIG["OUTPUT"]["output_path"], "md", f"{NOW_YEAR}-{NOW_MONTH}")
