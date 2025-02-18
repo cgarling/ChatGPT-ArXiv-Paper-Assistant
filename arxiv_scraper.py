@@ -115,7 +115,7 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, 
         # ignore updated papers
         if not paper["arxiv_announce_type"] in announce_type:
             if config["OUTPUT"].getboolean("debug_messages"):
-                print(f"Ignoring \"{paper.title}\" by `announce_type` ({paper["arxiv_announce_type"]})")
+                print(f"Ignoring \"{paper.title}\" by `announce_type` ({paper['arxiv_announce_type']})")
             continue
         # extract area
         paper_area = paper.tags[0]["term"]
