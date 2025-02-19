@@ -22,6 +22,44 @@ def parse_authors(lines):
     return authors, author_ids
 
 
+# load config.ini
+CONFIG = configparser.ConfigParser()
+CONFIG.read("configs/config.ini")
+
+print({section: dict(CONFIG[section]) for section in CONFIG.sections()})
+print(f"###################################################################")
+
+# load authors.txt
+with open("configs/authors.txt", "r", encoding="utf-8") as fopen:
+    author_names, author_ids = parse_authors(fopen.readlines())
+AUTHOR_ID_SET = set(author_ids)
+
+# load prompts
+with open("prompts/base_prompt.txt", "r", encoding="utf-8") as f:
+    BASE_PROMPT = f.read()
+with open("prompts/paper_topics.txt", "r", encoding="utf-8") as f:
+    TOPIC_PROMPT = f.read()
+with open("prompts/score_criteria.txt", "r", encoding="utf-8") as f:
+    SCORE_PROMPT = f.read()
+with open("prompts/postfix_prompt.txt", "r", encoding="utf-8") as f:
+    POSTFIX_PROMPT = f.read()
+
+# keys
+S2_API_KEY = os.environ.get("S2_KEY")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL")
+SLACK_KEY = os.environ.get("SLACK_KEY")
+SLACK_CHANNEL_ID = os.environ.get("SLACK_CHANNEL_ID")
+
+print(f"S2_API_KEY: {S2_API_KEY}")
+print(f"OPENAI_API_KEY: {OPENAI_API_KEY}")
+print(f"OPENAI_BASE_URL: {OPENAI_BASE_URL}")
+print(f"SLACK_KEY: {SLACK_KEY}")
+print(f"SLACK_CHANNEL_ID: {SLACK_CHANNEL_ID}")
+
+if OPENAI_API_KEY is None:
+    raise ValueError("OpenAI key is not set - please set OPENAI_API_KEY to your OpenAI key")
+
 # now time
 try:
     # get from ArXiv
@@ -43,41 +81,6 @@ except Exception as e:
 print(f"NOW_YEAR: {NOW_YEAR}")
 print(f"NOW_MONTH: {NOW_MONTH}")
 print(f"NOW_DAY: {NOW_DAY}")
-
-# keys
-S2_API_KEY = os.environ.get("S2_KEY")
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL")
-SLACK_KEY = os.environ.get("SLACK_KEY")
-SLACK_CHANNEL_ID = os.environ.get("SLACK_CHANNEL_ID")
-
-print(f"S2_API_KEY: {S2_API_KEY}")
-print(f"OPENAI_API_KEY: {OPENAI_API_KEY}")
-print(f"OPENAI_BASE_URL: {OPENAI_BASE_URL}")
-print(f"SLACK_KEY: {SLACK_KEY}")
-print(f"SLACK_CHANNEL_ID: {SLACK_CHANNEL_ID}")
-
-if OPENAI_API_KEY is None:
-    raise ValueError("OpenAI key is not set - please set OPENAI_API_KEY to your OpenAI key")
-
-# load config.ini
-CONFIG = configparser.ConfigParser()
-CONFIG.read("configs/config.ini")
-
-# load authors.txt
-with open("configs/authors.txt", "r", encoding="utf-8") as fopen:
-    author_names, author_ids = parse_authors(fopen.readlines())
-AUTHOR_ID_SET = set(author_ids)
-
-# load prompts
-with open("prompts/base_prompt.txt", "r", encoding="utf-8") as f:
-    BASE_PROMPT = f.read()
-with open("prompts/paper_topics.txt", "r", encoding="utf-8") as f:
-    TOPIC_PROMPT = f.read()
-with open("prompts/score_criteria.txt", "r", encoding="utf-8") as f:
-    SCORE_PROMPT = f.read()
-with open("prompts/postfix_prompt.txt", "r", encoding="utf-8") as f:
-    POSTFIX_PROMPT = f.read()
 
 # output path
 OUTPUT_DEBUG_DIR = os.path.join(CONFIG["OUTPUT"]["output_path"], "debug", f"{NOW_YEAR}-{NOW_MONTH}", f"{NOW_YEAR}-{NOW_MONTH}-{NOW_DAY}")
