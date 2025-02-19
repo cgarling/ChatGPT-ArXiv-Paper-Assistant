@@ -227,7 +227,12 @@ def filter_papers_by_title(
         papers_string = [paper_to_titles(paper) for paper in batch]
         full_prompt = get_full_prompt_for_title_filtering(base_prompt, topic_prompt, papers_string)
         model = config["SELECTION"]["model"]
-        completion = call_chatgpt(full_prompt, openai_client, model)
+        try:
+            completion = call_chatgpt(full_prompt, openai_client, model)
+        except Exception as ex:
+            print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
+            invalid_paper_list.extend(batch)
+            continue
 
         # get GPT output
         prompt_cost, completion_cost = calc_price(model, completion.usage)
@@ -340,7 +345,12 @@ def filter_papers_by_abstract(
         batch_str = [paper_to_string(paper) for paper in batch]
         full_prompt = get_full_prompt_for_abstract_filtering(base_prompt, topic_prompt, score_prompt, postfix_prompt, batch_str)
         model = config["SELECTION"]["model"]
-        completion = call_chatgpt(full_prompt, openai_client, model)
+        try:
+            completion = call_chatgpt(full_prompt, openai_client, model)
+        except Exception as ex:
+            print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
+            invalid_arxiv_ids.update(all_arxiv_ids)
+            continue
 
         # get GPT output
         prompt_cost, completion_cost = calc_price(model, completion.usage)
