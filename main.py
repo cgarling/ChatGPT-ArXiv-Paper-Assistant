@@ -139,16 +139,18 @@ def get_authors(
 
 def get_papers_from_arxiv(config):
     area_list = config["FILTERING"]["arxiv_category"].split(",")
+    all_entries = []
     arxiv_paper_dict = {}
     for area in area_list:
-        papers = get_papers_from_arxiv_rss_api(area.strip(), config)
+        entries, papers = get_papers_from_arxiv_rss_api(area.strip(), config)
+        all_entries.extend(entries)
         arxiv_paper_dict[area] = papers
-    return arxiv_paper_dict
+    return all_entries, arxiv_paper_dict
 
 
 if __name__ == "__main__":
     # get the paper list from arxiv
-    arxiv_paper_dict = get_papers_from_arxiv(CONFIG)
+    all_entries, arxiv_paper_dict = get_papers_from_arxiv(CONFIG)
     paper_list = list(set(v for area_papers in arxiv_paper_dict.values() for v in area_papers))
     print("Total number of papers:" + str(len(paper_list)))
     if len(paper_list) == 0:
@@ -241,14 +243,14 @@ if __name__ == "__main__":
 
     if CONFIG["OUTPUT"].getboolean("dump_md"):
         head_table = {
-            "headers": ["", "Prompt", "Completion", "Total"],
+            "headers": [f"*{CONFIG["SELECTION"]["model"]}*", "Prompt", "Completion", "Total"],
             "data": [
                 ["**Token**", total_prompt_tokens, total_completion_tokens, total_prompt_tokens + total_completion_tokens],
                 ["**Cost**", f"${round(total_prompt_cost, 2)}", f"${round(total_completion_cost, 2)}", f"${round(total_prompt_cost + total_completion_cost, 2)}"],
             ]
         }
         with open(OUTPUT_MD_FILE_FORMAT.format("output.md"), "w") as f:
-            f.write(render_md_string(arxiv_paper_dict, selected_paper_dict, head_table=head_table))
+            f.write(render_md_string(all_entries, arxiv_paper_dict, selected_paper_dict, head_table=head_table))
 
     # only push to slack for non-empty dicts
     if CONFIG["OUTPUT"].getboolean("push_to_slack"):

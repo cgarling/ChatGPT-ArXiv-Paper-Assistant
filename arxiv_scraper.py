@@ -9,7 +9,7 @@ import re
 import requests
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Tuple
 
 from environment import CONFIG, OUTPUT_DEBUG_FILE_FORMAT
 
@@ -144,7 +144,7 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, 
 
     print(f"{len(paper_list)} papers left for {area}")
 
-    return paper_list, timestamp, last_id
+    return entries, paper_list, timestamp, last_id
 
 
 def merge_paper_list(paper_list, api_paper_list):
@@ -156,14 +156,14 @@ def merge_paper_list(paper_list, api_paper_list):
     return merged_paper_list
 
 
-def get_papers_from_arxiv_rss_api(area: str, config: Optional[dict]) -> List[Paper]:
-    paper_list, timestamp, last_id = get_papers_from_arxiv_rss(area, config)
+def get_papers_from_arxiv_rss_api(area: str, config: Optional[dict]) -> Tuple[List, List[Paper]]:
+    entries, paper_list, timestamp, last_id = get_papers_from_arxiv_rss(area, config)
     # if timestamp is None:
     #    return []
     # api_paper_list = get_papers_from_arxiv_api(area, timestamp, last_id)
     # merged_paper_list = merge_paper_list(paper_list, api_paper_list)
     # return merged_paper_list
-    return paper_list
+    return entries, paper_list
 
 
 if __name__ == "__main__":
