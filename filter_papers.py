@@ -230,7 +230,8 @@ def filter_papers_by_title(
         try:
             completion = call_chatgpt(full_prompt, openai_client, model)
         except Exception as ex:
-            print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
+            if config["OUTPUT"].getboolean("debug_messages"):
+                print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
             invalid_paper_list.extend(batch)
             continue
 
@@ -348,7 +349,8 @@ def filter_papers_by_abstract(
         try:
             completion = call_chatgpt(full_prompt, openai_client, model)
         except Exception as ex:
-            print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
+            if config["OUTPUT"].getboolean("debug_messages"):
+                print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
             invalid_arxiv_ids.update(all_arxiv_ids)
             continue
 
