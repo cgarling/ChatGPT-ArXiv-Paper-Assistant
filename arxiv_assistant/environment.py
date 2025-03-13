@@ -4,7 +4,7 @@ import os
 import time
 from datetime import datetime
 
-from utils import create_dir
+from arxiv_assistant.utils.io import create_dir
 
 
 def parse_authors(lines):
@@ -30,18 +30,18 @@ print({section: dict(CONFIG[section]) for section in CONFIG.sections()})
 print(f"###################################################################")
 
 # load authors.txt
-with open("configs/authors.txt", "r", encoding="utf-8") as fopen:
+with open("../configs/authors.txt", "r", encoding="utf-8") as fopen:
     author_names, author_ids = parse_authors(fopen.readlines())
 AUTHOR_ID_SET = set(author_ids)
 
 # load prompts
-with open("prompts/base_prompt.txt", "r", encoding="utf-8") as f:
+with open("../prompts/base_prompt.txt", "r", encoding="utf-8") as f:
     BASE_PROMPT = f.read()
-with open("prompts/paper_topics.txt", "r", encoding="utf-8") as f:
+with open("../prompts/paper_topics.txt", "r", encoding="utf-8") as f:
     TOPIC_PROMPT = f.read()
-with open("prompts/score_criteria.txt", "r", encoding="utf-8") as f:
+with open("../prompts/score_criteria.txt", "r", encoding="utf-8") as f:
     SCORE_PROMPT = f.read()
-with open("prompts/postfix_prompt.txt", "r", encoding="utf-8") as f:
+with open("../prompts/postfix_prompt.txt", "r", encoding="utf-8") as f:
     POSTFIX_PROMPT = f.read()
 
 # keys

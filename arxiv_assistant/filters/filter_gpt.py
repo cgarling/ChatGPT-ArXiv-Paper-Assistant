@@ -9,65 +9,9 @@ from openai import OpenAI
 from tqdm import tqdm
 from typing import Dict, List, Tuple
 
-from arxiv_scraper import EnhancedJSONEncoder, Paper
-from environment import BASE_PROMPT, CONFIG, OPENAI_API_KEY, OPENAI_BASE_URL, OUTPUT_DEBUG_FILE_FORMAT, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
-from pricing import MODEL_PRICING
-
-"""author filtering"""
-
-
-def select_by_author(all_authors, paper_list, author_targets, config):
-    # author-based selection
-    new_paper_list = []
-    selected_results = {}
-
-    for paper in paper_list:
-        selected = any(
-            alias["authorId"] in author_targets
-            for author in paper.authors if author in all_authors
-            for alias in all_authors[author]
-        )
-        if selected:
-            selected_results[paper.arxiv_id] = {
-                "COMMENT": "Author match",
-                "SCORE": float(config["SELECTION"]["author_match_score"]),
-                **dataclasses.asdict(paper),
-            }
-        else:
-            new_paper_list.append(paper)
-
-    print(f"Selected {len(selected_results)} papers based on author match, remaining {len(new_paper_list)} papers")
-    return new_paper_list, selected_results
-
-
-def filter_papers_by_hindex(all_authors, paper_list, config):
-    # filters papers by checking to see if there's at least one author with > h_cutoff hindex
-    new_paper_list = []
-    filtered_results = {}
-
-    for paper in paper_list:
-        max_hindex = max(
-            [
-                alias["hIndex"]
-                for author in paper.authors if author in all_authors
-                for alias in all_authors[author]
-            ] + [0]
-        )
-        filtered = (max_hindex < float(config["FILTERING"]["h_cutoff"]))
-        if filtered:
-            filtered_results[paper.arxiv_id] = {
-                "COMMENT": f"H-index filtered (max is {max_hindex}<{config['FILTERING']['h_cutoff']})",
-                "SCORE": 0,
-                **dataclasses.asdict(paper),
-            }
-        else:
-            new_paper_list.append(paper)
-
-    print(f"Filtered {len(filtered_results)} papers based on h-index, remaining {len(new_paper_list)} papers")
-    return new_paper_list, filtered_results
-
-
-"""gpt filtering"""
+from arxiv_assistant.environment import BASE_PROMPT, CONFIG, OPENAI_API_KEY, OPENAI_BASE_URL, OUTPUT_DEBUG_FILE_FORMAT, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
+from arxiv_assistant.utils.pricing import MODEL_PRICING
+from arxiv_assistant.utils.utils import EnhancedJSONEncoder, Paper, batched
 
 ABSTRACT_CUTOFF = 4000
 
@@ -166,11 +110,6 @@ def get_batch_size(batch_size, paper_num, config):
 
     print(f"Base batch size: {batch_size}, scale factor: {scale_factor}")
     return int(batch_size * scale_factor)
-
-
-def batched(items, batch_size):
-    # takes a list and returns a list of list with batch_size
-    return [items[i: i + batch_size] for i in range(0, len(items), batch_size)]
 
 
 start_query_time = None
@@ -505,7 +444,7 @@ if __name__ == "__main__":
     openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
 
     # loads papers from 'in/debug_papers.json' and filters them
-    with open("in/debug_papers.json", "r") as f:
+    with open("../../in/debug_papers.json", "r") as f:
         paper_list_in_dict = json.load(f)
 
     papers = [

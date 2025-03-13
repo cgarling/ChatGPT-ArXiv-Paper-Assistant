@@ -1,8 +1,8 @@
 import json
 from tabulate import tabulate
 
-from environment import BASE_PROMPT, NOW_DAY, NOW_MONTH, NOW_YEAR, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
-from filter_papers import get_full_prompt_for_abstract_filtering
+from arxiv_assistant.environment import BASE_PROMPT, NOW_DAY, NOW_MONTH, NOW_YEAR, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
+from arxiv_assistant.filters.filter_gpt import get_full_prompt_for_abstract_filtering
 
 
 def render_title_and_author(paper_entry: dict, idx: int) -> str:
@@ -90,7 +90,7 @@ def render_daily_md(all_entries, arxiv_paper_dict, selected_paper_dict, head_tab
 
 if __name__ == "__main__":
     # parse output.json into a dict
-    with open("out_local/json/2025-01/2025-01-17-output.json", "r") as f:
+    with open("../../out_local/json/2025-01/2025-01-17-output.json", "r") as f:
         output = json.load(f)
     # simulate head table
     head_table = {
