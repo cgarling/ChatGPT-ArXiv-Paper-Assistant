@@ -40,6 +40,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: output.md
 
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.check_files.outputs.files_exists == 'true'
+        with:
+          path: dist
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         if: steps.check_files.outputs.files_exists == 'true'

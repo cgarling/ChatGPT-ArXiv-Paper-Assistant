@@ -44,6 +44,11 @@ jobs:
             out/md/2025-02/index.md
             out/md/2025-03/index.md
 
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.check_files.outputs.files_exists == 'true'
+        with:
+          path: dist
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         if: steps.check_files.outputs.files_exists == 'true'
