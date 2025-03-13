@@ -10,7 +10,7 @@ from tqdm import tqdm
 from arxiv_scraper import EnhancedJSONEncoder, get_papers_from_arxiv_rss_api
 from environment import AUTHOR_ID_SET, BASE_PROMPT, CONFIG, OUTPUT_DEBUG_FILE_FORMAT, OUTPUT_JSON_FILE_FORMAT, OUTPUT_MD_FILE_FORMAT, POSTFIX_PROMPT, S2_API_KEY, SCORE_PROMPT, SLACK_KEY, TOPIC_PROMPT
 from filter_papers import batched, filter_by_gpt, filter_papers_by_hindex, select_by_author
-from parse_json_to_md import render_md_string
+from render_daily_md import render_daily_md
 from push_to_slack import push_to_slack
 from utils import copy_file_or_dir, delete_file_or_dir
 
@@ -254,7 +254,7 @@ if __name__ == "__main__":
             ]
         }
         with open(OUTPUT_MD_FILE_FORMAT.format("output.md"), "w") as f:
-            f.write(render_md_string(all_entries, arxiv_paper_dict, selected_paper_dict, head_table=head_table))
+            f.write(render_daily_md(all_entries, arxiv_paper_dict, selected_paper_dict, head_table=head_table))
 
     # only push to slack for non-empty dicts
     if CONFIG["OUTPUT"].getboolean("push_to_slack"):
