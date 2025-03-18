@@ -2,8 +2,7 @@ import time
 from requests import Session
 from retry import retry
 from tqdm import tqdm
-
-from arxiv_assistant.environment import CONFIG
+from typing import Optional
 
 
 def get_author_batch(
@@ -61,7 +60,7 @@ def get_one_author(session, author: str, S2_API_KEY: str) -> str:
 
 
 def get_authors(
-    all_authors: list[str], S2_API_KEY: str, batch_size: int = 100, **kwargs
+    all_authors: list[str], S2_API_KEY: str, config: Optional[dict], **kwargs
 ):
     # first get the list of all author ids by querying by author names
     author_metadata_dict = {}
@@ -70,7 +69,7 @@ def get_authors(
             try:
                 auth_map = get_one_author(session, author, S2_API_KEY)
             except Exception as ex:
-                if CONFIG["OUTPUT"].getboolean("debug_messages"):
+                if config["OUTPUT"].getboolean("debug_messages"):
                     print("exception happened" + str(ex))
                 auth_map = None
             if auth_map is not None:

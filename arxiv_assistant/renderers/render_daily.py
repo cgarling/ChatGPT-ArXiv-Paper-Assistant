@@ -1,8 +1,9 @@
 import json
 from tabulate import tabulate
+from typing import Dict, List, Tuple
 
-from arxiv_assistant.environment import BASE_PROMPT, NOW_DAY, NOW_MONTH, NOW_YEAR, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
 from arxiv_assistant.filters.filter_gpt import get_full_prompt_for_abstract_filtering
+from arxiv_assistant.utils.utils import Paper
 
 
 def render_title_and_author(paper_entry: dict, idx: int) -> str:
@@ -45,11 +46,25 @@ def render_paper_content(paper_entry: dict, idx: int) -> str:
     return paper_string
 
 
-def render_daily_md(all_entries, arxiv_paper_dict, selected_paper_dict, head_table=None):
+def render_daily_md(
+    all_entries: List,
+    arxiv_paper_dict: Dict[List[Paper]],
+    selected_paper_dict: Dict[str, Dict],
+    now_date: Tuple[int, int, int] = None,
+    prompts: Tuple[str, str, str, str] = None,
+    head_table: Dict = None,
+):
+    # render date content
+    if now_date is not None:
+        now_year, now_month, now_day = now_date
+        date_string = f"{now_month}/{now_day}/{now_year}"
+    else:
+        date_string = ""
+
     # render head table
     headers = head_table["headers"]
     data = head_table["data"]
-    head_table_strings = tabulate(data, headers=headers, tablefmt="github")
+    head_table_strings = tabulate(data, headers=headers, tablefmt="github") if head_table is not None else ""
 
     # render each paper
     title_strings = [
@@ -62,18 +77,22 @@ def render_daily_md(all_entries, arxiv_paper_dict, selected_paper_dict, head_tab
     ]
 
     # render prompt
-    prompt_strings = get_full_prompt_for_abstract_filtering(
-        BASE_PROMPT,
-        TOPIC_PROMPT,
-        SCORE_PROMPT,
-        POSTFIX_PROMPT,
-        ['[PAPER LIST HERE]']
-    )
+    if prompts is not None:
+        base_prompt, topic_prompt, score_prompt, postfix_prompt = prompts
+        prompt_strings = get_full_prompt_for_abstract_filtering(
+            base_prompt,
+            topic_prompt,
+            score_prompt,
+            postfix_prompt,
+            ['[PAPER LIST HERE]']
+        )
+    else:
+        prompt_strings = ""
 
     # cat output string
     output_string = "\n\n".join([
-        f"# Personalized Daily Arxiv Papers {NOW_MONTH}/{NOW_DAY}/{NOW_YEAR}",
-        "" if head_table is None else head_table_strings,
+        f"# Personalized Daily Arxiv Papers {date_string}",
+        head_table_strings,
         f"Total arXiv papers: {len(all_entries)}",
         f"Total scanned papers: {sum([len(paper_list) for paper_list in arxiv_paper_dict.values()])}",
         f"Total relevant papers: {len(selected_paper_dict)}",

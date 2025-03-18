@@ -9,7 +9,7 @@ from openai import OpenAI
 from tqdm import tqdm
 from typing import Dict, List, Tuple
 
-from arxiv_assistant.environment import BASE_PROMPT, CONFIG, OPENAI_API_KEY, OPENAI_BASE_URL, OUTPUT_DEBUG_FILE_FORMAT, POSTFIX_PROMPT, SCORE_PROMPT, TOPIC_PROMPT
+from arxiv_assistant.environment import OPENAI_API_KEY, OPENAI_BASE_URL, OUTPUT_DEBUG_FILE_FORMAT
 from arxiv_assistant.utils.pricing import MODEL_PRICING
 from arxiv_assistant.utils.utils import EnhancedJSONEncoder, Paper, batched
 
@@ -117,7 +117,7 @@ query_cnt = 0
 
 
 @retry.retry(tries=3, delay=2)
-def call_chatgpt(full_prompt, openai_client, model):
+def call_chatgpt(full_prompt, openai_client, model, limit_per_minute=-1):
     def call():
         return openai_client.chat.completions.create(
             model=model,
@@ -126,7 +126,7 @@ def call_chatgpt(full_prompt, openai_client, model):
             seed=0,
         )
 
-    if int(CONFIG["SELECTION"]["limit_per_minute"]) <= 0:  # no limit
+    if limit_per_minute <= 0:  # no limit
         return call()
 
     else:  # limit the query num within a minute
@@ -137,8 +137,7 @@ def call_chatgpt(full_prompt, openai_client, model):
             if start_query_time is None or now_time - start_query_time > datetime.timedelta(minutes=1):
                 start_query_time = now_time
                 query_cnt = 0
-
-            if query_cnt < int(CONFIG["SELECTION"]["limit_per_minute"]):
+            if query_cnt < limit_per_minute:
                 query_cnt += 1
                 return call()
             else:  # wait for a second and recheck
@@ -260,7 +259,7 @@ def parse_chatgpt(raw_out_text, config):
 
 
 def filter_papers_by_abstract(
-    paper_list, id_paper_mapping, openai_client, base_prompt, topic_prompt, score_prompt, postfix_prompt, config, retry=3,
+    paper_list, id_paper_mapping, openai_client, base_prompt, topic_prompt, score_prompt, postfix_prompt, config, retry=3, limit_per_minute=-1,
 ) -> Tuple[List[List[Dict]], Dict, Dict, float, float, int, int]:
     batch_size = get_batch_size(int(config["SELECTION"]["abstract_batch_size"]), len(paper_list), config)
     print(f"Using batch size of {batch_size} for abstract filtering")
@@ -286,7 +285,7 @@ def filter_papers_by_abstract(
         full_prompt = get_full_prompt_for_abstract_filtering(base_prompt, topic_prompt, score_prompt, postfix_prompt, batch_str)
         model = config["SELECTION"]["model"]
         try:
-            completion = call_chatgpt(full_prompt, openai_client, model)
+            completion = call_chatgpt(full_prompt, openai_client, model, limit_per_minute=limit_per_minute)
         except Exception as ex:
             if config["OUTPUT"].getboolean("debug_messages"):
                 print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
@@ -415,6 +414,7 @@ def filter_by_gpt(paper_list, base_prompt, topic_prompt, score_prompt, postfix_p
             postfix_prompt,
             config,
             retry=int(config["SELECTION"]["abstract_retry"]),
+            limit_per_minute=int(config["SELECTION"]["limit_per_minute"]),
         )
     else:
         scored_batches = []
@@ -440,61 +440,61 @@ def filter_by_gpt(paper_list, base_prompt, topic_prompt, score_prompt, postfix_p
     return selected_results, total_filtered_results, total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens
 
 
-if __name__ == "__main__":
-    openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
-
-    # loads papers from 'in/debug_papers.json' and filters them
-    with open("../../in/debug_papers.json", "r") as f:
-        paper_list_in_dict = json.load(f)
-
-    papers = [
-        [
-            Paper(
-                arxiv_id=paper["arxiv_id"],
-                authors=paper["authors"],
-                title=paper["title"],
-                abstract=paper["abstract"],
-            )
-            for paper in batch
-        ]
-        for batch in paper_list_in_dict
-    ]
-    all_papers = {}
-    paper_outputs = {}
-    sort_dict = {}
-    total_cost = 0
-    for batch in tqdm(papers):
-        batch_str = [paper_to_string(paper) for paper in batch]
-        full_prompt = get_full_prompt_for_abstract_filtering(BASE_PROMPT, TOPIC_PROMPT, SCORE_PROMPT, POSTFIX_PROMPT, batch_str)
-        model = CONFIG["SELECTION"]["model"]
-        completion = call_chatgpt(full_prompt, openai_client, model)
-
-        prompt_cost, completion_cost = calc_price(model, completion.usage)
-        total_cost += prompt_cost + completion_cost
-        out_text = completion.choices[0].message.content
-
-        json_dicts = parse_chatgpt(out_text, CONFIG)
-        for paper in batch:
-            all_papers[paper.arxiv_id] = paper
-        for jdict in json_dicts:
-            paper_outputs[jdict["ARXIVID"]] = {
-                **dataclasses.asdict(all_papers[jdict["ARXIVID"]]),
-                **jdict,
-            }
-            sort_dict[jdict["ARXIVID"]] = jdict["RELEVANCE"] + jdict["NOVELTY"]
-
-    # sort the papers by relevance and novelty
-    print("total cost:" + str(total_cost))
-    keys = list(sort_dict.keys())
-    values = list(sort_dict.values())
-
-
-    def argsort(seq):
-        return sorted(range(len(seq)), key=seq.__getitem__)
-
-
-    sorted_keys = [keys[idx] for idx in argsort(values)[::-1]]
-    selected_papers = {key: paper_outputs[key] for key in sorted_keys}
-
-    with open(OUTPUT_DEBUG_FILE_FORMAT.format("filter_paper_test.json"), "w") as outfile:
-        json.dump(selected_papers, outfile, cls=EnhancedJSONEncoder, indent=4)
+# if __name__ == "__main__":
+#     openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
+#
+#     # loads papers from 'in/debug_papers.json' and filters them
+#     with open("../../in/debug_papers.json", "r") as f:
+#         paper_list_in_dict = json.load(f)
+#
+#     papers = [
+#         [
+#             Paper(
+#                 arxiv_id=paper["arxiv_id"],
+#                 authors=paper["authors"],
+#                 title=paper["title"],
+#                 abstract=paper["abstract"],
+#             )
+#             for paper in batch
+#         ]
+#         for batch in paper_list_in_dict
+#     ]
+#     all_papers = {}
+#     paper_outputs = {}
+#     sort_dict = {}
+#     total_cost = 0
+#     for batch in tqdm(papers):
+#         batch_str = [paper_to_string(paper) for paper in batch]
+#         full_prompt = get_full_prompt_for_abstract_filtering(BASE_PROMPT, TOPIC_PROMPT, SCORE_PROMPT, POSTFIX_PROMPT, batch_str)
+#         model = CONFIG["SELECTION"]["model"]
+#         completion = call_chatgpt(full_prompt, openai_client, model)
+#
+#         prompt_cost, completion_cost = calc_price(model, completion.usage)
+#         total_cost += prompt_cost + completion_cost
+#         out_text = completion.choices[0].message.content
+#
+#         json_dicts = parse_chatgpt(out_text, CONFIG)
+#         for paper in batch:
+#             all_papers[paper.arxiv_id] = paper
+#         for jdict in json_dicts:
+#             paper_outputs[jdict["ARXIVID"]] = {
+#                 **dataclasses.asdict(all_papers[jdict["ARXIVID"]]),
+#                 **jdict,
+#             }
+#             sort_dict[jdict["ARXIVID"]] = jdict["RELEVANCE"] + jdict["NOVELTY"]
+#
+#     # sort the papers by relevance and novelty
+#     print("total cost:" + str(total_cost))
+#     keys = list(sort_dict.keys())
+#     values = list(sort_dict.values())
+#
+#
+#     def argsort(seq):
+#         return sorted(range(len(seq)), key=seq.__getitem__)
+#
+#
+#     sorted_keys = [keys[idx] for idx in argsort(values)[::-1]]
+#     selected_papers = {key: paper_outputs[key] for key in sorted_keys}
+#
+#     with open(OUTPUT_DEBUG_FILE_FORMAT.format("filter_paper_test.json"), "w") as outfile:
+#         json.dump(selected_papers, outfile, cls=EnhancedJSONEncoder, indent=4)

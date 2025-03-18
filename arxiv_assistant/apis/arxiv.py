@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from requests import Session
 from typing import Any, Generator, List, Optional, Tuple
 
-from arxiv_assistant.environment import CONFIG, OUTPUT_DEBUG_FILE_FORMAT
+from arxiv_assistant.environment import OUTPUT_DEBUG_FILE_FORMAT
 from arxiv_assistant.utils.utils import Paper, batched, is_earlier
 
 
@@ -68,7 +68,7 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, 
         return [], None, None  # if there are no new paper return an empty list
     print(f"{len(entries)} entries found for {area}")
 
-    if CONFIG["OUTPUT"].getboolean("dump_debug_file"):
+    if config["OUTPUT"].getboolean("dump_debug_file"):
         try:
             response = requests.get(url, timeout=10)
             if response.status_code == 200:
