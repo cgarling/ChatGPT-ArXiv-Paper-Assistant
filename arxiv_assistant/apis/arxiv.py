@@ -7,7 +7,7 @@ import re
 import requests
 from datetime import datetime, timedelta
 from requests import Session
-from typing import Any, Generator, List, Optional, Tuple
+from typing import Any, Dict, Generator, List, Optional, Tuple
 
 from arxiv_assistant.environment import OUTPUT_DEBUG_FILE_FORMAT
 from arxiv_assistant.utils.utils import Paper, batched, is_earlier
@@ -47,7 +47,7 @@ def get_papers_from_arxiv_api(area: str, timestamp, last_id) -> List[Paper]:
     return api_papers
 
 
-def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, None, None] | tuple[List[Paper], datetime, Any]:
+def get_papers_from_arxiv_rss(area: str, config: Optional[Dict]) -> Tuple[List, None, None] | Tuple[List[Paper], datetime, Any]:
     # get the feed from http://export.arxiv.org/rss/ and use the updated timestamp to avoid duplicates
     updated = datetime.utcnow() - timedelta(days=1)
 
@@ -122,6 +122,7 @@ def get_papers_from_arxiv_rss(area: str, config: Optional[dict]) -> tuple[List, 
 
 
 def merge_paper_list(paper_list, api_paper_list):
+    # TODO: seems not used in the codebase. remove if not needed
     api_set = set([paper.arxiv_id for paper in api_paper_list])
     merged_paper_list = api_paper_list
     for paper in paper_list:
@@ -130,7 +131,7 @@ def merge_paper_list(paper_list, api_paper_list):
     return merged_paper_list
 
 
-def get_papers_from_arxiv_rss_api(area: str, config: Optional[dict]) -> Tuple[List, List[Paper]]:
+def get_papers_from_arxiv_rss_api(area: str, config: Optional[Dict]) -> Tuple[List, List[Paper]]:
     entries, paper_list, timestamp, last_id = get_papers_from_arxiv_rss(area, config)
     # if timestamp is None:
     #    return []
@@ -140,7 +141,7 @@ def get_papers_from_arxiv_rss_api(area: str, config: Optional[dict]) -> Tuple[Li
     return entries, paper_list
 
 
-def get_papers_from_arxiv(config):
+def get_papers_from_arxiv(config) -> Tuple[List, Dict[str, List[Paper]]]:
     area_list = config["FILTERING"]["arxiv_category"].split(",")
     all_entries = []
     arxiv_paper_dict = {}
@@ -153,11 +154,11 @@ def get_papers_from_arxiv(config):
 
 def get_paper_batch(
     session: Session,
-    ids: list[str],
+    ids: List[str],
     S2_API_KEY: str,
     fields: str = "paperId,title",
     **kwargs,
-) -> list[dict]:
+) -> List[Dict]:
     # TODO: seems not used in the codebase. remove if not needed
     # gets a batch of papers. taken from the sem scholar example.
     params = {
@@ -186,8 +187,8 @@ def get_paper_batch(
 
 
 def get_papers(
-    ids: list[str], S2_API_KEY: str, batch_size: int = 100, **kwargs
-) -> Generator[dict, None, None]:
+    ids: List[str], S2_API_KEY: str, batch_size: int = 100, **kwargs
+) -> Generator[Dict, None, None]:
     # TODO: seems not used in the codebase. remove if not needed
     # gets all papers, doing batching to avoid hitting the max paper limit.
     # use a session to reuse the same TCP connection

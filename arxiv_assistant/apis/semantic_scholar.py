@@ -2,16 +2,16 @@ import time
 from requests import Session
 from retry import retry
 from tqdm import tqdm
-from typing import Optional
+from typing import Dict, List, Optional
 
 
 def get_author_batch(
     session: Session,
-    ids: list[str],
+    ids: List[str],
     S2_API_KEY: str,
     fields: str = "name,hIndex,citationCount",
     **kwargs,
-) -> list[dict]:
+) -> List[Dict]:
     # TODO: seems not used in the codebase. remove if not needed
     # gets a batch of authors. analogous to author batch
     params = {
@@ -60,7 +60,7 @@ def get_one_author(session, author: str, S2_API_KEY: str) -> str:
 
 
 def get_authors(
-    all_authors: list[str], S2_API_KEY: str, config: Optional[dict], **kwargs
+    all_authors: List[str], S2_API_KEY: str, config: Optional[Dict], **kwargs
 ):
     # first get the list of all author ids by querying by author names
     author_metadata_dict = {}
