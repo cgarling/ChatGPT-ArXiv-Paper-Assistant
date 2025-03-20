@@ -13,7 +13,8 @@ from arxiv_assistant.utils.utils import Paper, normalize_whitespace
 
 def get_papers_from_arxiv_api(
     area: str,
-    date: Tuple[int, int, int],  # year, month, day
+    begin_date: Tuple[int, int, int],  # year, month, day
+    end_date: Tuple[int, int, int],  # year, month, day
     force_primary: bool = False,
     debug_messages: bool = False,
     dump_debug_file: bool = False,
@@ -26,11 +27,13 @@ def get_papers_from_arxiv_api(
         The uploaded dates don't always match the announced dates. Therefore, the filtering is not accurate and may miss some papers.
         Not support filtering by `announce_type`.
     """
-    year, month, day = date
+    begin_year, begin_month, begin_day = begin_date
+    end_year, end_month, end_day = end_date
 
     base_url = "http://export.arxiv.org/api/query"
-    date_string = f"{year}{format(month, '02d')}{format(day, '02d')}"
-    date_query = f"submittedDate:[{date_string}0000+TO+{date_string}2359]"
+    begin_date_string = f"{begin_year}{format(begin_month, '02d')}{format(begin_day, '02d')}"
+    end_date_string = f"{end_year}{format(end_month, '02d')}{format(end_day, '02d')}"
+    date_query = f"submittedDate:[{begin_date_string}0000+TO+{end_date_string}2359]"
     area_query = f"cat:{area}"
 
     url = f"{base_url}?search_query={area_query}+AND+{date_query}&start=0&max_results=10000"
@@ -149,7 +152,12 @@ def get_papers_from_arxiv_rss(
     return entries, paper_list
 
 
-def get_papers_from_arxiv(config, source="rss", date: Tuple[int, int, int] = None) -> Tuple[List[Dict], Dict[str, List[Paper]]]:
+def get_papers_from_arxiv(
+    config,
+    source="rss",
+    begin_date: Tuple[int, int, int] = None,
+    end_date: Tuple[int, int, int] = None,
+) -> Tuple[List[Dict], Dict[str, List[Paper]]]:
     all_entries = []
     arxiv_paper_dict = {}
 
@@ -177,16 +185,17 @@ def get_papers_from_arxiv(config, source="rss", date: Tuple[int, int, int] = Non
         warnings.warn(
             "The arXiv API is not reliable for getting daily announced papers. "
             "Consider using the arXiv RSS feed instead if you are filtering papers by their *announced* date. "
-            "You can neglect this warning if you are filtering papers *uploaded* on a specified date."
+            "You can neglect this warning if you are filtering papers *uploaded* on a specified date range."
         )
-        if date is None:
-            raise ValueError(f"`date` argument is required for \"api\" source")
+        if begin_date is None or end_date is None:
+            raise ValueError(f"Both `begin_date` and `end_date` arguments are required for \"api\" source")
         if not (len(announce_type_list) == 1 and "new" in announce_type_list):
             warnings.warn(f"Specifying `announce_type` is not supported for \"api\" source, ignoring {announce_type_list}")
         for area in area_list:
             entries, papers = get_papers_from_arxiv_api(
                 area,
-                date,
+                begin_date,
+                end_date,
                 force_primary,
                 debug_messages,
             )
@@ -213,9 +222,9 @@ if __name__ == "__main__":
     entries, papers = get_papers_from_arxiv_rss(area, announce_type, force_primary, debug_messages, dump_debug_file)
 
     yesterday = NOW_TIME - timedelta(days=1)  # use yesterday's time as the API returns papers by their uploaded date instead of the announced date
-    date = (int(yesterday.strftime("%Y")), int(yesterday.strftime("%m")), int(yesterday.strftime("%d")))
+    yesterday_date = (int(yesterday.strftime("%Y")), int(yesterday.strftime("%m")), int(yesterday.strftime("%d")))
 
     print("Getting papers from arXiv API...")
-    entries, papers = get_papers_from_arxiv_api(area, date, force_primary, debug_messages, dump_debug_file)  # this is inaccurate for getting today's announced paper
+    entries, papers = get_papers_from_arxiv_api(area, yesterday_date, yesterday_date, force_primary, debug_messages, dump_debug_file)  # this is inaccurate for getting today's announced paper
 
     print("Done!")

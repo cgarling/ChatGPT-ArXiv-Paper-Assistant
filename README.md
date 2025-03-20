@@ -137,6 +137,7 @@ Finally, all papers are sorted by the max of their `author_match_score` and the 
 - **3/20/2025**
     - Supported getting papers on any specified date through arXiv API.
     - Enhanced the logic of getting papers from RSS feeds.
+    - Added a script for remedying papers for missed dates.
 - **3/13/2025**
     - Rearranged the file structure and cleaned some unused code snippets.
 - **2/19/2025**
