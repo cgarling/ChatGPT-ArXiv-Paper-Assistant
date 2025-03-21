@@ -169,6 +169,8 @@ def get_papers_from_arxiv(
 
     if source == "rss":
         print(f"Using RSS feed to get papers...")
+        if begin_date is not None or end_date is not None:
+            warnings.warn(f"Specifying `begin_date` and `end_date` is not supported for \"rss\" source, ignoring them")
         for area in area_list:
             entries, papers = get_papers_from_arxiv_rss(
                 area,
