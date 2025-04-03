@@ -1,9 +1,9 @@
 # Changelog
 
-### 2025-4-03
+### 2025-4-3
 
 - Added retries for ArXiv API calls.
-- Rearranged date formats from `YYYY/MM/DD` to `YYYY-MM-DD`.
+- Rearranged date formats from `MM/DD/YYYY` to `YYYY-MM-DD`.
 
 ### 2025-3-25
 

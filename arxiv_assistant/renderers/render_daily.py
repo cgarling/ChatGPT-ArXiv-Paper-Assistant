@@ -57,7 +57,7 @@ def render_daily_md(
     # render date content
     if now_date is not None:
         now_year, now_month, now_day = now_date
-        date_string = f"{now_year}/{format(now_month, '02d')}/{format(now_day, '02d')}"
+        date_string = f"{now_year}-{format(now_month, '02d')}-{format(now_day, '02d')}"
     else:
         date_string = ""
 
