@@ -3,6 +3,7 @@ from tabulate import tabulate
 from typing import Dict, List, Tuple
 
 from arxiv_assistant.filters.filter_gpt import get_user_prompt_for_abstract_filtering
+from arxiv_assistant.utils.io import add_prefix_to_lines
 from arxiv_assistant.utils.utils import Paper, align_markdown_table
 
 
@@ -105,9 +106,9 @@ def render_daily_md(
         "---",
         "# Paper Selection Prompt",
         "## System Prompt",
-        system_prompt,
+        add_prefix_to_lines(system_prompt, "> "),
         "## User Prompt",
-        user_prompt,
+        add_prefix_to_lines(user_prompt, "> "),
     ])
     return output_string
 
