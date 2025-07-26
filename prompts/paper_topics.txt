@@ -1,33 +1,12 @@
 ## Relevant Topics
 
-Use the following relevance criteria to focus on foundational research. Keep **relevant** papers and filter out **irrelevant** ones. Avoid purely **application-driven** work.
+Use the following relevance criteria when considering which papers to keep. Keep **relevant** papers and filter out **irrelevant** ones.
 
-1. Representation Learning
-   - Relevant: Insights into how deep networks encode information, feature/dictionary learning, sparse/contrastive methods, training dynamics in neural networks.
-   - Irrelevant: Standard applications of known techniques lacking new theoretical or methodological contributions.
-
-2. Model Architecture
-   - Relevant: Mixture-of-Experts (MoE), Transformers, Conditional/Dynamic Networks, Autoencoders, analysis on existing architectures (like encoder-decoder), or other architectural innovations.
-   - Irrelevant: Merely using existing architectures for a certain task without insights into the structure themselves.
-
-3. Model Compression
-   - Relevant: Sparsity, pruning, quantization, low-rank approaches, KV cache, or other algorithmic/theoretical efficiency breakthroughs.
-   - Irrelevant: Straightforward applications of existing compression methods to new tasks.
-
-4. Large Language Models (LLMs)
-   - Relevant: Major breakthroughs in pretraining or architecture, theoretical insights into LLM behavior/interpretability.
-   - Irrelevant: Domain-specific usage (e.g., translation, jail-breaking), finetuning or inference tricks (e.g., instruction tuning, chain-of-thoughts, data mixing), or empirical dataset/benchmark studies and text-level analysis (e.g. hallucination, reasoning, safety).
-
-5. AI for Science
-   - Relevant: Foundational research in molecular/protein modeling, new generative paradigms, or significant architecture-level innovations.
-   - Irrelevant: Conventional, domain-specific applications without new theoretical perspectives.
-
-6. Emerging Trends
-   - Relevant: Cutting-edge theoretical work challenging established assumptions or introducing broad new paradigms.
-   - Irrelevant: Incremental improvements or trend-following without novel insights.
+1. Near-Field Cosmology
+   - Relevant: Astrophysics work focusing on dwarf satellite galaxies of the Milky Way, extragalactic satellite luminosity functions, measurements of dark matter density profiles (core-cusp), abundances of dwarf galaxies, signs of historic interactions between the Milky Way and other galaxies (e.g., the accreted stellar halo). Both theoretical and observational work is relevant.
+   - Irrelevant: Focus on Milky Way properties like the stellar disk, bar, and Galactic center. Focus on higher mass galaxies, like massive spirals and elliptical galaxies. 
 
 **Keywords:**
 
-- Relevant: Mixture of Experts (MoE), Representation Learning, Compression/Efficiency, Sparse/Sparsity, Pruning, Quantization, Low-rank, Foundation Model, etc.
-- Irrelevant: Reinforcement Learning, Transfer Learning, Federated Learning, Online Learning, Diffusion Models, etc.
-- Application: Image Segmentation, Medical Imaging, 3D Vision, Video Understanding, Information Retrieval, Summarization, Recommendation Systems, Machine Translation, Speech Recognition, Signal Processing, Spatial/Temporal Modeling, Time Series, Knowledge Graph, etc.
+- Relevant: Near-field cosmology, satellite luminosity function, core-cusp, substructure
+- Irrelevant: bar, Galactic center, tidal disruption event (TDE), supermassive black hole (SMBH)
