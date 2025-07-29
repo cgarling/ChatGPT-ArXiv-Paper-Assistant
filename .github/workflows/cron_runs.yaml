@@ -30,9 +30,10 @@ jobs:
       - name: Run main
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_BASE_URL: 'https://models.github.ai/inference'
           SLACK_KEY: ${{ secrets.SLACK_KEY }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          S2_KEY: ${{ secrets.S2_KEY }}
         run: |
           python main.py
 
