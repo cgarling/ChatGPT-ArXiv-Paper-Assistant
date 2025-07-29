@@ -24,17 +24,17 @@ jobs:
           ref: auto_update
           fetch-depth: 0
 
-      - name: Verify output directory and contents
-        run: |
-          if [ -d "out" ] && [ "$(ls -A out)" ]; then
-              cd out
-              echo "Contents in out:"
-              ls -R
-              mv output.md ../
-          else
-              echo "out directory is empty or does not exist. Aborting."
-              exit 1
-          fi
+      # - name: Verify output directory and contents
+      #   run: |
+      #     if [ -d "out" ] && [ "$(ls -A out)" ]; then
+      #         cd out
+      #         echo "Contents in out:"
+      #         ls -R
+      #         mv output.md ../
+      #     else
+      #         echo "out directory is empty or does not exist. Aborting."
+      #         exit 1
+      #     fi
 
       # - name: Check for output.md
       #   id: check_files
@@ -52,8 +52,7 @@ jobs:
       - name: Get markdown files in md/
         id: gather_files
         run: |
-          echo $(pwd)
-          found_files=$(find md -type f -name '*.md')
+          found_files=$(find out/md -type f -name '*.md')
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$found_files" >> $GITHUB_OUTPUT
           echo EOF >> $GITHUB_OUTPUT
