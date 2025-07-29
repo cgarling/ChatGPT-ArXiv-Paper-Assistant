@@ -3,6 +3,7 @@
 > The "Relevance" score measures how closely the paper aligns with the core topics of the prompt.
 > The "Novelty" score assesses the originality and impact of the paper.
 > They are two **ORTHONORMAL** axes and **SHOULD NOT** be confused with each other.
+> When determining the final ranking of papers, the relevance score should be given twice as much weight as the novelty score.
 
 ### Relevance Scoring
 

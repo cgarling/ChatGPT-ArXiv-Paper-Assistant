@@ -12,6 +12,9 @@ It will run daily via github actions and can post this information to slack via 
 The results will be pushed to the `auto_update` branch automatically.
 
 You can get a **free** API Key with a [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) from [GitHub](https://github.com/marketplace/models/azure-openai/gpt-4o). Its daily limit is enough for filtering ArXiv papers.
+Note that this is not a true OpenAI API key, but rather provides access through their [GitHub Models](https://github.com/marketplace?type=models) platform.
+If you are using this free key, you should enable Models read access on your fork of this repository, either through repository settings or through a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+You should ensure that the `OPENAI_BASE_URL` environment variable is set to `'https://models.github.ai/inference'` so that GitHub's endpoint is used rather than OpenAI's, which is the default if no `OPENAI_BASE_URL` envar is defined.
 
 As a cost estimate, filtering 267 papers by titles with `batch_size=40` takes 7 queries with an average of 1,798 prompt tokens and 144 completion tokens each.
 Filtering 123 papers by abstracts with `batch_size=12` takes 11 queries with an average of 4,477 prompt tokens and 739 completion tokens each.
@@ -24,10 +27,10 @@ This is the minimal necessary steps to get the scanner to run. It is highly reco
 ### Running on github actions
 
 1. Copy/fork this repo to a new github repo and [enable scheduled workflows](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow) if you fork it.
-2. Copy `prompts/paper_topics.template.txt` to `prompts/paper_topics.txt` and fill it out with the types of papers you want to follow.
-3. Copy `config/authors.template.txt` to `config/authors.txt` and list the authors you actually want to follow. The numbers behind the author are important. They are semantic scholar author IDs which you can find by looking up the authors on semantic scholar and taking the numbers at the end of the URL.
-4. Set your desired ArXiv categories in `config/config.ini`.
-5. Set your openai key `OPENAI_API_KEY` and base url `OPENAI_BASE_URL` (if you need one) as [github secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository). You can get a free one with a [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) from [here](https://github.com/marketplace/models/azure-openai/gpt-4o). Its daily limit is enough for filtering ArXiv papers.
+2. Edit `prompts/paper_topics.txt` to describe the types of papers you want to follow.
+3. Edit `configs/authors.txt` and list the authors you actually want to follow. The numbers behind the author are important. They are Semantic Scholar author IDs which you can find by looking up the authors on semantic scholar and taking the numbers at the end of the URL. Note that currently querying Semantic Scholar for author details is by far the slowest part of the action -- if you want to disable filtering by author, you can set `run_author_match = false` in `configs/config.ini`.
+4. Set your desired ArXiv categories in `configs/config.ini`.
+5. Set your OpenAI key `OPENAI_API_KEY` as a [GitHub secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository). You can get a free API key with a [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) from GitHub [here](https://github.com/marketplace/models/azure-openai/gpt-4o). Its daily limit is enough for filtering ArXiv papers. If you are using GitHub's Models endpoint, also set `OPENAI_BASE_URL` (see note above).
 6. In your repo settings, set github page build sources to be [github actions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow).
 
 At this point your bot should run daily and publish a static website. The results will be pushed to the `auto_update` branch automatically. You can test this by running the github action workflow manually.
@@ -41,7 +44,7 @@ At this point your bot should run daily and publish a static website. The result
 11. Make a channel for the bot (and invite it to the channel), get its [Slack channel id](https://stackoverflow.com/questions/40940327/what-is-the-simplest-way-to-find-a-slack-team-id-and-a-channel-id), set it as `SLACK_CHANNEL_ID` in a github secret.
 12. Set the github repo private to avoid github actions being [set to inactive after 60 days](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow).
 
-Each day at 5am UTC, the bot will run and post to slack and publish a github pages website (see the `publish_md` and `cron_runs` actions for details).
+Each day at 5am UTC, the bot will run and post to slack and publish a GitHub pages website (see the `publish_md` and `cron_runs` actions for details).
 
 ### Running locally
 
