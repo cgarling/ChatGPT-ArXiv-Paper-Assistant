@@ -52,7 +52,8 @@ jobs:
       - name: Get markdown files in md/
         id: gather_files
         run: |
-          found_files=$(find out/md -type f -name '*.md' | paste -sd "," -)
+          found_files=$(find out/md -type f -name '*.md')
+          echo "::set-output name=files::${files//$'\n'/\\n}"
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$found_files" >> $GITHUB_OUTPUT
           echo EOF >> $GITHUB_OUTPUT
