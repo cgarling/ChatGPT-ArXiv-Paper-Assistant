@@ -1,34 +1,12 @@
 ## Relevant Topics
 
-Use the following relevance criteria when considering which papers to keep. To be rated as highly relevant, a paper must fit at least one of the relevant topics below. Papers which fit multiple categories should be rated more highly.
+Use the following relevance criteria when considering which papers to keep. Keep **relevant** papers and filter out **irrelevant** ones.
 
 1. Near-Field Cosmology
    - Relevant: Astrophysics work focusing on dwarf satellite galaxies of the Milky Way, extragalactic satellite luminosity functions, measurements of dark matter density profiles (core-cusp), abundances of dwarf galaxies, signs of historic interactions between the Milky Way and other galaxies (e.g., the accreted stellar halo). Both theoretical and observational work is relevant.
-   - Irrelevant: Papers that focus on Milky Way properties like the stellar disk, bar, and Galactic center. Papers that focus on higher mass galaxies, like massive spirals and elliptical galaxies.
-
-2. Resolved Star Formation Histories
-   - Relevant: Observational work deriving star formation histories from observed color-magnitude diagrams of galaxies. Theoretical work measuring star formation histories of simulated galaxies is also relevant, but should be weighted lower.
-
-3. Star Formation Quenching
-   - Relevant: Observational work discussing the quenching of star formation in galaxies, **particularly dwarf galaxies**. Work on higher mass galaxies may still be relevant, but should be weighted lower. Theoretical work on the quenching of star formation of dwarf galaxies is also relevant.
-
-4. Stellar Models
-   - Relevant: Theoretical work presenting new stellar models, either stellar evolutionary tracks (i.e., stellar interior models) or stellar atmosphere models. Work presenting new tables of bolometric corrections is also relevant.
-
-5. Numerical Galaxy Simulations
-   - Relevant: Theoretical work presenting new numerical simulations of galaxies is relevant, especially high-resolution simulations. Simulations that include new physics models (e.g., ionizing radiation, cosmic ray transport) should be given increased weight. Work analyzing previously published simulations should be weighted lower, unless the work also pertains to one of the other relevant topics. Semi-analytic work on galaxies that matches the other criteria is also relevant.
-   - Irrelevant: Numerical simulations that do not focus on galaxies and do not fulfill other criteria are not relevant. Examples include simulations of tidal disruption events, black hole accretion disks, and planet formation.
-
-6. Star Formation Driven Outflows
-   - Relevant: Observational and theoretical work examining the role the star formation processes play on driving galaxy-scale gas outflows. Measurements of mass-loading factors are particularly relevant. Work commenting on the phase structure of the outflows is also relevant. Work on galaxies more massive than the LMC should be weighted lower.
-   - Irrelevant: Papers that focus on outflows driven by sources other than stellar feedback, such as AGN-driven feedback. Papers are relevant if they include discussion of both star-formation-driven outflows and other types of outflows.
-
-7. Circumgalactic Medium
-   - Relevant: Observational and theoretical work examining the circumgalactic media (CGM) of dwarf galaxies is relevant. Increased weight should be given to work that connects the CGM to ISM outflows from the galaxy.
-
-
+   - Irrelevant: Focus on Milky Way properties like the stellar disk, bar, and Galactic center. Focus on higher mass galaxies, like massive spirals and elliptical galaxies. 
 
 **Keywords:**
 
-- Relevant: Near-field cosmology, satellite luminosity function, core-cusp, substructure, resolved star formation history, satellite quenching, mass-loading factor
+- Relevant: Near-field cosmology, satellite luminosity function, core-cusp, substructure
 - Irrelevant: bar, Galactic center, tidal disruption event (TDE), supermassive black hole (SMBH)
