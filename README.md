@@ -13,7 +13,7 @@ The results will be pushed to the `auto_update` branch automatically.
 
 You can get a **free** API Key with a [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) from [GitHub](https://github.com/marketplace/models/azure-openai/gpt-4o). Its daily limit is enough for filtering ArXiv papers.
 Note that this is not a true OpenAI API key, but rather provides access through their [GitHub Models](https://github.com/marketplace?type=models) platform.
-If you are using this free key, you should enable Models read access on your fork of this repository (either through repository settings or through a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+If you are using this free key, you should enable Models read access on your fork of this repository, either through repository settings or through a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 You should ensure that the `OPENAI_BASE_URL` environment variable is set to `'https://models.github.ai/inference'` so that GitHub's endpoint is used rather than OpenAI's, which is the default if no `OPENAI_BASE_URL` envar is defined.
 
 As a cost estimate, filtering 267 papers by titles with `batch_size=40` takes 7 queries with an average of 1,798 prompt tokens and 144 completion tokens each.
