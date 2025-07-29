@@ -1,4 +1,4 @@
-Daily papers hosted [here](https://daizedong.github.io/ChatGPT-ArXiv-Paper-Assistant)](https://cgarling.github.io/ChatGPT-ArXiv-Paper-Assistant/). Records of past days can be found on the `auto_update` branch under the `out` directory.
+Daily papers hosted [here](https://cgarling.github.io/ChatGPT-ArXiv-Paper-Assistant/). Records of past days can be found on the `auto_update` branch under the `out` directory.
 
 # ChatGPT ArXiv Paper Assistant: A Daily ArXiv Scanner
 
