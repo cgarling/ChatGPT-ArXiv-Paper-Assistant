@@ -52,7 +52,7 @@ jobs:
       - name: Get markdown files in md/
         id: gather_files
         run: |
-          found_files=$(find out/md -type f -name '*.md')
+          found_files=$(find out/md -type f -name '*.md' | paste -sd "," -)
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$found_files" >> $GITHUB_OUTPUT
           echo EOF >> $GITHUB_OUTPUT
