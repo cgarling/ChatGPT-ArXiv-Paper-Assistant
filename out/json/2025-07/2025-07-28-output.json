@@ -1,1 +1,96 @@
-{}
+{
+    "2507.18685": {
+        "SCORE": 18,
+        "ARXIVID": "2507.18685",
+        "COMMENT": "This paper directly addresses the Vast Polar Structure (VPOS) of Milky Way satellite galaxies, their orbits, and the impact of the LMC, which is highly relevant to near-field cosmology, satellite dynamics, and substructure.",
+        "RELEVANCE": 10,
+        "NOVELTY": 8,
+        "authors": [
+            "Alberto Manuel Mart\\'inez-Garc\\'ia",
+            "Andr\\'es del Pino"
+        ],
+        "title": "The long-term stability of the Vast Polar Structure and its connection to a possible previous passage of the LMC",
+        "abstract": "The Vast Polar Structure (VPOS) is a thin, planar arrangement of co-orbiting dwarf galaxies, nearly perpendicular to the Milky Way (MW) disc. In this work we investigate the persistence and stability of the VPOS over time. We identify VPOS member galaxies and integrate their orbits over the past 5 Gyr using time evolving gravitational potentials that account for the mutual interaction between the MW and the Large Magellanic Cloud (LMC). The reconstructed trajectories allow us to examine the long-term evolution of the VPOS. We identify 15 galaxies as members of the VPOS, including 9 MW and 6 LMC satellites. We find that the VPOS has remained a stable structure, maintaining a roughly constant thickness ($\\sim$ 15 kpc), flattening ($c/a \\sim$ 0.2), and orientation over time. The VPOS is not a transient alignment, but a long-lived planar structure in the MW system, that has persisted for at least the last 5 Gyrs and predates the recent LMC infall. While the LMC exerts a strong gravitational influence on the MW satellites, its impact on the VPOS is limited, leading only to mild perturbations. The structural properties of the VPOS remain almost unchanged, whether or not LMC satellites are included in the analysis, indicating a smooth dynamical integration with the rest of VPOS members upon entering the MW virial radius. This minimal dynamical impact on the VPOS results from the remarkable alignment between the LMC's orbit and the plane's orientation. We conclude that the VPOS is a stable, long-lived structure that predates the recent infall of the LMC and retains nearly constant structural properties over the last 5 Gyrs. Our findings suggest a strong connection between the VPOS and the LMC, consistent with a scenario in which the LMC is on its second pericentre and the VPOS originated primarily from satellites stripped during the first passage.",
+        "arxiv_id": "2507.18685"
+    },
+    "2507.18912": {
+        "SCORE": 17,
+        "ARXIVID": "2507.18912",
+        "COMMENT": "This paper studies the satellite galaxy system around an interacting spiral galaxy pair, focusing on the kinematics and formation of a coherent satellite system during a group merger. The focus on satellite galaxies, their velocity field, and the process of group merging is highly relevant to near-field cosmology and satellite substructure studies.",
+        "RELEVANCE": 9,
+        "NOVELTY": 8,
+        "authors": [
+            "Helmut Jerjen",
+            "Simon Deeley",
+            "Holger Baumgardt",
+            "Sarah M. Sweet"
+        ],
+        "title": "The coherent satellite velocity field around the interacting spiral galaxy pair NGC5713/19: signature of two galaxy groups merging",
+        "abstract": "The luminous spirals NGC5713 and NGC5719 form an interacting galaxy pair 94 kpc apart and are connected by a straight, elongated neutral hydrogen structure extending over 200 kpc. Their 14 velocity-confirmed satellite galaxies and the two hosts separate into two distinct subgroups in their line-of-sight velocities and on-sky distribution revealing a prominent coherent kinematic structure with a velocity amplitude of 67+-12 kms-1 . We test four scenarios to explain the observed velocity field: isotropic motions in a dark matter halo, a plane of satellites seen nearly face-on, and a kinematically mixed satellite system with a co-rotating edge-on plane and an isotropic component, and a merger of two small galaxy groups. Taking the geometry and dynamical state of the NGC5713/19 pair into account together with their positions and motions in the Bootes Strip the most consistent picture is the infall of two satellite systems that follow their host galaxies along a cosmic filament. We believe this is the first clear example of an equal-mass L* disk galaxy merger where a kinematically coherent satellite system is in the process of formation. These observations reinforce the importance of major mergers as a channel for producing co-rotating satellite systems.",
+        "arxiv_id": "2507.18912"
+    },
+    "2507.18699": {
+        "SCORE": 12,
+        "ARXIVID": "2507.18699",
+        "COMMENT": "The paper studies a high-redshift galaxy and its star cluster formation, with implications for globular cluster formation and survival to z=0. While it touches on the origins of globular clusters (which are relevant to near-field cosmology), the main focus is on early universe galaxy formation, not on the present-day Milky Way satellite system or its substructure.",
+        "RELEVANCE": 5,
+        "NOVELTY": 7,
+        "authors": [
+            "E. Vanzella",
+            "M. Messa",
+            "A. Adamo",
+            "F. Loiacono",
+            "M. Oguri",
+            "K. Sharon",
+            "L. D. Bradley",
+            "P. Bergamini",
+            "M. Meneghetti",
+            "A. Claeyssens",
+            "B. Welch",
+            "M. Bradac",
+            "A. Zanella",
+            "A. Bolamperti",
+            "F. Calura",
+            "T. Y-Y. Hsiao",
+            "E. Zackrisson",
+            "M. Ricotti",
+            "L. Christensen",
+            "J. M. Diego",
+            "F. E. Bauer",
+            "X. Xu",
+            "S. Fujimoto",
+            "C. Grillo",
+            "M. Lombardi",
+            "P. Rosati",
+            "T. Resseguier",
+            "A. Zitrin",
+            "A. Bik",
+            "J. Richard",
+            "Abdurro'uf",
+            "R. Bhatawdekar",
+            "D. Coe",
+            "B. Frye",
+            "A. K. Inoue Y. Jimenez-Teja",
+            "C. Norman",
+            "J. R. Rigby",
+            "M. Trenti",
+            "T. Hashimoto"
+        ],
+        "title": "The z = 9.625 Cosmic Gems Galaxy was a \"Compact Blue Monster\" Propelled by Massive Star Clusters",
+        "abstract": "The recent discovery of five massive stellar clusters at z=9.625 in the Cosmic Gems has raised the question about the formation mechanism of star clusters in the first half Gyr after the Big-Bang. We infer the total stellar mass in clusters by normalizing and integrating the stellar cluster mass function (SCMF, dn(M)/dM ~ (n$_0$) $M^\\beta$), assuming three different slopes $\\beta$ = -1.5, -2.0 and -2.5 and different lower-mass limits between $10^2$ and $10^5$ Msun. The total integrated cluster stellar mass is compared to the stellar mass inferred from the counter-image of the Cosmic Gems, which provides the best, modestly magnified ($\\mu$ = 1.84$\\pm$0.05) representation of the entire galaxy. The delensed stellar mass of the Cosmic Gems galaxy is estimated as 3.5$_{-1.8}^{+3.3}$ x$10^7$ Msun, with an effective radius of Reff = 103$_{-15}^{+13}$ parsec and a stellar surface mass density of $\\Sigma$mass = 520$_{-225}^{+340}$ Msun pc$^{-2}$. Accounting for normalization uncertainties - including different lensing magnification scenarios for the arc - a modified SCMF, combined with a significantly high star cluster formation efficiency (approaching 100%), appears to be a necessary condition to explain the relatively short formation timescale of both the star clusters and the counter-image, without exceeding the galaxy's stellar mass. By extrapolating the physical properties at the peak of the burst we find that in its recent past (<~ 30 Myr) the Cosmic Gems galaxy has likely experienced a specific star formation rate (sSFR) exceeding 25 Gyr$^{-1}$ and luminosity approaching the ``blue monster'' regime (M$_{UV}$ < -20). Our study provides insights into the extreme clustered nature of star formation in early galaxies and shed light into the formation of bound star clusters that might survive to z = 0 as globular clusters, older than 13 Gyr.",
+        "arxiv_id": "2507.18699"
+    },
+    "2507.19312": {
+        "SCORE": 11,
+        "ARXIVID": "2507.19312",
+        "COMMENT": "The paper analyzes star cluster candidates in the LMC, focusing on the age gap and the nature of these clusters. While it touches on the interaction between the LMC and the Milky Way, its primary focus is on star clusters rather than satellite galaxies or substructure, making it only marginally relevant.",
+        "RELEVANCE": 5,
+        "NOVELTY": 6,
+        "authors": [
+            "Andr\\'es E. Piatti"
+        ],
+        "title": "A hidden link in the LMC star cluster formation history",
+        "abstract": "The age distribution function of star clusters in the Large Magellanic Cloud (LMC) is known to present a feature called the cluster age gap, a period of time from ~ 4 to 11 Gyr ago with a remarkable small number of clusters identified. In this work we performed an in-depth analysis of three recently catalogued age gap cluster candidates with the aim of confirming their physical nature. We used GEMINI@GMOS g,i photometry centred on the objects to build colour-magnitude diagrams from which we recognised their main features. We also performed an automatic search of stellar overdensities using Gaussian mixture model techniques and analysed the corresponding colour-magnitude diagrams similarly as performed for the aforementioned candidates. The present GEMINI data sets would seem to discard any strong evidence of these object being real clusters, and rather support the possibility of the result of stellar density variations of the LMC field star distribution. These three objects, in addition to other 17 new identified candidates, are placed in the LMC outermost disc in a limited region toward the southwest from the LMC centre. They had embraced the possibility to answer the long-time conundrum about the absence of LMC age gap clusters. From an statistical approach, combined with the knowledge of the expected LMC age-metallicity relationship, and recent simulations of the interaction between the LMC and the Milky Way, we provide not only evidence against the physical nature of the studied objects, but also an interpretation on the lack of identification of more LMC age gap clusters.",
+        "arxiv_id": "2507.19312"
+    }
+}
