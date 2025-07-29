@@ -1,3 +1,5 @@
+Daily papers hosted [here](https://daizedong.github.io/ChatGPT-ArXiv-Paper-Assistant)](https://cgarling.github.io/ChatGPT-ArXiv-Paper-Assistant/). Records of past days can be found on the `auto_update` branch under the `out` directory.
+
 # ChatGPT ArXiv Paper Assistant: A Daily ArXiv Scanner
 
 > *[Last update: 2025-5-27]*
@@ -8,8 +10,6 @@
 This repo implements a very simple daily scanner for Arxiv that uses OpenAI API to find papers you might find interesting.
 It will run daily via github actions and can post this information to slack via a bot or just render it in a static github-pages website.
 The results will be pushed to the `auto_update` branch automatically.
-
-A simple demo of the daily papers can be seen [here](https://daizedong.github.io/ChatGPT-ArXiv-Paper-Assistant).
 
 You can get a **free** API Key with a [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) from [GitHub](https://github.com/marketplace/models/azure-openai/gpt-4o). Its daily limit is enough for filtering ArXiv papers.
 
