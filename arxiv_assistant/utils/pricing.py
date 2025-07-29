@@ -75,4 +75,16 @@ MODEL_PRICING = {
     # [LAST UPDATE: 2025.1.28]
     "deepseek-chat": {"prompt": 0.14, "completion": 0.28},
     "deepseek-reasoner": {"prompt": 0.55, "completion": 2.19},
+
+    # https://docs.github.com/en/billing/concepts/product-billing/github-models
+    # Pricing for GitHub model usage through their endpoint (base_url) 
+    # See example usage by clicking "use this model" on 
+    # https://github.com/marketplace/models/azure-openai/gpt-4-1
+    # and selecting Python -> OpenAI SDK
+    # Price is calculated in filter_gpt.py as, for prompt,
+    # prompt_pricing * prompt_tokens / 1_000_000
+    # because OpenAI gives price in $ / million tokens. 
+    # Each token for GitHub's API is $0.00001, so we need to convert from their table
+    # to price per million tokens, which requires mulitplying by 10.
+    "openai/gpt-4.1": {"prompt": 2.0, "completion": 8.0, "cache": 0.5},
 }
