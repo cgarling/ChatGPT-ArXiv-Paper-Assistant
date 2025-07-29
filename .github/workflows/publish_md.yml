@@ -69,7 +69,8 @@ jobs:
         if: steps.gather_files.outputs.has_files == 'true'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: ${{ steps.gather_files.outputs.files }}
+          # files: ${{ steps.gather_files.outputs.files }}
+          files: echo "${{ steps.gather_files.outputs.files }}" | sed 's/\\n/\n/g'
 
       - uses: actions/upload-pages-artifact@v3
         # if: steps.check_files.outputs.files_exists == 'true'
