@@ -52,6 +52,7 @@ jobs:
       - name: Get markdown files in md/
         id: gather_files
         run: |
+          echo $(pwd)
           found_files=$(find md -type f -name '*.md')
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$found_files" >> $GITHUB_OUTPUT
