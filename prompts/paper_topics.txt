@@ -1,6 +1,6 @@
 ## Relevant Topics
 
-Use the following relevance criteria when considering which papers to keep. Keep **relevant** papers and filter out **irrelevant** ones. 
+Use the following relevance criteria when considering which papers to keep. To be rated as highly relevant, a paper must fit at least one of the relevant topics below. Papers which fit multiple categories should be rated more highly.
 
 1. Near-Field Cosmology
    - Relevant: Astrophysics work focusing on dwarf satellite galaxies of the Milky Way, extragalactic satellite luminosity functions, measurements of dark matter density profiles (core-cusp), abundances of dwarf galaxies, signs of historic interactions between the Milky Way and other galaxies (e.g., the accreted stellar halo). Both theoretical and observational work is relevant.
