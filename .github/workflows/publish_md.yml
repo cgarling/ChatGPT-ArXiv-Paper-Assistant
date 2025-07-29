@@ -24,62 +24,61 @@ jobs:
           ref: auto_update
           fetch-depth: 0
 
-      # - name: Verify output directory and contents
-      #   run: |
-      #     if [ -d "out" ] && [ "$(ls -A out)" ]; then
-      #         cd out
-      #         echo "Contents in out:"
-      #         ls -R
-      #         mv output.md ../
-      #     else
-      #         echo "out directory is empty or does not exist. Aborting."
-      #         exit 1
-      #     fi
-
-      # - name: Check for output.md
-      #   id: check_files
-      #   uses: andstor/file-existence-action@v3
-      #   with:
-      #     files: output.md
-
-      # - name: Convert output.md to pages
-      #   uses: wranders/markdown-to-pages-action@v1
-      #   if: steps.check_files.outputs.files_exists == 'true'
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     files: output.md
-
-      - name: Get markdown files in md/
-        id: gather_files
+      - name: Verify output directory and contents
         run: |
-          found_files=$(find out/md -type f -name '*.md')
-          echo "::set-output name=files::${files//$'\n'/\\n}"
-          echo "files<<EOF" >> $GITHUB_OUTPUT
-          echo "$found_files" >> $GITHUB_OUTPUT
-          echo EOF >> $GITHUB_OUTPUT
-          if [ -n "$found_files" ]; then
-            echo "has_files=true" >> $GITHUB_OUTPUT
+          if [ -d "out" ] && [ "$(ls -A out)" ]; then
+              cd out
+              echo "Contents in out:"
+              ls -R
+              mv output.md ../
           else
-            echo "has_files=false" >> $GITHUB_OUTPUT
+              echo "out directory is empty or does not exist. Aborting."
+              exit 1
           fi
 
-      - name: Convert markdown files to pages
+      - name: Check for output.md
+        id: check_files
+        uses: andstor/file-existence-action@v3
+        with:
+          files: output.md
+
+      - name: Convert output.md to pages
         uses: wranders/markdown-to-pages-action@v1
-        # if: steps.check_files.outputs.files_exists == 'true'
-        if: steps.gather_files.outputs.has_files == 'true'
+        if: steps.check_files.outputs.files_exists == 'true'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # files: ${{ steps.gather_files.outputs.files }}
-          files: echo "${{ steps.gather_files.outputs.files }}" | sed 's/\\n/\n/g'
+          files: output.md
+
+      # - name: Get markdown files in md/
+      #   id: gather_files
+      #   run: |
+      #     found_files=$(find out/md -type f -name '*.md')
+      #     echo "::set-output name=files::${files//$'\n'/\\n}"
+      #     echo "files<<EOF" >> $GITHUB_OUTPUT
+      #     echo "$found_files" >> $GITHUB_OUTPUT
+      #     echo EOF >> $GITHUB_OUTPUT
+      #     if [ -n "$found_files" ]; then
+      #       echo "has_files=true" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "has_files=false" >> $GITHUB_OUTPUT
+      #     fi
+
+      # - name: Convert markdown files to pages
+      #   uses: wranders/markdown-to-pages-action@v1
+      #   if: steps.check_files.outputs.files_exists == 'true'
+      #   if: steps.gather_files.outputs.has_files == 'true'
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     files: ${{ steps.gather_files.outputs.files }}
 
       - uses: actions/upload-pages-artifact@v3
-        # if: steps.check_files.outputs.files_exists == 'true'
-        if: steps.gather_files.outputs.has_files == 'true'
+        if: steps.check_files.outputs.files_exists == 'true'
+        # if: steps.gather_files.outputs.has_files == 'true'
         with:
           path: dist
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-        # if: steps.check_files.outputs.files_exists == 'true'
-        if: steps.gather_files.outputs.has_files == 'true'
+        if: steps.check_files.outputs.files_exists == 'true'
+        # if: steps.gather_files.outputs.has_files == 'true'
         id: deployment
