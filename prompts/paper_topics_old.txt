@@ -1,0 +1,12 @@
+## Relevant Topics
+
+Use the following relevance criteria when considering which papers to keep. Keep **relevant** papers and filter out **irrelevant** ones.
+
+1. Near-Field Cosmology
+   - Relevant: Astrophysics work focusing on dwarf satellite galaxies of the Milky Way, extragalactic satellite luminosity functions, measurements of dark matter density profiles (core-cusp), abundances of dwarf galaxies, signs of historic interactions between the Milky Way and other galaxies (e.g., the accreted stellar halo). Both theoretical and observational work is relevant.
+   - Irrelevant: Focus on Milky Way properties like the stellar disk, bar, and Galactic center. Focus on higher mass galaxies, like massive spirals and elliptical galaxies. 
+
+**Keywords:**
+
+- Relevant: Near-field cosmology, satellite luminosity function, core-cusp, substructure
+- Irrelevant: bar, Galactic center, tidal disruption event (TDE), supermassive black hole (SMBH)
