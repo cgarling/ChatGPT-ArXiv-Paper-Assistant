@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout `auto_update` branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: auto_update
           fetch-depth: 0
@@ -71,7 +71,7 @@ jobs:
       #     token: ${{ secrets.GITHUB_TOKEN }}
       #     files: ${{ steps.gather_files.outputs.files }}
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         if: steps.check_files.outputs.files_exists == 'true'
         # if: steps.gather_files.outputs.has_files == 'true'
         with:
