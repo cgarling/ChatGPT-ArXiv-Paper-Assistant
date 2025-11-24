@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout `auto_update` branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: auto_update
           fetch-depth: 0

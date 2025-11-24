@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout `test_web` branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: test_web
           fetch-depth: 0
