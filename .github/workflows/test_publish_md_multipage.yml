@@ -52,6 +52,6 @@ jobs:
           path: dist
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
         if: steps.check_files.outputs.files_exists == 'true'
         id: deployment
