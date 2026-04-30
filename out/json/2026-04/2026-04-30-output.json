@@ -1,0 +1,1344 @@
+{
+    "2604.24837": {
+        "SCORE": 18,
+        "ARXIVID": "2604.24837",
+        "COMMENT": "This paper studies the evolution of baryonic content and mass profiles of satellite galaxies in cosmological hydrodynamic simulations. It tracks stellar and gas mass evolution, stripping, and mass loss in satellites, which is highly relevant to near-field cosmology, satellite quenching, resolved star formation histories, and numerical galaxy simulations. The focus on satellite galaxies and their baryonic evolution matches multiple criteria.",
+        "RELEVANCE": 10,
+        "NOVELTY": 8,
+        "authors": [
+            "Sergio Contreras",
+            "Raul E. Angulo",
+            "Giovanni Aric\\`o",
+            "Lurdes Ondaro-Mallea",
+            "Sownak Bose",
+            "Lars Hernquist",
+            "Ruediger Pakmor",
+            "Volker Springel"
+        ],
+        "title": "The evolution of the baryonic content and mass profiles of satellite galaxies in the MTNG simulations",
+        "abstract": "Empirical models often rely on key relations from the galaxy--halo connection to construct mock galaxy catalogues. These relations typically describe central galaxies more accurately than satellite galaxies, which are generally less massive and orbit within larger haloes. Satellite galaxies are affected by a variety of physical processes that pose significant challenges for modelling. In this work, we use \\MTNG, a state-of-the-art cosmological hydrodynamic simulation, to study the evolution of the baryonic component of satellites. Using the merger trees from this simulation, we follow the evolution of all $z=0$ satellite galaxies, tracking their stellar mass, gas mass, and $r$- and $U$-band magnitudes. We characterise this evolution using proxies including the fraction of subhalo mass and maximum circular velocity remaining relative to infall, the pericentric distance, and the time since infall. All of these quantities are commonly available in gravity-only simulations and can therefore be used to model these trends in simpler galaxy population models. We find that the gas mass, which is well described by the remaining subhalo mass fraction, declines much more rapidly than the other components, with satellites losing $\\sim 80\\%$ of their gas by the time the subhalo has lost half of its total mass. By contrast, the evolution of stellar mass and magnitudes is overall slower and is better described by the reduction of the host subhalo $v_{\\rm max}$. We then examine the evolution of satellite mass profiles. We find that, although stripping is strongest in the outer regions, the intermediate and inner parts of satellites experience mass loss at early times. The results of this work can be used by empirical models and galaxy formation models built on gravity-only simulations to improve their descriptions of satellite galaxies.",
+        "arxiv_id": "2604.24837"
+    },
+    "2604.26886": {
+        "SCORE": 17,
+        "ARXIVID": "2604.26886",
+        "COMMENT": "The paper uses simulated galaxy catalogues to predict HI galaxy number counts and clustering for future radio surveys, including semi-analytic and hydrodynamical models. This is highly relevant to the 'Numerical Galaxy Simulations' criterion, as it presents predictions from new and updated simulations and discusses halo occupation models. It also touches on galaxy-scale structure and clustering.",
+        "RELEVANCE": 9,
+        "NOVELTY": 8,
+        "authors": [
+            "Ainulnabilah Nasirudin",
+            "Philip Bull",
+            "Isabelle Ye"
+        ],
+        "title": "Predicted number counts and clustering of Hi galaxies from future radio surveys",
+        "abstract": "The 21cm emission line from neutral hydrogen (HI) contained within galaxies provides a way to make accurate spectroscopic redshift determinations in the radio part of the spectrum. Large radio arrays such as SKA-MID are coming online that will have the sensitivity and survey time required to catalogue hundreds of thousands to millions of HI galaxies, opening up the possibility of studying the cosmological large scale structure using this technique. The expected number counts and clustering properties of the galaxies are still quite poorly understood however. We use three different simulated galaxy catalogues to predict the properties of the HI galaxy distribution that SKA-MID will be able to observe, along with estimates of the error on these predictions due to modelling uncertainty. The simulations in question are from S$^3$-SAX (semi-analytic models based on the Millennium dark matter-only simulation); GAEA (an updated semi-analytic model partially calibrated on hydrodynamical simulations); and IllustrisTNG (a hydrodynamical simulation). We present predictions for galaxy number counts as a function of sensitivity cut and redshift, and use these to forecast the cosmological performance of a proposed SKA-MID cosmological survey. Finally, we fit a halo occupation distribution model to low-redshift angular correlation functions to constrain clustering properties of multiple sub-volumes of the simulations to gain insight into the expected variation (sample variance) over smaller survey areas.",
+        "arxiv_id": "2604.26886"
+    },
+    "2604.26393": {
+        "SCORE": 17,
+        "ARXIVID": "2604.26393",
+        "COMMENT": "This paper investigates tidal heating of stellar clusters in fuzzy dark matter halos, specifically referencing ultra-faint dwarf galaxies as testing grounds. This closely matches the 'Near-Field Cosmology' criterion, as it deals with dwarf galaxies and their interaction with dark matter substructure. The work is simulation-based and provides new constraints on fuzzy dark matter models.",
+        "RELEVANCE": 9,
+        "NOVELTY": 8,
+        "authors": [
+            "Yiheng Liu",
+            "Xinyu Li"
+        ],
+        "title": "Tidal Heating of Stellar Clusters in Fuzzy Dark Matter Halos",
+        "abstract": "Ultra-faint dwarf galaxies serve as powerful testing grounds for wave dark matter models through dynamical stellar heating. Previous simulation-based work derived a lower bound on the fuzzy dark matter particle mass using a diffusion approximation valid only when the de Broglie wavelength is much smaller than the galaxy's half-light radius. We simulate the dynamical evolution of stellar clusters in FDM halos across a wide mass range and find that for sufficiently low masses, where the de Broglie wavelength is much larger than the cluster size, tidal heating is the main mechanism. We also find that a reduced soliton mass and tidally stripped halo can suppress the heating. We demonstrate that in order to constrain FDM mass from cluster heating, the structure and environment of the FDM halo must be carefully considered.",
+        "arxiv_id": "2604.26393"
+    },
+    "2604.26012": {
+        "SCORE": 16,
+        "ARXIVID": "2604.26012",
+        "COMMENT": "Directly addresses near-field cosmology by studying the dynamical ages and accretion history of globular clusters in the Milky Way, including those accreted from former satellites. Strong match to the 'signs of historic interactions between the Milky Way and other galaxies' criterion.",
+        "RELEVANCE": 9,
+        "NOVELTY": 7,
+        "authors": [
+            "Eugenio Carretta (INAF - Osservatorio di Astrofisica e Scienza dello Spazio di Bologna)"
+        ],
+        "title": "Nature and nurture: the dynamical ages of in situ and accreted globular clusters in the Milky Way",
+        "abstract": "The bifurcated age-metallicity relation of globular clusters (GCs) in the Milky Way (MW) shows that GCs are either originated in situ or accreted into the Galaxy from former satellites of the MW. The effects of the Galactic tidal field can leave signatures on the dynamical evolution and structural properties of GCs. We present a homogeneous census of dynamical ages for a sample of 93 GCs in the MW, coupled with the knowledge of their common progenitors from the chemo-dynamical parameters from the Gaia mission, unavailable some years ago. We found that the majority of accreted GCs (61%) is dynamically young. This percentage drops to 38% for in situ GCs. Excluding the enigmatic low-energy (LE) GCs, with ambiguous origin, the fraction of dynamically young ex situ GCs raises to 70%. A two tail Kolmogorov-Smirnov test shows that the distribution of dynamical ages of LE GCs cannot be distinguished from the distribution of in situ bulge and disc GCs. Yet, the LE GCs are firmly located on the satellite branch of the age-metallicity relation. An explanation may be that the progenitor of LE GCs plunged very early into the MW, so that the gravitational field of the MW had time enough to act on the associated GCs. The dynamical ages offer a statistically robust evidence corroborating the scenario of an early accretion proposed by several recent studies on the origin of LE GCs.",
+        "arxiv_id": "2604.26012"
+    },
+    "2604.26022": {
+        "SCORE": 16,
+        "ARXIVID": "2604.26022",
+        "COMMENT": "This paper investigates baryonic effects on the density profiles of dark matter halos, with a focus on secondary halo properties. The study uses hydrodynamical simulations and examines the impact on halo concentration and environment, which is directly relevant to near-field cosmology (core-cusp, substructure) and numerical galaxy simulations. The focus on density profiles and baryonic effects aligns closely with the core topics.",
+        "RELEVANCE": 9,
+        "NOVELTY": 7,
+        "authors": [
+            "Yikun Wang",
+            "Idit Zehavi",
+            "Sergio Contreras",
+            "Giovanni Aric\\`o",
+            "Sownak Bose",
+            "Lars Hernquiste"
+        ],
+        "title": "Secondary Dependence of Baryonic Effects on the Density Profile of Dark Matter Halos",
+        "abstract": "Baryonic physics is anticipated to be a major source of systematic uncertainty in current and future large-scale cosmological surveys. We investigate how baryonic effects on halo density profiles vary with secondary halo properties at fixed halo mass, using the large-volume MillenniumTNG hydrodynamical simulation and its dark matter-only counterpart. We focus on the impact of halo concentration and large-scale environment on the ratio of density profiles of matched halos in the hydrodynamical and dark matter-only simulations. At redshift $z = 0.0$, we find a strong dependence on halo concentration, especially at lower halo mass ($12.5 < \\log(M_h/h^{-1}M_{\\odot}) < 13.0$), where more concentrated halos exhibit weaker inner enhancement and stronger intermediate-radius suppression at fixed halo mass, with variations reaching $\\sim 15\\%$ at small scales and decreasing toward larger scales. This trend weakens and reverses at higher halo mass. In contrast, the secondary dependence on large-scale environment is weaker ($\\sim 2\\%$) and largely scale-independent, with halos in denser regions exhibiting slightly weaker intermediate suppression. By separating internal profile redistribution from total mass suppression, we show that concentration impacts both components, whereas the environmental dependence is primarily associated with an overall mass shift. These secondary dependencies persist at $ z = 0.5$ and correlate with variations in internal baryonic properties. We examine additional halo properties, including halo spin and velocity dispersion, and find significant secondary dependence. Overall, our results highlight the important role of secondary halo properties in modulating baryonic effects on halo density profiles, with potential implications for future modeling efforts.",
+        "arxiv_id": "2604.26022"
+    },
+    "2604.26693": {
+        "SCORE": 16,
+        "ARXIVID": "2604.26693",
+        "COMMENT": "Population synthesis of Be X-ray binaries in the Small Magellanic Cloud, focusing on binary evolution, mass transfer, and angular momentum transport. The SMC is a dwarf galaxy, and the paper uses numerical galaxy simulations to study binary populations, matching the 'Numerical Galaxy Simulations' criterion and partially the 'Near-Field Cosmology' criterion (satellite galaxy).",
+        "RELEVANCE": 8,
+        "NOVELTY": 8,
+        "authors": [
+            "V\\'ictor L\\'opez Oller",
+            "Boyuan Liu",
+            "Michela Mapelli",
+            "Stefano Rinaldi",
+            "Cecilia Sgalletta",
+            "Julia Bodensteiner",
+            "Giuliano Iorio",
+            "Rebekka Schupp"
+        ],
+        "title": "Population synthesis of Be X-ray binaries in the Small Magellanic Cloud: angular momentum recycling and stable mass transfer",
+        "abstract": "Be X-ray binaries (BeXRBs) are key laboratories to constrain binary interaction processes such as mass transfer, angular-momentum transport, and natal kicks. The Small Magellanic Cloud (SMC), hosting a nearly complete and well-characterized BeXRB population, offers a unique opportunity to test these physical processes at low metallicity. We aim to identify the combination of binary-evolution parameters that simultaneously reproduces the observed number and the joint distribution of orbital period and optical magnitude of SMC BeXRBs. We performed an extensive grid analysis of binary population-synthesis models exploring different mass transfer efficiencies, angular-momentum transport prescriptions and Roche-lobe overflow stability criteria. We also considered the impact of natal kicks, and that of the propeller effect of rotating magnetic fields of neutron stars. Synthetic populations obtained with the binary population synthesis code \\textsc{sevn} are statistically compared to observations using likelihood-based methods applied to the orbital period and $V$-band magnitude distributions, together with requirements on the total number of systems. We find that models in which mass transfer via Roche-lobe overflow is assumed to be always stable and angular momentum is recycled back into the orbit through tides when the accretor approaches critical rotation provide the best match to observations. Our best-fitting models favor low natal kicks ($\\lesssim 100\\ \\rm km\\ s^{-1}$), a moderate mass transfer efficiency ($f_{\\rm MT} \\simeq 0.6$), a minimum Be threshold spin close to critical rotation, and a strong suppression of accretion onto neutron stars due to the propeller effect. Specifically, the observable population is highly sensitive to the treatment of the propeller effect, which regulates the X-ray luminosity of wide, low-accretion-rate systems.",
+        "arxiv_id": "2604.26693"
+    },
+    "2604.26823": {
+        "SCORE": 16,
+        "ARXIVID": "2604.26823",
+        "COMMENT": "This paper introduces a framework for reconstructing initial conditions from galaxy redshift surveys using optimization and semi-analytic models. It is relevant to numerical galaxy simulations and constrained simulations, which are core topics, especially as it enables environmental studies and initial condition inference for galaxy evolution.",
+        "RELEVANCE": 8,
+        "NOVELTY": 8,
+        "authors": [
+            "Chenze Dong",
+            "Benjamin Horowitz",
+            "Adrian E. Bayer",
+            "Khee-Gan Lee"
+        ],
+        "title": "Mujic{\\Lambda}: Reconstructing Initial Conditions from Incomplete Redshift Surveys with Projected Optimization",
+        "abstract": "In this paper, we introduce Mujic{\\Lambda} (Mapping the Universe with Jax-based Initial Condition Reconstr{\\Lambda}ction), an optimization-based framework for reconstructing initial conditions from realistic galaxy spectroscopic redshift surveys. Unlike standard optimization-based approaches, Mujic{\\Lambda} augments the L-BFGS algorithm with a projection operator and rank-order matching to enforce Gaussianity of the initial conditions and substantially improve robustness to incomplete survey geometries. We validate Mujic{\\Lambda} on a mock lightcone catalog derived from semi-analytic models applied to the Millennium simulation. We construct a differentiable forward model that incorporates a fast particle-mesh simulation at megaparsec resolution and a comprehensive treatment of observational effects and survey incompleteness. Mujic{\\Lambda} reaches good agreement with the true density field down to the scale of the forward model, while maintaining consistency with the Gaussian prior through the projection step. It also broadly recovers the cosmic web classification, underscoring its value for deciphering environmental information in galaxy evolution studies. Beyond its key role in next-generation constrained simulations, the methodology offers a practical way to generate initial guesses and speed up field-level inference, especially for upcoming large-scale galaxy surveys.",
+        "arxiv_id": "2604.26823"
+    },
+    "2604.26771": {
+        "SCORE": 15,
+        "ARXIVID": "2604.26771",
+        "COMMENT": "The paper presents a spectral atlas of ultracool dwarfs using SPHEREx data, deriving atmospheric and fundamental parameters. It uses atmospheric model grids and evolutionary tracks, which is relevant to the 'Stellar Models' criterion, especially as it discusses bolometric luminosities and empirical spectral indices. This is a solid match for the stellar models criterion.",
+        "RELEVANCE": 8,
+        "NOVELTY": 7,
+        "authors": [
+            "Zhijun Tu",
+            "Shu Wang",
+            "Haomiao Huang",
+            "Xiaodian Chen",
+            "Jifeng Liu"
+        ],
+        "title": "SPHEREx Ultracool Dwarf spectral Atlas (SUDA): Atmospheric and Fundamental Parameters of Ultracool Dwarfs",
+        "abstract": "We present the SPHEREx Ultracool Dwarf spectral Atlas (SUDA), a homogeneous sample of 1675 ultracool dwarfs with continuous 0.75--5 $\\mu$m spectroscopy from SPHEREx QR2. Using the SAND and ATMO2020++ atmospheric model grids, we derive atmospheric parameters and calculate bolometric luminosities ($L_{\\rm bol}$). We combine the inferred $T_{\\mathrm{eff}}$ and radii with evolutionary tracks to estimate masses and ages for the full sample. Evolutionary surface gravities ($\\log g$) are also reported for sources with parallaxes. In the 1700--2500~K range, the atmospheric $\\log g$ from spectral fitting are systematically lower than the evolutionary $\\log g$, with a median offset of about 1.1~dex, likely reflecting residual degeneracy between $\\log g$ and metallicity in low resolution SPHEREx spectra. We also construct an empirical spectral atlas by grouping the spectra in the adopted parameter space, using the $T_{\\mathrm{eff}}$ and the evolutionary $\\log g$. The resulting atlas contains 52 parameter bins and spans $T_{\\mathrm{eff}}\\simeq 700$--$3000$~K. Molecular indices reveal a coherent atmospheric sequence across the sample. H$_2$O and CH$_4$ strengthen toward lower $T_{\\mathrm{eff}}$, whereas CO and CO$_2$ rise below $\\sim$1500~K and turn over near $\\sim$1000~K. Comparison with model sequences shows that the CO$_2$ index is a useful empirical metallicity tracer at $T_{\\mathrm{eff}}\\sim 800$--1300~K. Together, these results establish SUDA as a reference sample for linking observed 0.75--5~$\\mu$m spectral morphology to atmospheric and evolutionary trends in ultracool dwarfs.",
+        "arxiv_id": "2604.26771"
+    },
+    "2604.26072": {
+        "SCORE": 15,
+        "ARXIVID": "2604.26072",
+        "COMMENT": "This paper discusses the substructure of dark matter halos and its impact on annihilation signals, with a focus on environmental effects. The topic of halo substructure and subhalo mass function is directly relevant to near-field cosmology, especially as it pertains to satellite galaxies and their dark matter profiles. The environmental modulation of subhalo boosts is also relevant for understanding satellite luminosity functions and core-cusp issues.",
+        "RELEVANCE": 8,
+        "NOVELTY": 7,
+        "authors": [
+            "Feven Markos Hunde",
+            "Wojciech A. Hellwing",
+            "Maciej Bilicki"
+        ],
+        "title": "Caught in the Cosmic Web: Environmental Impacts on the Halo Substructure Boosts to Dark Matter Annihilation Signals",
+        "abstract": "The annihilation of dark matter (DM) particles is expected to produce Standard Model particles, providing a potential indirect signature of DM. The clumpy substructure of DM haloes amplifies the expected annihilation signal, an effect commonly quantified by the subhalo boost factor. Standard semi-analytic models usually treat this boost as a universal function of host-halo mass, neglecting systematic variations induced by the large-scale environment. In this work, we extend this framework by incorporating the influence of the cosmic web on subhalo populations. Using simulation-calibrated, environment-dependent ratios for host-halo concentrations, the subhalo mass function, and internal-structure proxies of subhalos based on the $V_{\\max}$--$R_{\\max}$ relation, we compute environment-conditioned boost predictions for haloes residing in filaments, walls, and voids. Our main result is the boost factor at fixed host-halo mass, expressed relative to the cosmic-mean prediction, $B(M,\\mathrm{env})/B_{\\mathrm{CM}}(M)$. We find a clear environmental modulation: in the fiducial distance-dependent model, filament haloes show a mass-dependent transition from a $\\sim 15\\%$ suppression at the low-mass end to a modest enhancement of $\\sim 12\\%$ for massive hosts, wall haloes remain intermediate, while void haloes stay suppressed by roughly $30$--$33\\%$ across the explored host-mass range. These results should be interpreted as deterministic model predictions obtained by propagating environment-dependent ingredient ratios through two standard semi-analytic boost frameworks. We provide an environment-aware prescription for subhalo boosts, together with modular environmental corrections that may also be useful in indirect-detection forecasts, strong-lensing mass modeling, and related halo-population applications.",
+        "arxiv_id": "2604.26072"
+    },
+    "2604.26066": {
+        "SCORE": 15,
+        "ARXIVID": "2604.26066",
+        "COMMENT": "The study investigates the environments of Green Pea and Blueberry galaxies, which are low-mass, compact systems with extreme star formation rates. The focus on low-mass galaxies and their environments is relevant to near-field cosmology and star formation quenching, especially as it discusses clustering and isolation, which are important for understanding dwarf galaxy evolution.",
+        "RELEVANCE": 8,
+        "NOVELTY": 7,
+        "authors": [
+            "Maitrayee Gupta",
+            "Ji\\v{r}\\'i Svoboda",
+            "Konstantinos Kouroumpatzakis",
+            "Nicolas Peschken",
+            "Peter G. Boorman",
+            "Abhijeet Borkar"
+        ],
+        "title": "Blueberry and Green Pea galaxies live in low density environments",
+        "abstract": "Little is currently known about the large-scale environments of Green Pea (GP) and Blueberry (BB) galaxies, which are low-mass, compact systems with extreme specific star-formation rates (sSFR). Their environments are inherently linked to their formation mechanism, and they may serve as crucial local analogues for high-redshift, reionizing galaxies. This paper aims to investigate the clustering properties of GPs and BBs, leveraging large-scale survey data to quantify their spatial distribution relative to the broader galaxy population. We here investigate a sample of these galaxies, consisting of 339 GPs $\\rm (0.1 < z \\le 0.33)$ and 56 BBs $\\rm (0 < z \\le 0.1)$, whose clustering properties we analyse relative to an extensive control sample derived from the SDSS MPA-JHU DR8 catalogue, binned by stellar mass and sSFR. We use the number of neighbours within a 5 Mpc radius as a proxy for environmental density, i.e. clustering, and employ a pair-matching and bootstrapping methodology to ensure statistical robustness. We observe that galaxy clustering depends strongly on star-formation activity, with passive galaxies being more clustered than their high star-formation rate counterparts, with GPs and BBs lying at the extreme end of this relation, exhibiting the lowest neighbour counts among all subsamples. The nearest neighbours of BBs also tend to have lower masses than other classes of dwarf galaxies. GPs and BBs predominantly reside in isolated, low-density environments, suggesting that their intense starbursts are unlikely to be triggered by common environmental processes such as mergers or starburst cycles. Their low metallicities and weak clustering instead support scenarios in which recent starbursts are driven by internal processes or pristine gas accretion, reinforcing their role as nearby analogues of young, low-mass galaxies in the early Universe.",
+        "arxiv_id": "2604.26066"
+    },
+    "2604.26027": {
+        "SCORE": 14,
+        "ARXIVID": "2604.26027",
+        "COMMENT": "Explores the circumgalactic medium (CGM) of high-redshift radio galaxies, focusing on Ly\u03b1 halos and outflows. While CGM and outflows are core topics, the galaxies studied are massive radio galaxies (not dwarfs), so relevance is moderate. Increased weight for CGM and outflow connection.",
+        "RELEVANCE": 6,
+        "NOVELTY": 8,
+        "authors": [
+            "Jelena Ritter",
+            "Wuji Wang",
+            "Dominika Wylezalek",
+            "Carlos De Breuck",
+            "Jo\\\"el Vernet",
+            "Fabrizio Arrigoni Battaia"
+        ],
+        "title": "Exploring the gaseous halos of z>3 radio galaxies with UVES and JWST/NIRSpec",
+        "abstract": "High-redshift radio galaxies (HzRGs) are among the most massive galaxies in the Universe and sites of extreme active galactic nuclei (AGN) feedback processes, powering energetic radio jets. They are typically embedded in giant Ly$\\alpha$ halos that are known to extend over $100\\,\\text{kpc}$ into the circumgalactic medium (CGM). In this paper, we target the Ly$\\alpha$ halos around four high-redshift radio galaxies in a redshift range of 3.1 < z < 4.5 using high-resolution spectroscopy from the Ultraviolet Echelle Spectograph (UVES) at the VLT, focusing on absorption features in the Ly$\\alpha$ emission that trace neutral hydrogen (HI) systems. We compare the UVES data to Multi Unit Spectroscopic Explorer (MUSE) observations of the same targets and find that the higher spectral resolution of UVES ($\\Delta v \\approx 12\\,\\text{km} \\text{s}^{-1}$) allows for a more complete identification of absorbers and reveals the splitting of deep absorbers into multiple components. We identify between 6 and 14 absorbers for each target in our sample with column densities of $N_{\\text{HI}} = 10^{12}-10^{17}\\,\\text{cm}^{-2}$. About 70 % of the absorbers can be spatially resolved along the radio jet axis, showing minimal variation in column densities over extents of more than 30 kpc. Our results indicate that a fraction of the absorbers may be physically associated with the host systems. Complementary JWST/NIRSpec observations of two of the targets, 4C+03.24 and TNJ0205, reveal potential outflows in the ionized interstellar medium (ISM). We discuss a kinematic link between the [OIII]-emitting gas and the cool halo gas as traced by Ly$\\alpha$, suggesting a common outflow origin.",
+        "arxiv_id": "2604.26027"
+    },
+    "2604.26750": {
+        "SCORE": 13,
+        "ARXIVID": "2604.26750",
+        "COMMENT": "This paper models dust enrichment and extinction curves in high-redshift galaxies, focusing on core-collapse supernovae as dust sources. While it discusses galaxy evolution and ISM properties, it does not directly address near-field cosmology, resolved star formation histories, or dwarf galaxy phenomena. The relevance is borderline due to its connection to galaxy-scale ISM processes.",
+        "RELEVANCE": 6,
+        "NOVELTY": 7,
+        "authors": [
+            "Koki Otaki",
+            "Raffaella Schneider",
+            "Simone Bianchi",
+            "Joris Witstok",
+            "Luca Graziani",
+            "Marco Limongi",
+            "Roberto Maiolino"
+        ],
+        "title": "Dust enrichment from core-collapse supernovae and extinction curves in the high-redshift universe",
+        "abstract": "Recent JWST observations have revealed that some galaxies at $z \\gtrsim 7$ generally exhibit relatively flat ultraviolet (UV) attenuation curves and a weak UV bump. These features suggest that the first dust grains formed rapidly, possibly originating from core-collapse supernovae (SNe). We investigate the time evolution of grain size distributions and extinction curves in the early phase of dust enrichment for different parameters of progenitor stars, rotation velocities, metallicity, and interstellar medium densities, including the effect of the reverse shock. We model a single starburst system assuming an initial mass function. Extinction curves are calculated from the grain size distribution for each dust species. The total dust-to-stellar mass ratio at $30 \\,\\mathrm{Myr}$ is $M_\\mathrm{dust}/M_\\star \\sim 10^{-3}$ before the passage of the reverse shock, but we find it to be at most $M_\\mathrm{dust}/M_\\star \\sim 10^{-5}$ due to the destruction effect of the reverse shock. This effect destroys grains smaller than $\\sim 10\\,\\mathrm{nm}$ and makes amorphous carbon the dominant species, resulting in a flatter extinction curve with a wide bump at $2500\\,\\mathrm{\\mathring{A}}$ compared to the no-reverse shock models. We find that our models are consistent with the observed attenuation curve and emissivity of high-redshift galaxies and show that the reverse shock processing significantly affects dust enrichment and grain properties such as extinction curves and emissivity in supernova yields for high-redshift galaxies.",
+        "arxiv_id": "2604.26750"
+    },
+    "2604.26602": {
+        "SCORE": 13,
+        "ARXIVID": "2604.26602",
+        "COMMENT": "This paper measures elemental abundance ratios in nearby metal-poor halo stars, discussing intrinsic dispersion and correlations. While it touches on chemical evolution and the IMF, it does not directly address resolved star formation histories, dwarf galaxies, or galaxy simulations. The focus is on stellar abundances in the Milky Way halo, which is borderline relevant to near-field cosmology.",
+        "RELEVANCE": 6,
+        "NOVELTY": 7,
+        "authors": [
+            "Poul Erik Nissen",
+            "Anish Amarsi"
+        ],
+        "title": "The intrinsic dispersion of elemental abundance ratios in nearby metal-poor halo stars",
+        "abstract": "Differential abundances of C, O, Mg, Al, Ca, Sc, Ti, V, Cr, Mn, Fe, Co, Ni, Zn, Y, and Zr were determined from high signal-to-noise VLT/UVES spectra for 25 turnoff stars with -2.4 < [Fe/H] < -1.3. Effective temperatures were obtained from profiles of the H_beta line and surface gravities via Gaia parallaxes. The analysis of the spectra were based on 1D model atmospheres assuming LTE, but 3D non-LTE corrections were applied for several elements.   The dispersion in linear fits to the [X/Fe]-[Fe/H] relations is around a factor of two smaller than found in previous studies. After corrections for measurement errors, the 1-sigma intrinsic dispersion of [X/Fe] at a given metallicity is 0.09 dex for Y and Zr, 0.05-0.07 dex for C, O, and Al, 0.03-0.05 dex for Mg, Ca, Sc, Ti, V, Mn, and Zn, and <0.03 dex for Cr, Co, and Ni. Strong correlations between the residuals in the [X/Fe]-[Fe/H] fits are found for the alpha-capture elements Mg, Al, Ca, Sc, and Ti and between the residuals for Y and Zr.   Correlations of the residuals in the [X/Fe]-[Fe/H] fits with effective temperature can be explained as due to differential atomic diffusion between elements, but its contribution to the scatter of [X/Fe] is of minor importance. Probably, both stochastic effects in sampling the IMF of CCSNe and differences in the TypeIa to CCSNe enrichment ratio between star-forming regions need to be considered in order to explain the intrinsic dispersion of [X/Fe].",
+        "arxiv_id": "2604.26602"
+    },
+    "2604.26006": {
+        "SCORE": 13,
+        "ARXIVID": "2604.26006",
+        "COMMENT": "This paper presents an analytical model for Population III star formation, connecting cosmological scales to protostellar disk fragmentation. While it deals with star formation and galaxy evolution, its focus is on primordial star formation and not on resolved star formation histories of galaxies or dwarf galaxy evolution. It is borderline relevant due to its connection to star formation modeling.",
+        "RELEVANCE": 6,
+        "NOVELTY": 7,
+        "authors": [
+            "James Gurian",
+            "Boyuan Liu",
+            "Donghui Jeong",
+            "Takashi Hosokawa",
+            "Shingo Hirano",
+            "Volker Bromm",
+            "Naoki Yoshida"
+        ],
+        "title": "Towards A Universal Analytical Model of Population III Star Formation: A Bridge Between Cosmological Scales and Protostars",
+        "abstract": "We construct an analytical model of Population III star formation that connects the cosmological radiation background to sub-AU protostellar disk fragmentation, a dynamic range inaccessible to any single simulation. Our approach is based on combining separate models of the disparate relevant scales: from the cosmological environment to the host-halo scale, from the halo scale to the scale of the star-forming cloud, and from the cloud scale to the fragmenting, accreting protostellar disk. Individually and collectively, the models agree well with the predictions of state of the art simulations, while remaining computationally inexpensive and physically transparent. As an example of the applicability of the model, we study the effects of varying the Lyman-Werner flux on the Pop. III star formation efficiency. We show that depending on the halo properties and the strength of the dissociating radiation field, the halo-scale Pop. III star formation efficiency varies by more than two orders of magnitude from $\\varepsilon_{\\rm SFE,H} \\approx 10^{-3}$ to $\\varepsilon_{\\rm SFE, H} \\approx 0.5$. The abrupt transitions between hydrogen-deuteride cooling (in low virial temperature mini-halos subjected to low radiation backgrounds), molecular hydrogen cooling (at intermediate temperatures and radiation intensities), and atomic cooling (in higher temperature halos exposed to strong radiation fields) produces sharp features in the halo-scale star formation efficiency as a function of the halo properties. Meanwhile, at the scale of individual star-forming clouds, the star formation efficiency is $\\varepsilon_{\\rm SFE,c} \\gtrsim 0.2$. That is, pristine gas in a halo is converted into unstable clouds at a wide range of efficiencies, and these unstable clouds are efficiently converted into Pop. III stars.",
+        "arxiv_id": "2604.26006"
+    },
+    "2604.26144": {
+        "SCORE": 13,
+        "ARXIVID": "2604.26144",
+        "COMMENT": "This review discusses the evolution of low- and intermediate-mass binary star systems, including new mechanisms challenging classical theory. It covers stellar evolution, mass transfer, and tidal dissipation, which are relevant to the 'Stellar Models' criterion, especially as it discusses advances in theoretical models and hydrodynamical simulations. However, the focus is on binary evolution rather than new stellar evolutionary tracks or atmosphere models, so it is borderline relevant.",
+        "RELEVANCE": 6,
+        "NOVELTY": 7,
+        "authors": [
+            "Lionel Siess"
+        ],
+        "title": "Evolving Low- and Intermediate-Mass Binaries: Departures from Classical Theory",
+        "abstract": "This review explores the physical mechanisms driving the evolution of low- and intermediate-mass binary star systems, with particular emphasis on emerging mechanisms that challenge classical paradigms. We begin by describing the principal formation channels and orbital properties of binary systems. A critical reassessment of the Roche lobe formalism is presented, focusing on systems with eccentric orbits and asynchronous rotation, where deviations from traditional approximations become significant. We then review current theoretical models of mass and angular momentum exchange via Roche-lobe overflow, incorporating results from recent hydrodynamical simulations of wind accretion. The review also reports advances in tidal dissipation theory. Finally, we explore mechanisms capable of sustaining or exciting orbital eccentricity, including perturbations induced by mass transfer and interactions with circumbinary disks. These discussions aim to outline underexplored facets of binary evolution, offering new perspectives for theoretical and observational studies.",
+        "arxiv_id": "2604.26144"
+    },
+    "2604.26389": {
+        "SCORE": 13,
+        "ARXIVID": "2604.26389",
+        "COMMENT": "This paper investigates the HI-halo mass relation using stacking analyses and includes satellite HI content, with a focus on the contribution of satellites to the HI budget in group and cluster halos. While it discusses satellite galaxies and their gas content, the main focus is on higher mass halos (groups and clusters), not specifically dwarf satellites or near-field cosmology. The relevance is borderline, as the satellite aspect is somewhat related but not central.",
+        "RELEVANCE": 6,
+        "NOVELTY": 7,
+        "authors": [
+            "Ajay Dev",
+            "Martin Meyer",
+            "Simon P. Driver",
+            "Jonghwan Rhee",
+            "Trystan S. Lambert",
+            "Paul Nulsen",
+            "Richard Dodson",
+            "Tobias Westmeier",
+            "Matthew Whiting",
+            "Sabine Bellstedt",
+            "Aaron Robotham",
+            "Jochen Liske",
+            "Elmo Tempel",
+            "Ivan Baldry",
+            "Jon Loveday",
+            "Luke Davies",
+            "Barbara Catinella",
+            "Michael J. I. Brown",
+            "Kristine Spekkens",
+            "Benne W. Holwerda"
+        ],
+        "title": "DINGO/GAMA /WAVES: HI-halo mass relation",
+        "abstract": "We investigate the relation between neutral atomic hydrogen (HI) and dark matter halo mass (HIHM) using observations from the Deep Investigation of Neutral Gas Origins (DINGO) pilot survey 100h data, combined with spectroscopic data from the Galaxy and Mass Assembly (GAMA) survey and photometric data from the Wide Area VISTA Extragalactic Survey (WAVES) photometric catalog. We employ a combination of direct detections and spectral stacking to probe the HI content of halos across a wide mass range ($10^{10.5} \\lesssim M_\\mathrm{h}/M_\\odot \\lesssim 10^{14.5}$). By incorporating WAVES photometric members on top of the existing GAMA group catalog, we present a novel approach of extending stacking analyses beyond spectroscopic completeness limits, enabling recovery of satellite HI content otherwise missed. We find that the HIHM relation exhibits a double power-law form, with a turnover near $M_\\mathrm{h} \\sim 10^{11.2} \\text{ M}_\\odot$. Central galaxies dominate the halo HI budget below $M_\\mathrm{h} \\sim 6 \\times 10^{12} \\text{ M}_\\odot$, while satellites dominate at higher halo masses. Including photometric members increases the measured HI content in halos above $10^{13} \\text{ M}_\\odot$ by a factor of 1.5-3, highlighting the importance of gas-rich satellites in the group and cluster regime. Comparison with previous group-stacking studies shows that low-surface brightness galaxies, and intra-group HI structures contribute only a minor fraction to the total HI mass in group and cluster halos, as the summed galaxy HI masses are consistent with the total halo HI content.",
+        "arxiv_id": "2604.26389"
+    },
+    "2604.26743": {
+        "SCORE": 12,
+        "ARXIVID": "2604.26743",
+        "COMMENT": "This paper analyzes a low-mass galaxy hosting a heavily obscured AGN, likely triggered by a merger, and discusses starburst activity. While it touches on star formation and galaxy mergers in low-mass galaxies, its main focus is AGN activity, which is not a core topic. It is borderline relevant due to the discussion of starburst and merger-driven evolution in a low-mass galaxy.",
+        "RELEVANCE": 6,
+        "NOVELTY": 6,
+        "authors": [
+            "Shouyi Wang",
+            "Fan Zou",
+            "Chang-Hao Chen",
+            "W. N. Brandt",
+            "Elena Gallo",
+            "Bin Luo",
+            "Xue-Bing Wu",
+            "Yuming Fu",
+            "Dieu D. Nguyen",
+            "Shengxiu Sun"
+        ],
+        "title": "A Rare Eddington-Limited, Heavily Obscured Low-Mass Active Galactic Nucleus Likely Triggered by a Galaxy Merger",
+        "abstract": "We report a detailed analysis of GAMA 376183, a powerful, heavily obscured active galactic nucleus (AGN) hosted by a low-mass galaxy ($M_\\star \\approx 10^{10}~M_{\\odot}$) likely experiencing a galaxy merger. The source was initially identified due to its remarkably strong [Ne v] $\\lambda3426$ emission, exhibiting a rest-frame equivalent width (EW) of $\\approx 48$ A. We present $\\sim100$ ks Nuclear Spectroscopic Telescope Array follow-up observations, confirming its heavily obscured nature with a column density (in $\\mathrm{cm^{-2}}$) of $\\log N_\\mathrm{H} = 23.3^{+0.4}_{-1.2}$ and an intrinsic $2$--$10$ keV luminosity (in $\\mathrm{erg~s^{-1}}$) of $\\log L_\\mathrm{X,int} = 42.92^{+0.24}_{-0.20}$. GAMA 376183 thus represents one of the few known heavily obscured AGNs in low-mass galaxies. Its estimated Eddington ratio is $\\lambda_\\mathrm{Edd}\\approx0.8$, indicative of rapid black-hole growth. High-resolution optical images reveal a disturbed, likely merging morphology, while its multiwavelength spectral energy distribution indicates a recent starburst in its host galaxy. These pieces of evidence suggest that the ongoing merger has triggered both the heavily obscured, Eddington-limited accretion and the starburst, making GAMA 376183 a rare observed case in low-mass galaxies. Overall, this unique source demonstrates that (i) [Ne v] can help identify heavily obscured low-mass AGNs, and (ii) the merger-driven coevolution framework established for massive galaxies may also extend to low-mass galaxies.",
+        "arxiv_id": "2604.26743"
+    },
+    "2604.26331": {
+        "SCORE": 12,
+        "ARXIVID": "2604.26331",
+        "COMMENT": "This paper investigates Ly\u03b1 emission profiles during reionization using simulations, focusing on the transmission of Ly\u03b1 photons and the ionizing background. While it is a galaxy simulation paper, it does not focus on resolved star formation histories, dwarf galaxies, or galaxy-scale outflows. The relevance is borderline due to its simulation approach and connection to galaxy environments.",
+        "RELEVANCE": 5,
+        "NOVELTY": 7,
+        "authors": [
+            "Hyunbae Park",
+            "Aaron Smith",
+            "Intae Jung",
+            "Hidenobu Yajima",
+            "Pierre Ocvirk",
+            "Joseph S. W. Lewis",
+            "Luke Conaboy",
+            "Paul R. Shapiro",
+            "Ilian T. Iliev",
+            "Kyungjin Ahn",
+            "Joohyun Lee",
+            "Jenny G. Sorce",
+            "Yohan Dubois"
+        ],
+        "title": "Double-Peaked Ly$\\alpha$ Emission during Reionization Requires Nearby Voids and a Favorable Local Ionizing Background",
+        "abstract": "Several Lyman-alpha (Ly$\\alpha$) emitters deep into the reionization era exhibit double-peaked Ly$\\alpha$ emission profiles, raising the question of how the intergalactic medium can transmit photons blueward of the Ly$\\alpha$ resonance at such high redshifts. To investigate this, we compute Ly$\\alpha$ transmission along sightlines originating from galaxies in the Cosmic Dawn III simulation and identify cases that closely reproduce the observed double-peaked emission. In these cases, the sightlines intersect highly underdense voids located a few comoving megaparsecs from the source galaxy. These voids allow photons emitted blueward of Ly$\\alpha$ to redshift through resonance without scattering while traversing them. The low opacity arises because the neutral hydrogen density scales with the square of the underlying gas density under ionization equilibrium, making sufficiently underdense regions with $\\lesssim30~\\%$ of cosmic mean density highly transmissive. Such voids naturally occur in the fluctuating cosmic density field, even in the vicinity of galaxies, and can also be associated with transmissive spikes in the Ly$\\alpha$ forest. We find that the global probability of observing double-peaked emission is $\\sim3\\times10^{-3}$ during reionization at an 80\\% global ionization fraction, while no cases are found at 60\\% ionization. We also find that this probability depends sensitively on the local ionizing background intensity, increasing by $\\sim10^{4}$ for a tenfold increase in intensity. These results suggest that the fraction of double-peaked Ly$\\alpha$ emission in high-$z$ galaxies can serve as a sensitive probe of the ionizing background during the late stages of cosmic reionization.",
+        "arxiv_id": "2604.26331"
+    },
+    "2604.26092": {
+        "SCORE": 12,
+        "ARXIVID": "2604.26092",
+        "COMMENT": "Examines sensitivity of binary pulsar timing to ultralight dark matter, which is tangentially related to near-field cosmology via dark matter, but does not focus on dwarf galaxies, satellite systems, or galaxy-scale phenomena. Borderline relevance due to dark matter connection.",
+        "RELEVANCE": 5,
+        "NOVELTY": 7,
+        "authors": [
+            "Federico Huxhagen",
+            "Diana L\\'opez Nacir"
+        ],
+        "title": "Sensitivity of binary pulsar timing to spin-0 and spin-1 ultralight dark matter",
+        "abstract": "If dark matter consists of ultralight bosons, on galactic scales it can be effectively described as a coherent classical field experiencing oscillations. Such a field could perturb the dynamics of celestial bodies via a direct coupling to ordinary matter, introducing signatures detectable through high-precision pulsar timing analysis. In this work, we extend a two-step Bayesian inference framework, originally developed for linearly coupled scalar ultralight dark matter (ULDM), to probe a quadratic scalar coupling and spin-1 vector dark matter. By explicitly marginalising over nuisance orbital parameters, our approach provides robust sensitivity limits that avoid the artificial overestimation often associated with direct fitting techniques. For quadratic scalar ULDM, we establish new constraints on the coupling $\\beta$ in the range between $2 \\times 10^{-22}$ eV and $2 \\times 10^{-21}$ eV inaccessible to other experiments, while identifying mass regimes where the sensitivity is dominated by the orbital phase $\\Psi'$ or the projected semi-major axis $x$. For vector ULDM, we characterize resonant signatures present even in circular orbits and obtain bounds on the coupling $g$ within the $10^{-23}$ eV to $10^{-18}$ eV range, yielding results within the same orders of magnitude as current laboratory and space-based experiments.",
+        "arxiv_id": "2604.26092"
+    },
+    "2604.26195": {
+        "SCORE": 12,
+        "ARXIVID": "2604.26195",
+        "COMMENT": "This paper presents resolved maps of gas and dust in a massive quiescent galaxy at z=2, focusing on accretion and rejuvenation events. While it discusses star formation quenching and resolved star formation histories, the galaxy is massive and not a dwarf or satellite, making it only borderline relevant. The methods and findings are novel for high-redshift quiescent galaxies, but less so for the core topics.",
+        "RELEVANCE": 5,
+        "NOVELTY": 7,
+        "authors": [
+            "Sai Gangula",
+            "Andrew B. Newman",
+            "Meng Gu",
+            "Sirio Belli",
+            "Katherine E. Whitaker",
+            "Tania M. Barone",
+            "Aliza Beverage",
+            "Andrea Bolamperti",
+            "Letizia Bugiani",
+            "Richard S. Ellis",
+            "Mariska Kriek",
+            "Allison Matthews",
+            "Themiya Nanayakkara"
+        ],
+        "title": "Resolved Maps of Gas and Dust in a Massive Quiescent Galaxy at z=2 from INQUEST-JWST: Evidence of Accretion and Rejuvenation",
+        "abstract": "Quiescent galaxies in the distant universe exhibit a range of gas content that may indicate a variety of quenching processes are at play. Mapping the distribution and kinematics of the gas can illuminate its origins, but nearly all such observations have been unresolved. We present JWST/NIRSpec IFU observations of MRG-M0138, a gravitationally lensed, massive quiescent galaxy at $z\\sim2$ observed as part of the INQUEST-JWST survey. We use Na I D absorption, which we detect in excess of the stellar absorption over most of the galaxy, to trace the kinematics and spatial distribution of the neutral gas in 219 spatial bins. The gas exhibits clear rotation that is kinematically aligned with the stellar disk. Both the gas and dust have a complex spatial structure, including an off-nuclear clump, a dust lane, and patches in the outer disk. The non-equilibrium distribution suggests that the gas was accreted. Analysis of the galaxy's star formation history supports this interpretation by indicating a rejuvenation event 500 Myrs ago. We identify two plausibly associated galaxies and suggest that tidal interactions are a likely source of the accreted gas. Our results indicate that some of the variation in gas content among early quiescent galaxies is not related to differences in gas consumption timescales. The detection of a gas clump at a projected distance of $\\sim90$ pc from the known supermassive black hole illustrates a mechanism to fuel the episodic AGN feedback that may maintain quiescence.",
+        "arxiv_id": "2604.26195"
+    },
+    "2604.26606": {
+        "SCORE": 11,
+        "ARXIVID": "2604.26606",
+        "COMMENT": "The paper investigates nitrogen abundances in Galactic O-type stars, focusing on the effects of binarity and internal mixing. While it discusses stellar evolution and abundance patterns, it does not present new stellar models or bolometric corrections, nor does it address galaxy-scale topics like near-field cosmology or star formation histories. The relevance is borderline due to its focus on stellar evolution.",
+        "RELEVANCE": 5,
+        "NOVELTY": 6,
+        "authors": [
+            "C. Mart\\'inez-Sebasti\\'an",
+            "G. Holgado",
+            "S. Sim\\'on-D\\'iaz",
+            "F. Martins",
+            "J. Puls"
+        ],
+        "title": "XVII. Nitrogen abundances in Galactic O-type stars: further hints for separating binary-interaction products from effectively single stars",
+        "abstract": "Context. Growing evidence is revealing the crucial role of binarity in massive star evolution. This affects evolution models and demands a refinement of the available observational constraints. Aims. To investigate the possible evolutionary origins of a sample of 117 Galactic O-type stars with luminosity classes V to III and projected rotational velocities below 150 ${\\rm km}\\,{\\rm s}^{-1}$. Methods: We extend previous quantitative spectroscopic analyses performed within the framework of the IACOB project and obtain N abundance estimates. We investigate correlations between these abundances and other stellar parameters. As a reference, we use predictions from single-star evolution models computed using different physical prescriptions. Results. We identify differences in the N abundance distributions corresponding to three He abundance regimes (He-low, He-normal, and He-rich). For the He-normal group, the N abundance distribution peaks slightly above the expected birth value and extends up to $\\epsilon_{\\rm N}$=8.4 dex. For these stars, we find overall agreement with single-star evolutionary models that include efficient internal mixing and assume moderate-to-low initial rotation. In contrast, the He-rich group exhibits a bimodal N abundance distribution, with one peak at $\\sim$8.1 dex and a second more enriched peak around $\\sim$8.5 dex; none of these stars are consistent with predictions from single-star evolutionary models. We argue that He-rich stars are most plausibly explained as binary products. Furthermore, despite N abundance in He-normal stars with LC IV and V are reproduced by single stellar evolutionary models with efficient mixing, the same models predict a higher N abundance than observed for stars with LC III. This indicates that rotational mixing alone is unable to explain the observed distribution of N abundances among stars with normal He abundances.",
+        "arxiv_id": "2604.26606"
+    },
+    "2604.25961": {
+        "SCORE": 11,
+        "ARXIVID": "2604.25961",
+        "COMMENT": "The paper investigates strong-field signatures of a regular black hole in an Einasto dark matter halo, including geodesics and shadow imaging. While it discusses dark matter profiles, the focus is on black holes and not on galaxy-scale dark matter density profiles or near-field cosmology. The relevance is borderline due to the mention of the Einasto profile, but the context is not galaxy-scale.",
+        "RELEVANCE": 5,
+        "NOVELTY": 6,
+        "authors": [
+            "Mohsen Fathi",
+            "Faizuddin Ahmed"
+        ],
+        "title": "Strong-field signatures of a regular black hole in an Einasto dark matter halo",
+        "abstract": "We investigate the strong-field phenomenology of a static and spherically symmetric regular black hole supported by an Einasto dark matter (DM) distribution. For the exponential Einasto profile, the geometry is controlled by a single dimensionless halo parameter $a$, and we restrict the analysis to the black hole branch $0<a\\leq a_{\\rm crit}\\simeq0.388$. We study both timelike and null geodesics, including the effective potential, circular orbits, ISCO radius, orbital period, periapsis advance, photon sphere, shadow radius, effective photon force, and representative photon trajectories. We also construct image-plane intensity profiles and face-on thin-disk images in a static-emitter approximation. The analysis reveals a hierarchy of strong-field sensitivity. Timelike observables remain largely degenerate with the Schwarzschild limit along most of the black hole branch, while the photon sphere scale, shadow diameter, and residual optical structures provide the most sensitive response to the Einasto halo near the critical black hole regime. A comparison with the EHT shadow-scale measurements shows that the full branch is consistent with Sgr A* at the $1\\sigma$ level, whereas M87* mildly disfavors values very close to criticality. These results indicate that the most promising signatures of the Einasto halo are not expected from ordinary timelike orbital quantities, but from near-critical photon propagation and its imprint on the optical appearance.",
+        "arxiv_id": "2604.25961"
+    },
+    "2604.26724": {
+        "SCORE": 11,
+        "ARXIVID": "2604.26724",
+        "COMMENT": "Analysis of radial profiles of binary fraction in elliptical galaxies using MaNGA data. The focus is on binary star populations in massive galaxies (ellipticals), not on dwarf galaxies or resolved star formation histories. The relevance is borderline due to the galaxy context, but not directly matching any core criteria.",
+        "RELEVANCE": 5,
+        "NOVELTY": 6,
+        "authors": [
+            "Xiejin Li",
+            "Fenghui Zhang",
+            "Yinghe Zhao",
+            "Cheng Li",
+            "Zhanwen Han",
+            "Yunkun Han",
+            "Xiaoyu Kang"
+        ],
+        "title": "Radial Profiles of Binary Fraction in Elliptical Galaxies",
+        "abstract": "The radial profile of binary fraction may vary with environment and is of significant importance for studying the formation mechanisms of binary stars and their dynamical evolution within globular clusters (GCs) and galaxies. However, existing studies remain limited to the Milky Way and its neighboring galaxies. Leveraging the method proposed by Zhang et al. for estimating the variation of binary fraction from integrated spectral features, we analyze a sample of 513 elliptical galaxies drawn from the Mapping Nearby Galaxies at Apache Point Observatory (MaNGA) survey to measure their radial binary fraction profiles. Our results show that after accounting for the effect induced by radial variations in the stellar population (SP), the median SP-subtracted binary fraction, $r_{\\rm b,sub}^{\\rm med}$, becomes approximately flat. For nearly all elliptical galaxies in our sample, the variation in binary fraction relative to the galaxy center at $1R_e$ is less than 5%. No clear correlation is found between the binary fraction gradient and the gradients of SP properties. Moreover, we also compare differences between ultraviolet (UV) upturn and non-UV upturn galaxies. The overall binary fraction profiles and SP properties of the non-UV upturn galaxies in our sample are comparable to those of the UV upturn galaxies. This similarity may arise from the presence of residual star formation (RSF) in the non-UV upturn systems.",
+        "arxiv_id": "2604.26724"
+    },
+    "2604.26398": {
+        "SCORE": 11,
+        "ARXIVID": "2604.26398",
+        "COMMENT": "This paper develops a machine-learning classifier for eclipsing binaries using TESS data. While it deals with stellar parameters and evolutionary processes, it does not present new stellar models or focus on resolved star formation histories from color-magnitude diagrams. The relevance is borderline due to its focus on stellar evolution, but not directly on the core topics.",
+        "RELEVANCE": 5,
+        "NOVELTY": 6,
+        "authors": [
+            "Shi-Qi Liu",
+            "Kai Li",
+            "Xiao-Dian Chen",
+            "Li-Heng Wang"
+        ],
+        "title": "The Phenomenological Classification of TESS Eclipsing Binaries",
+        "abstract": "Eclipsing binaries are crucial astrophysical laboratories for studying stellar parameters and evolutionary processes. In this study, we constructed a machine-learning-based model for systematic phenomenological classification of eclipsing binaries. We first extracted eclipsing binaries from the ASAS-SN variable star catalog and cross-matched them with TESS targets. The corresponding TESS light curves were processed through a unified pipeline, resulting in a high-quality training set of 9576 eclipsing binary light curves (2801 EA, 1930 EB, and 4845 EW systems). We designed and trained a fully connected neural network (FCNN) that achieved accuracy of 99.23% and 99.03% on the validation and test set respectively, demonstrating excellent performance. Applying the trained neural network to a total of 20196 TESS eclipsing binaries collected from multiple star catalogs and performing manual visual inspection, we finally obtained 13376 EA, 2114 EB, and 4706 EW systems. The standardized preprocessing pipeline and high-performance classifier developed in this study provide a reliable tool for the rapid automated classification of massive numbers of eclipsing binary in future photometric surveys.",
+        "arxiv_id": "2604.26398"
+    },
+    "2604.26433": {
+        "SCORE": 11,
+        "ARXIVID": "2604.26433",
+        "COMMENT": "This paper studies spherical collapse in a modified gravity theory and its implications for structure formation. While it touches on halo statistics and nonlinear structure formation, it does not directly address galaxy simulations, satellite galaxies, or resolved star formation histories. The relevance is borderline as it may have implications for galaxy formation, but is not directly focused on the core topics.",
+        "RELEVANCE": 5,
+        "NOVELTY": 6,
+        "authors": [
+            "A. M Vel\\'asquez-Toribio"
+        ],
+        "title": "Studying spherical collapse and its implications in the Eddington-inspired Born-Infeld gravity theory",
+        "abstract": "We investigate spherical collapse in Eddington-inspired Born--Infeld (EiBI) gravity in the subhorizon, pressureless, and quasi-static regime, emphasizing the matter-gradient correction that appears in the weak-field limit of the theory. Starting from the nonlinear continuity and Euler equations, we derive the evolution equation for the density contrast and show that the EiBI contribution depends explicitly on spatial derivatives of the matter density. This feature makes the ideal discontinuous top-hat construction ill-defined, since gradient terms become singular at the boundary, and requires a regularized overdensity profile together with a coarse-graining prescription. We adopt an effective physical-gradient closure for the EiBI source term and compare two matched initial configurations: a regularized Tanh profile and a peak-based profile, calibrated to share the same characteristic radius and cumulative mass proxy. Within this framework, we compute the linear collapse threshold $\\delta_c(z_{\\rm coll})$, the turnaround overdensity $\\delta_t(z_{\\rm coll})$, the turnaround radius $R_t(z_{\\rm coll})$, and the virial overdensity $\\Delta_{\\rm vir}(z_{\\rm coll})$. Relative to the $\\Lambda$CDM reference case, the EiBI correction lowers $\\delta_c$, enhances both $\\delta_t$ and $\\Delta_{\\rm vir}$, and produces a more modest reduction of $R_t$, with deviations increasing with the dimensionless coupling $\\hat\\kappa_{\\rm BI}$ over the range considered. The nonlinear overdensity observables show the strongest response to the EiBI correction and retain a residual dependence on the internal shape of the matched profile, whereas the turnaround radius is comparatively less affected. These results identify spherical collapse as a sensitive probe of EiBI matter-gradient couplings and motivate applications to halo statistics and nonlinear structure formation.",
+        "arxiv_id": "2604.26433"
+    },
+    "2604.25985": {
+        "SCORE": 11,
+        "ARXIVID": "2604.25985",
+        "COMMENT": "This paper presents new neural operator surrogate models for relativistic MHD simulations, specifically for black hole accretion and jet evolution. While it is a numerical simulation paper, the focus is on black hole accretion and jet physics, not galaxy-scale simulations or processes relevant to the core topics.",
+        "RELEVANCE": 3,
+        "NOVELTY": 8,
+        "authors": [
+            "Matthias N\\\"agele",
+            "Cedric B\\\"os",
+            "Chester Tan",
+            "Christian M. Fromm",
+            "Ingo Scholtes",
+            "Karl Mannheim"
+        ],
+        "title": "Learning Neural Operator Surrogates for the Black Hole Accretion Code",
+        "abstract": "General-relativistic magnetohydrodynamic (GR-MHD) simulations are essential for studying black hole accretion, relativistic jets, and magnetic reconnection, yet their computational cost severely limits systematic parameter exploration. We investigate neural operator surrogates for two astrophysically relevant simulation scenarios produced by the Black Hole Accretion Code (\\texttt{BHAC}).   First, a Physics Informed Fourier Neural Operator (PINO) is trained on the special-relativistic resistive MHD (SRRMHD) evolution of the Orszag-Tang vortex over a range of resistivities spanning the Sweet-Parker and fast reconnection regimes. By embedding the governing equations as an additional loss term evaluated at finer temporal resolution than the available data supervision, the model learns dynamics at time steps where no simulation data is provided, enabling recovery of plasmoid formation that a data-only baseline trained on the same sparse snapshots fails to reproduce. To our knowledge, the present work is the first application of a physics informed neural operator to special relativistic resistive MHD, and the first to investigate the capability of such models to resolve plasmoid formation in SRRMHD.   In a second line of investigation, an OFormer-style Transformer Neural Operator is trained on the evolution of spine-sheath relativistic jets created with \\texttt{BHAC}, in special-relativistic MHD (SRMHD). The model is directly applied on the adaptive mesh, highlighting the need for linear attention due to long sequences. The neural surrogate model is capable of capturing most of the major details, especially in early predictions. To our knowledge, this constitutes the first application of a neural operator directly on a high resolution adaptive mesh refinement grid in the context of MHD simulations.",
+        "arxiv_id": "2604.25985"
+    },
+    "2604.26574": {
+        "SCORE": 10,
+        "ARXIVID": "2604.26574",
+        "COMMENT": "The paper analyzes the cosmological evolution of fast radio bursts (FRBs) and their relation to star formation rate, but the focus is on FRBs and their origins, not on resolved star formation histories, galaxy simulations, or dwarf galaxies. The connection to star formation rate is tangential and not directly relevant to the core topics.",
+        "RELEVANCE": 4,
+        "NOVELTY": 6,
+        "authors": [
+            "X. D. Jia (NJU)",
+            "D. H. Gao (NJU)",
+            "J. H. Chen (NJU)",
+            "Q. Wu (NJU)",
+            "S. X. Yi (NJU)",
+            "F. Y. Wang (NJU)"
+        ],
+        "title": "Cosmological evolution of fast radio bursts and its rapid decline relative to star formation rate",
+        "abstract": "Fast radio bursts (FRBs) are enigmatic millisecond-duration radio transients whose physical origins remain debated. To shed light on this, we analyze the CHIME/FRB Catalog 2. By using the probability distribution of dispersion measured (DM) derived from the IllustrisTGN simulation, we compute the pseudo-redshift with $1\\sigma$ error for each FRB. To derive the FRB luminosity function and event rate, we employ a non-parametric statistical method. Building upon Efron-Petrosian method, we find strong luminosity evolution with redshift, well described by $L_0 \\propto (1+z)^{6.38}$. After de-evolving this trend, we apply Lynden-Bell's $C^-$ method to derive the comoving FRB formation rate which is found to decline rapidly at high redshift, following $\\rho(z) \\propto (1+z)^{-5.38 \\pm 0.02}$. We also test the robustness of our results by considering the upper and lower limits of pseudo-redshifts, and different flux limits of CHIME. Similar results are found. This steep decline is inconsistent with a direct tracing of the cosmic star formation rate, but closely resembles the redshift evolution of short gamma-ray bursts-systems linked to compact object mergers. Our results support that the origin of FRBs is associated with old populations, such as neutron stars and black holes.",
+        "arxiv_id": "2604.26574"
+    },
+    "2604.26015": {
+        "SCORE": 10,
+        "ARXIVID": "2604.26015",
+        "COMMENT": "This paper introduces a new weak lensing cosmography probe for dark energy using galaxy kinematics. While it is relevant to cosmological probes, it does not address galaxy-scale simulations, near-field cosmology, or resolved star formation histories. The relevance is low.",
+        "RELEVANCE": 3,
+        "NOVELTY": 7,
+        "authors": [
+            "Qinxun Li (University of Utah)"
+        ],
+        "title": "Kinematic Lensing Ratio: Reviving Weak Lensing Cosmography as a Geometric Dark Energy Probe",
+        "abstract": "We introduce the kinematic lensing ratio (KiLeR), a geometric dark-energy probe from weak lensing. Combining shear ratios with intrinsic galaxy shapes inferred from kinematics, KiLeR naturally mitigates most first-order lensing systematics, including redshift errors, intrinsic alignments, and baryonic effects. The forecast on Roman shows a 192% improvement in the state-of-the-art dark energy constraints from adding KiLeR, providing independent tests of the evolving dark energy hint in the DESI DR2 BAO+CMB+SN analysis. We quantify the science requirements on systematic and statistical error control and discuss the pathways towards KiLeR observation.",
+        "arxiv_id": "2604.26015"
+    },
+    "2604.26001": {
+        "SCORE": 10,
+        "ARXIVID": "2604.26001",
+        "COMMENT": "Quantum theory of alignment and polarization of very small dust grains, relevant for CMB foregrounds and ISM physics. No direct connection to galaxy evolution, star formation histories, or near-field cosmology.",
+        "RELEVANCE": 3,
+        "NOVELTY": 7,
+        "authors": [
+            "Boy Lankhaar"
+        ],
+        "title": "A quantum theory of the alignment and polarization of very small dust grains",
+        "abstract": "Context. Anomalous microwave emission (AME) is a component of interstellar medium emission peaking at 10-60 GHz. Its polarization is both a CMB foreground and a probe of the alignment physics of very small dust grains. Aims. We quantify when the purely rotational electric-dipole emission from very small interstellar grains (spinning dust/AME) can become measurably polarized, and we quantify related UV/optical/IR polarization diagnostics. Methods. We develop a quantum-mechanical symmetric-top model for an axisymmetric very small grain and express polarized emission and absorption coefficients in terms of irreducible density-matrix moments. Alignment is driven by anisotropic illumination; we solve a simplified two-manifold pumping model and compute (polarized) emission and absorption signatures for different dipole configurations and grain-size distributions. Results. Anisotropic illumination can generate polarized spinning-dust emission; in optimal geometries, polarization fractions near the emission peak reach the percent level, while more modest anisotropies reduce the polarization fraction. The same physics predicts polarized UV/optical/IR absorption that can be appreciable in strongly illuminated environments, whereas IR vibrational emission is predicted to be negligibly polarized. Conclusions. Spinning-dust polarization depends on radiation anisotropy, dipole geometry, and the competition between alignment pumping and depolarization by rotational emission. Joint constraints from AME polarization and UV/optical/IR absorption polarimetry provide a direct test of alignment by anisotropic radiation fields and help bound polarized microwave foregrounds.",
+        "arxiv_id": "2604.26001"
+    },
+    "2604.25994": {
+        "SCORE": 10,
+        "ARXIVID": "2604.25994",
+        "COMMENT": "This paper studies properties of black hole mergers in AGN disks using N-body simulations and semi-analytical models. The focus is on black hole populations and mergers, not on galaxy-scale simulations, dwarf galaxies, or star formation histories.",
+        "RELEVANCE": 3,
+        "NOVELTY": 7,
+        "authors": [
+            "Hiromichi Tagawa",
+            "Zolt\\'an Haiman",
+            "Bence Kocsis"
+        ],
+        "title": "Properties of black hole mergers in disks of active galactic nuclei",
+        "abstract": "Ground-based gravitational wave (GW) observatories have detected approximately 200 binary black hole (BH) mergers. The astrophysical origin of these events are debated, with evidence suggesting that at least a subset originated from dynamic environments characterized by frequent close encounters. Accretion disks in active galactic nuclei (AGNs) are of particular interest, as certain observed features could be more readily produced within such environments. In this paper, we investigate the expected properties of mergers in these environments, and their dependence on various parameters, using one-dimensional $N$-body simulations combined with a comprehensive semi-analytical model. In our fiducial model, the distributions of masses and mass ratios ($q$) are similar to those observed. However, they depend strongly on the lifetime and density of the AGN disk and on the number and accretion efficiency of BHs, with higher masses predicted as these quantities increase. The most massive mergers, such as GW231123, can be produced either by efficient gas accretion or by hierarchical mergers among $\\geq 3$ generations of BHs. The observed negative correlation between $q$ and the average effective spin ($\\chi_{\\rm eff}$), along with the positive correlation between $\\chi_{\\rm eff}$ and the chirp mass ($M_{\\rm chirp}$), can be explained by a combination of efficient gas accretion, which promotes spin alignment, and hierarchical mergers, which produce high-$|\\chi_{\\rm eff}|$ and low-$q$ binaries. Hierarchical mergers can also explain the negative correlation between $q$ and the dispersion of $\\chi_{\\rm eff}$, as well as the positive correlation between $|\\chi_{\\rm eff}|$ and $M_{\\rm chirp}$. We present a comprehensive study on how the expected distribution of each of these quantities depends on model parameters and assumptions, which will aid the interpretation of observed GW population properties.",
+        "arxiv_id": "2604.25994"
+    },
+    "2604.26952": {
+        "SCORE": 10,
+        "ARXIVID": "2604.26952",
+        "COMMENT": "This paper constructs and assesses outer-crust equations of state for neutron stars using nuclear mass models and machine learning. While it deals with stellar and nuclear physics, it does not present new stellar models for evolutionary tracks or atmospheres, nor does it address galaxy-scale processes or star formation histories.",
+        "RELEVANCE": 3,
+        "NOVELTY": 7,
+        "authors": [
+            "P. S. Koliogiannis",
+            "N. Paar"
+        ],
+        "title": "Outer-Crust Equations of State for Neutron Stars",
+        "abstract": "We construct and systematically assess four outer-crust equations of state based on relativistic nuclear mass models and a machine-learning mass table. Our aim is to quantify the sensitivity of the equilibrium composition and thermodynamic properties of the outer crust to the underlying nuclear input, and to evaluate how these differences propagate to neutron-star configurations that are particularly sensitive to crustal properties. Equilibrium sequences of nuclei were determined by minimizing the Gibbs free energy per baryon for cold, catalyzed matter in $\\beta$-equilibrium. The resulting outer-crust equations of state were then employed in neutron-star structure calculations near the minimum-mass limit, where global observables are especially sensitive to the low-density equation of state. The four nuclear models predict different equilibrium sequences, last bound nuclei, and neutron-drip properties. These differences are confined to the deepest layers of the outer crust, beyond current experimental mass coverage. Nevertheless, they propagate only weakly to crust-dominated neutron-star configurations: the gravitational mass, radius, crustal thickness, and fractional moment of inertia differ by less than one percent among the models considered. Modern nuclear-mass models provide consistent outer-crust equations of state for neutron-star applications. Although the detailed composition near neutron drip remains model dependent, the corresponding uncertainties have only a minor impact on the global properties of crust-dominated neutron stars. Therefore, these outer-crust equations of state provide a robust low-density description for astrophysical modelling and for future extensions toward unified neutron-star equations of state.",
+        "arxiv_id": "2604.26952"
+    },
+    "2604.26890": {
+        "SCORE": 10,
+        "ARXIVID": "2604.26890",
+        "COMMENT": "The paper presents Bayesian component separation and power spectrum estimation for 21 cm intensity mapping data cubes. While it is relevant to radio cosmology and large-scale structure, it does not focus on galaxy-scale phenomena, resolved star formation histories, or dwarf galaxies. The methods are not directly applicable to the core topics.",
+        "RELEVANCE": 3,
+        "NOVELTY": 7,
+        "authors": [
+            "Geoff G. Murphy",
+            "Philip Bull",
+            "Mario G. Santos",
+            "Zheng Zhang",
+            "Steven Cunnington"
+        ],
+        "title": "Bayesian component separation and power spectrum estimation for 21 cm intensity mapping data cubes",
+        "abstract": "Foreground removal remains an ongoing challenge in radio cosmology, and increasingly sensitive experiments necessitate more robust analysis techniques. In this work, we model simulated data from a single-dish intensity mapping experiment, and use the Gibbs sampling and Gaussian constrained realisation (GCR) techniques to draw samples from the posterior probability distribution of the model parameters. This allows for a separation of the foregrounds and 21 cm signal at the map level, as well as recovery of the 1-dimensional HI power spectrum to within statistical uncertainties. Despite the model consisting of over 2 million free parameters in the example presented here, these methods allow us to sample from the Bayesian posterior at a rate of $<30$ seconds per iteration. This framework is also resilient to frequency channel flagging (e.g. due to RFI excision), with the GCR steps effectively in-painting the missing data with statistically-consistent model realisations. The power spectrum is recovered accurately in the presence of strong foreground contamination and RFI flagging -- the estimate falling within $2\\sigma$ of the true model in our example, similar to the commonly-used transfer function correction method. Statistical realisations of foreground and HI maps are also recovered, with associated uncertainties available from the full joint posterior distribution of all parameters.",
+        "arxiv_id": "2604.26890"
+    },
+    "2604.26885": {
+        "SCORE": 9,
+        "ARXIVID": "2604.26885",
+        "COMMENT": "The paper presents a method for power spectrum estimation in 21cm interferometry, focusing on systematic effects. It is relevant to cosmological observations but does not address galaxy-scale simulations, near-field cosmology, or star formation histories. The relevance is low as it is more about observational methodology for cosmology.",
+        "RELEVANCE": 3,
+        "NOVELTY": 6,
+        "authors": [
+            "Sohini Dutta",
+            "Philip Bull",
+            "Jacob Burba",
+            "Michael J. Wilensky",
+            "Zheng Zhang",
+            "Ainulnabilah Nasirudin"
+        ],
+        "title": "Bayesian power spectrum estimation with modelling of systematic effects in delay-fringe rate space",
+        "abstract": "Observing the Epoch of Reionisation using 21cm radio interferometry has proven to be a challenging task. Extraction of the extremely faint redshifted signal is complicated by the presence of bright foregrounds, radio frequency interference (RFI), and systematic artefacts. We discuss the challenge of accounting for systematic effects, particularly cable reflections, that appear in the visibility data obtained from 21cm interferometers. Cable reflections cause attenuated copies of the foreground signal to appear outside the 'foreground wedge' region in which foreground contamination is supposed to be localised. We build on the hydra-pspec Gibbs sampler to implement a model of the systematics as a multiplicative effect in delay-fringe rate space. We include this model in the inference of the joint posterior distribution, in addition to the 21cm signal, its power spectrum, and foregrounds. This allows the systematics contribution to be marginalised, rather than filtering it out and causing additional signal loss. We demonstrate the method on simulated visibility data for a single baseline, showing that the 21cm delay power spectrum can be recovered well regardless of the location of the systematics in delay-fringe rate space. Our implementation is suitable for modelling other multiplicative factors on the visibilities, e.g. residual gain errors.",
+        "arxiv_id": "2604.26885"
+    },
+    "2604.26742": {
+        "SCORE": 9,
+        "ARXIVID": "2604.26742",
+        "COMMENT": "Analyzes spiral structure in barred galaxy simulations, focusing on material density waves and invariant manifolds. The focus is on massive barred galaxies, not dwarfs or satellites, and does not address the core topics directly.",
+        "RELEVANCE": 3,
+        "NOVELTY": 6,
+        "authors": [
+            "Toni Soler-Terricabras",
+            "Merc\\`e Romero-G\\'omez",
+            "Santi Roca-F\\`abrega"
+        ],
+        "title": "Invariant manifolds in barred galaxy simulations. I. Material density waves",
+        "abstract": "We investigate the dynamical origin and kinematic signatures of spiral structure in an N-body simulation of an isolated barred galaxy, assessing whether invariant manifold theory provides a consistent dynamical framework to disentangle the disc particle populations and to identify those that genuinely build, trace, and sustain the spiral arms. We compute the Jacobi energy of disc particles and classify them relative to the energies of the equilibrium points, thereby isolating manifold-compatible orbits. We analyse their spatial distribution and velocity structure to characterise spiral-related streaming motions. The Jacobi constant provides a physically motivated dynamical separator that reveals three distinct kinematic populations: (i) low-energy particles on nearly circular orbits populating most of the disc, (ii) high-energy particles associated with banana orbits, and (iii) manifold-compatible particles originating near the bar and following transit orbits along the spiral arms. Only the manifold-compatible population generates the prominent outward-migrating ridge observed in the R - v_phi plane and reproduces the characteristic spiral streaming pattern. In contrast, the low-energy population exhibits a global quasi-circular motion with small perturbations induced by the self-gravity of the spiral structure. Our results demonstrate that the spiral arms are dynamically traced by the manifold-compatible population, which forms the backbone of the structure and drives effective radial transport. The bulk of low-energy disc particles responds to the spiral perturbation similarly to the traditional density wave picture, enhancing the density contrast caused by the invariant-manifold compatible particles. In this framework, barred spiral arms emerge as material structures sustained by manifold-guided transport, with the surrounding disc behaving as a system of material density waves.",
+        "arxiv_id": "2604.26742"
+    },
+    "2604.25996": {
+        "SCORE": 9,
+        "ARXIVID": "2604.25996",
+        "COMMENT": "This paper focuses on relativistic jets from black holes and their magnetic structure, which is not directly related to any of the core topics such as near-field cosmology, dwarf galaxies, star formation histories, or galaxy simulations. The focus is on jet physics and accretion, not galaxy-scale processes.",
+        "RELEVANCE": 2,
+        "NOVELTY": 7,
+        "authors": [
+            "Krzysztof Nalewajko",
+            "Mateusz Kapusta",
+            "Bart Ripperda",
+            "Alexander A. Philippov"
+        ],
+        "title": "Distortion of a relativistic jet echoing a magnetic flux eruption",
+        "abstract": "Magnetized accretion onto spinning black holes can accumulate a large magnetic flux across the event horizon and launch a pair of relativistic jets via the Blandford-Znajek mechanism. In the magnetically saturated (arrested) state, excess magnetic flux is ejected from the black hole in episodic magnetic flux eruptions, which result in a significant yet temporary reduction of jet power. We analyze results of a high-resolution 3D general-relativistic magneto-hydro-dynamic numerical simulation of geometrically thick magnetically saturated accretion onto a high-spin Kerr black hole for a single cycle of magnetic flux eruption and accumulation. We show that following an eruption, a weakened jet develops a strong helical distortion with distinct structure of magnetic fields - the poloidal field along the jet core is unaffected by the eruption; while toroidal field lines, ejected from the black hole during the eruption and later re-advected onto it, form poloidal `bypasses' along the inner jet sheath. Such a distortion may appear in sources fed by geometrically thick accretion flows as an asymmetric superluminal knot, strongly interacting with the jet sheath along an oblique working surface. The jet section re-powered by magnetic flux re-accumulated on the black hole is tilted by a few degrees, implying significant variations in radiation boost towards observers of BL Lac blazars. The intrinsic structure of the jet spine is consistent with axisymmetric semi-analytical models.",
+        "arxiv_id": "2604.25996"
+    },
+    "2604.26253": {
+        "SCORE": 9,
+        "ARXIVID": "2604.26253",
+        "COMMENT": "The paper studies ultra-relativistic black hole encounters and gravitational wave emission, which is not related to galaxy-scale processes, near-field cosmology, or any of the core topics. The focus is on black hole dynamics and gravitational waves.",
+        "RELEVANCE": 2,
+        "NOVELTY": 7,
+        "authors": [
+            "Hengrui Zhu",
+            "Frans Pretorius",
+            "James M. Stone"
+        ],
+        "title": "Trapping, Irregular Waveforms, and Efficient Radiation in Ultra-relativistic Black Hole Encounters",
+        "abstract": "We demonstrate that ultra-relativistic black hole encounters reveal a new regime of the two-body interaction in general relativity. Evolving equal-mass, nonspinning black holes with initial center-of-mass Lorentz factors up to $\\gamma\\approx 5.1$ using numerical relativity, we find that the resulting waveforms defy the standard expectation of a post-Newtonian description followed by a smooth transition to a prompt Kerr ringdown. Instead, at nonzero impact parameter, the system can exhibit prolonged, highly irregular emission and significant horizon absorption, even without coalescence. We show these phenomena are driven by transient null trapping and repeated lensing of radiation in the binary interaction region. Furthermore, our simulations indicate that over $65\\%$ of the initial ADM energy can be radiated as gravitational waves at $\\gamma\\approx 5.1$, which is substantially larger than previously estimated by extrapolating from lower boost data.",
+        "arxiv_id": "2604.26253"
+    },
+    "2604.26004": {
+        "SCORE": 9,
+        "ARXIVID": "2604.26004",
+        "COMMENT": "This paper discusses axion detection via NaI detectors, focusing on particle physics and stellar sources in the Milky Way. It does not address any of the core topics such as galaxy simulations, star formation histories, or near-field cosmology.",
+        "RELEVANCE": 2,
+        "NOVELTY": 7,
+        "authors": [
+            "W. C. Haxton",
+            "Xing Liu",
+            "Anupam Ray",
+            "Evan Rule"
+        ],
+        "title": "Revisiting Turner Window Axions: The Untapped Potential of NaI Dark Matter Detectors",
+        "abstract": "The \"Turner window\" corresponds to axions with masses $\\gtrsim$ 1 eV that have sufficiently strong couplings to matter to evade limits from the cooling of SN1987A. This window, through which the trajectories for the KSVZ and DFSZ QCD axions run, has been thought to be largely closed because of (1) the floor established by SN1987A cooling, (2) the absence of SN1987A-associated photons in the Kamioka II detector, and (3) the limit on neutrons produced by solar axions in the Sudbury Neutrino Observatory. We show that a more complete treatment of the axion opacity in SN1987A, significantly weakens (2). Consequently, for axion or axion-like particles with hadronic couplings, $g_{ann}$ and $g_{app}$, significant regions within the Turner window now become viable. We describe a new opportunity to constrain such hadronically coupled axions via their resonant absorption in NaI detectors. The source is the Milky Way's carbon-burning stars -- the progenitors of ONeMg white dwarfs as well as electron-capture and core-collapse supernovae -- which synthesize significant quantities of $^{23}$Na, keeping it at temperatures $\\sim 10^9$K for periods up to tens of thousands of years. $^{23}$Na acts as a thermal pump to convert stellar energy into axions, which arrive at the Earth as a thermally broadened line at 440 keV. These axions can be detected via resonant absorption in NaI, with the needed detector arrays already in place, developed by DAMA/LIBRA and other collaborations to search for the elastic scattering of light WIMPs. In axion detection, NaI serves as both the target, producing $\\gamma$'s following resonant absorption, and the detector for those $\\gamma$'s. With current array masses and backgrounds, we find that the coupling range $|g_{app}| \\sim 10^{-6.5}$--$10^{-2}$ can be covered after two years of data, including QCD axions with $m_a \\gtrsim 10$ eV.",
+        "arxiv_id": "2604.26004"
+    },
+    "2604.24860": {
+        "SCORE": 9,
+        "ARXIVID": "2604.24860",
+        "COMMENT": "This paper presents a modified gravity theory and its cosmological solutions, focusing on bouncing cosmologies. It is not related to any of the core topics such as galaxy simulations, star formation histories, or near-field cosmology.",
+        "RELEVANCE": 2,
+        "NOVELTY": 7,
+        "authors": [
+            "Yermek Aldabergenov",
+            "Wei Lin",
+            "Rongjian Li",
+            "Ding Ding",
+            "Yidun Wan"
+        ],
+        "title": "Bouncing cosmologies from Born-Infeld-type gravity",
+        "abstract": "We construct a Born-Infeld-type $f(R,{\\cal G})$ modification of gravity, where ${\\cal G}$ is the Gauss-Bonnet term, by embedding Born-Infeld electrodynamics in a five-dimensional pure modified gravity. This method leads to the correspondence between curvature scalars and electromagnetic field strength scalars -- $R\\leftrightarrow F_{\\mu\\nu}F^{\\mu\\nu}$ and ${\\cal G}\\leftrightarrow (\\epsilon_{\\mu\\nu\\rho\\sigma}F^{\\mu\\nu}F^{\\rho\\sigma})^2$ -- allowing us to replicate the structure of Born-Infeld electrodynamics in the gravitational sector. The resulting Born-Infeld-type gravity is a ghost-free $f(R,{\\cal G})$ theory which reduces to Einstein gravity in the low energy limit. In this work we focus on bouncing cosmological solutions of such a theory, which require positive spatial curvature. By using both the Jordan and Einstein frame analyses, we find a vast space of bouncing solutions with different asymptotic behaviors, including solutions with multiple bounces grouped together. Observational consequences of such solutions will be investigated in the future.",
+        "arxiv_id": "2604.24860"
+    },
+    "2604.26273": {
+        "SCORE": 9,
+        "ARXIVID": "2604.26273",
+        "COMMENT": "Examines the robustness of the spectral siren technique for measuring the Hubble constant using gravitational wave sources. While cosmological, it does not address any of the core topics (no connection to dwarf galaxies, star formation histories, quenching, stellar models, galaxy simulations, outflows, or CGM).",
+        "RELEVANCE": 2,
+        "NOVELTY": 7,
+        "authors": [
+            "Christos Karathanasis",
+            "Suvodip Mukherjee",
+            "Lalit Pathak",
+            "Sergio Vallejo-Pe\\~na",
+            "Mohit Raj Sah",
+            "Beno\\^it Revenu",
+            "Antonio Enea Romano",
+            "Juan Garcia-Bellido"
+        ],
+        "title": "Blinded Mock Data Challenge: Is the Spectral Siren Technique Robust for Measuring the Hubble Constant?",
+        "abstract": "The measurement of the Hubble constant from gravitational wave (GW) sources is one of the independent avenues to shed light on the Hubble tension, which is associated with about an $8\\%$ mismatch in the value of the Hubble constant inferred from low-redshift and high-redshift cosmological probes. Such a key measurement is expected from GW sources as it is a direct measurement of the Hubble constant using the luminosity distance without the need for any luminosity distance calibration. However, such a measurement relies strongly on the reliability of the independent inference of the source redshift of the GW source. As a result, it becomes pertinent to gauge the accuracy and precision of techniques in understanding their reliability in inferring redshifts of GW sources. In this work, we show the requirement of the spectral siren technique in knowing the mass distribution of BBHs across cosmic redshifts in order to make a reliable inference of the Hubble constant. We show by a blinded mock data challenge analysis the criticality in capturing the underlying metallicity dependence of the BBH mass distribution and its interplay with time-delay distribution for a robust inference of the Hubble constant using the spectral siren technique. In order to have a reliable measurement of the Hubble constant at the level required to resolve the Hubble tension in the future, the mass distribution of the BBHs needs to be independently inferred at all relevant redshifts with an accuracy less than the statistical uncertainty. Otherwise, a mismatch of the true model and the underlying assumption made in the analysis can lead to a best-fit model for the wrong value of both BBH population parameters as well as the Hubble constant.",
+        "arxiv_id": "2604.26273"
+    },
+    "2604.26912": {
+        "SCORE": 9,
+        "ARXIVID": "2604.26912",
+        "COMMENT": "This paper focuses on gravitational-wave signatures from hierarchical subsolar-mass mergers in collapsar disks, specifically involving neutron-star fragments. While it deals with compact object mergers and accretion disks, it does not address any of the core topics such as near-field cosmology, resolved star formation histories, galaxy simulations, or stellar models. The focus is on gravitational wave astrophysics and compact object dynamics, which are outside the main criteria.",
+        "RELEVANCE": 2,
+        "NOVELTY": 7,
+        "authors": [
+            "Jiaxi Wu",
+            "Elias R. Most",
+            "Nils L. Vu",
+            "Nils Deppe",
+            "Lawrence E. Kidder",
+            "Kyle C. Nelli",
+            "William Throwe"
+        ],
+        "title": "Eccentricity as a signature of hierarchical subsolar-mass mergers in collapsar disks",
+        "abstract": "In this work, we investigate gravitational-wave signatures of a proposed subsolar-mass merger scenario resulting from fragmentation inside a collapsar accretion disk. This scenario has gained recent interest with the electromagnetic transient AT2025ulz, a possible superkilonova counterpart candidate to the sub-threshold gravitational wave event S250818k. One prediction of fragmentation is the formation of multiple smaller neutron-star fragments, some of which might merge hierarchically. Such mergers are expected not only to produce individual electromagnetic counterparts, but also, because of their repeated capture and merger dynamics, to impart kicks to the system and thereby drive orbital eccentricity. By performing numerical relativity simulations of hierarchical compact object mergers modeled as black holes in a disk-like geometry consistent with this scenario, we demonstrate the build-up of potentially large eccentricity for the final merger, of order $e \\simeq 0.6$ initially, and show that, because of the short lifetime of the system, a substantial part of this eccentricity , up to $e\\simeq 0.1$, can survive until merger in the general case. As a result, future detections of eccentricities in potential subsolar-mass gravitational-wave candidate events would be a strong indicator for a hierarchical formation scenario.",
+        "arxiv_id": "2604.26912"
+    },
+    "2604.25991": {
+        "SCORE": 9,
+        "ARXIVID": "2604.25991",
+        "COMMENT": "This paper studies spectroscopic variability in a high-redshift 'Little Red Dot' (LRD), likely an accreting black hole system. The focus is on AGN-like phenomena and ionization mechanisms at z~7, not on resolved star formation histories, dwarf galaxies, or galaxy simulations. The topic is outside the main criteria, as it does not address near-field cosmology or the other specified topics.",
+        "RELEVANCE": 2,
+        "NOVELTY": 7,
+        "authors": [
+            "Erini Lambrides",
+            "Taylor A. Hutchison",
+            "Rebecca L. Larson",
+            "Pablo Arrabal Haro",
+            "Casey Papovich",
+            "Weida Hu",
+            "Nikko J. Cleri",
+            "Steven L. Finkelstein",
+            "Jonathan R. Trump",
+            "Pablo G. Perez-Gonzalez",
+            "Bingjie Wang",
+            "Dale D. Kocevski",
+            "John Chisholm",
+            "Amy Secunda",
+            "Sarah E. I. Bosman",
+            "Hollis Akins",
+            "Mitchell Karmen",
+            "Mark Dickinson",
+            "Volker Bromm",
+            "Bren E. Backhaus",
+            "Marco Chiaberge",
+            "Olivia R. Cooper",
+            "Yukta Ajay",
+            "Guillermo Barro",
+            "Danielle A. Berg",
+            "Jenna Cann",
+            "M. C. Cooper",
+            "Norman A. Grogin",
+            "Michaela Hirschmann",
+            "Marc Huertas-Company",
+            "Jeyhan S. Kartaltepe",
+            "Anton M. Koekemoer",
+            "Ray A. Lucas",
+            "Arianna S. Long",
+            "Roberto Gilli",
+            "Colin Norman",
+            "Andrew F. Ptak",
+            "Chris T. Richardson",
+            "Jane R. Rigby",
+            "Brittany N. Vanderhoof",
+            "L. Y. Aaron Yung",
+            "Jorge A. Zavala"
+        ],
+        "title": "The GlimmIr: Spectroscopic Variability in a z~7 LRD Indicates Rapid Changes in Both the Narrow and Broad Line Regions",
+        "abstract": "The enigmatic population of ``Little Red Dots'' (LRDs) sit at the center of some of the largest debates in extragalactic astronomy today. The source(s) of ionizing emission and the physical scale over which it governs is still largely unknown. We show for the first time spectroscopic variability in a z ~ 7 LRD. Comparing a recently obtained 10.2 hr JWST/NIRSpec F290LP/G395M spectrum via the C3PO survey to an 8.4 hr F290LP/G395M spectrum taken 99 days earlier (~13 rest-days) via the THRILS survey, we find a ~30% $ difference in the continuum and broad-line flux, and a 42% difference between [OIII]5008 flux in the two epochs. Through rigorous testing, we confirm that such differences are not the result of differing MSA slit placements on source nor merely flux calibration offsets. These results are further corroborated by both a similar continuum and [OIII]5008 flux differences found in NIRSpec prism/clear observations of the source at an epoch taken approximately a year earlier than the THRILS observations via RUBIES and an additional observation fortuitously taken during the THRILS epoch (within a rest-day) via the CAPERS survey. Assuming LRDs are a type of accreting black hole system, this implies direct sight-lines must exist from the accretion disk to the surrounding nebular gas on scales beyond the broad-line region, and thus any high-density gas interpretations must allow for covering fractions < 100%. Furthermore, these results show the [OIII] line emission is likely not galaxy process-dominated, with a significant population of the narrow-line emitting gas closest to the broad-line region being directly ionized by the LRD. Finally, these results highlight the need for new approaches in inferring black hole properties of these systems, accounting for the lack of significant ionization via star formation, and/or exploring more exotic host-galaxy conditions at these early epochs.",
+        "arxiv_id": "2604.25991"
+    },
+    "2604.26194": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26194",
+        "COMMENT": "This paper focuses on particle acceleration in relativistic turbulent magnetic reconnection, with applications to black hole coronae, gamma-ray bursts, and AGN jets. It does not match any of the core criteria (e.g., near-field cosmology, dwarf galaxies, star formation histories, galaxy simulations, etc.).",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Shi-Min Liang",
+            "Jian-Fu Zhang",
+            "Nian-Yu Yi"
+        ],
+        "title": "The $\\beta$-Dependence of Particle Spectra in Relativistic Turbulent Reconnection",
+        "abstract": "We perform numerical simulations of particle acceleration in relativistic, self-driven turbulent magnetic reconnection using the MHD-PIC method. We systematically investigate the dependence of the non-thermal particle spectral exponent on the plasma $\\beta$. We find that particle acceleration proceeds in two stages: an initial, efficient first-order Fermi phase where momentum gains are comparable in parallel and perpendicular directions, followed by a slower drift-dominated phase. The power-law slope of the non-thermal spectrum is established during the Fermi phase, as found in previous studies. Our results demonstrate a systematic steepening of the accelerated particle energy spectrum with increasing $\\beta$. We derive empirical scaling relations: the spectral exponent $\\alpha \\propto \\beta^{0.5}$ in the relativistic regime, compared to $\\alpha \\propto \\beta^{0.3}$ in the non-relativistic case. This marked difference is rooted in relativistic physics: the increased inertial mass density ($\\rho h$) in high-$\\beta$ plasmas acts as an energy sink, reducing the Alfv\\'en velocity and thereby altering the dynamics of magnetic energy release and its partition efficiency. The derived scaling provides a unified physical framework for interpreting the diversity of non-thermal radiation spectra observed in astrophysical sources, including black hole corona X-ray flares, gamma-ray bursts, and active galactic nucleus jets.",
+        "arxiv_id": "2604.26194"
+    },
+    "2604.26702": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26702",
+        "COMMENT": "Detailed optical study of a cataclysmic variable (dwarf nova) with disc wind signatures. The focus is on accretion physics and binary systems, not on galaxies, star formation histories, or relevant simulations.",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Nikita Rawat",
+            "David A. H. Buckley",
+            "John R. Thorstensen",
+            "Christian Knigge",
+            "Yusuke Tampo",
+            "Stephen B. Potter",
+            "Anupam Bhardwaj",
+            "Simone Scaringi",
+            "Ilya A. Mereminskiy",
+            "Jeewan C. Pandey",
+            "Srinivas M Rao",
+            "Alexander A. Lutovinov"
+        ],
+        "title": "SRGA J115215.0$-$510656: an unusual long-period eclipsing dwarf nova with disc wind signatures",
+        "abstract": "We present the first detailed optical study of the cataclysmic variable SRGA J115215.0$-$510656, based on new time-resolved photometric and spectroscopic observations complemented by long-baseline Transiting Exoplanet Survey Satellite (TESS) data. The TESS light curve reveals deep, recurring eclipses consistent with a high-inclination geometry and an orbital period of 0.43567659(9)d. The eclipse morphology during outburst is consistent with a possible 'inside-out' type outburst and supports classification of the system as a U Gem-type dwarf nova. By combining eclipse phase width and ellipsoidal modulation, we constrain the system geometry to a narrow locus in the $(q,i)$ plane, with allowed mass ratios $0.28 \\lesssim q \\lesssim 0.84$ and inclinations $i$ $\\simeq$75$-$84$^{\\circ}$. The persistence of single-peaked Balmer lines during outburst, together with strong He II emission and a flattened Balmer decrement, points towards emission arising in a disc wind or vertically extended regions above the disc. Absorption features from a late-type secondary star (approximately K3) are detected, contributing roughly 30 per cent of the red optical flux. Comparison with main-sequence expectations suggests that the donor star is moderately inflated, consistent with a mildly evolved secondary. With its long orbital period, modest outburst amplitude, and emission-line characteristics, SRGA J115215.0$-$510656 appears to be a rare and compelling example of a bright, long-period dwarf nova whose optical properties are influenced by disc-wind processes during outburst.",
+        "arxiv_id": "2604.26702"
+    },
+    "2604.26011": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26011",
+        "COMMENT": "Study of parameter-estimation bias in extreme-mass-ratio inspirals (EMRIs) due to transient orbital resonances. The focus is on gravitational wave sources and orbital dynamics, not on galaxies, star formation, or relevant simulations.",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Edoardo Levati",
+            "Alejandro C\\'ardenas-Avenda\\~no"
+        ],
+        "title": "Parameter-estimation bias induced by transient orbital resonances in extreme-mass-ratio inspirals",
+        "abstract": "Given the multi-frequency nature of relativistic orbits, transient orbital resonances are expected to be ubiquitous during an extreme-mass-ratio inspiral (EMRI). At a resonance, the orbital dynamics is modified in a nontrivial way, imprinting an overall dephasing in the emitted gravitational waves and potentially impacting both the detection and parameter estimation of these sources. In this work, using a Fisher-matrix approach, we investigate the bias induced by transient orbital resonances in EMRI parameter estimation. We focus on the most dynamically significant low-order resonances, 3 : 2 and 2 : 1, as well as on the high-order, subdominant resonances 3 : 1 and 4 : 3. We find that, for most of the orbits considered, neglecting the effect of a resonance crossing leads to significant losses in signal-to-noise ratio and induces bias in parameter recovery. Furthermore, both the sign and the amplitude of the resonance-induced modifications to the integrals of motion play a crucial role and must be modeled accurately. Our results provide further evidence that failing to model transient orbital resonances accurately can hinder EMRI detection and parameter estimation, thereby limiting their scientific potential.",
+        "arxiv_id": "2604.26011"
+    },
+    "2604.26439": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26439",
+        "COMMENT": "The paper reviews chemical complexity in the TMC-1 dark cloud, focusing on molecular detections and chemical models. It does not address any of the core topics such as galaxy-scale processes, star formation histories, or stellar models.",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Marcelino Agundez",
+            "Jose Cernicharo"
+        ],
+        "title": "TMC-1: probing the onset of chemical complexity in space",
+        "abstract": "In recent years, the obsessive interest in the observation of TMC-1 has brought a boost in our knowledge of the chemistry of cold dark clouds. The number of molecules detected in this particular cloud has been more than doubled. Two observational programmes, GOTHAM and QUIJOTE, are responsible for this spectacular achievement. Here we provide an overall view of QUIJOTE, which is a line survey carried out in the Q band (31-50 GHz) with the Yebes 40m radiotelescope, summarize the actual observational status of TMC-1, and discuss the chemistry of this remarkable source. We highlight the successes and failures of state-of-the-art chemical models to describe its chemical composition, with a particular emphasis on the origin of PAHs, which is yet far from being understood.",
+        "arxiv_id": "2604.26439"
+    },
+    "2604.26114": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26114",
+        "COMMENT": "This paper analyzes charge diffusion and modulation transfer function in the Roman Space Telescope detector, which is relevant for instrumentation and weak lensing measurements, but not for any of the core topics such as galaxy simulations, star formation histories, or stellar models.",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Emily Macbeth",
+            "Katherine Laliotis",
+            "Christopher M. Hirata",
+            "Christopher Merchant"
+        ],
+        "title": "Charge diffusion and modulation transfer function in a Nancy Grace Roman Space Telescope detector",
+        "abstract": "The Nancy Grace Roman Space Telescope (Roman) is an observatory motivated by the search to understand dark energy, exoplanets, and general astrophysics. Roman will bring unprecedented amounts of precision to weak gravitational lensing measurements, which necessitates an improved understanding of instrumental signatures in star and galaxy images. One feature is the modulation transfer function (MTF), which includes contributions from charge diffusion in Roman's infrared detector arrays. As part of the detector characterization effort, a detector from the flight lots (but ultimately not selected for flight) was illuminated with a laser speckle pattern. We present an analysis of the laser speckle data, including MTF measurements in several wavelengths. We fit several models for the charge diffusion profile, including: (i) a Gaussian profile; (ii) a hyperbolic secant (sech) profile; and (iii) a general drift-diffusion model that includes the Gaussian and sech as limiting cases. We find that the sech model produces an acceptable fit with no need for the additional parameter and is strongly preferred over the Gaussian. The standard deviation per axis of the sech profile is $0.3279^{+0.0043}_{-0.0042}$(stat)$\\pm0.0093$(sys) pixels, with the systematic error dominated by non-linearities. We find no detectable wavelength dependence over the range from 850--2000 nm. The model informs survey strategy for weak lensing measurements and has been included in simulations used to develop the data processing pipelines for the Roman mission.",
+        "arxiv_id": "2604.26114"
+    },
+    "2604.26925": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26925",
+        "COMMENT": "This paper assesses spectral resolution requirements for biosignature detection in exoplanet atmospheres, focusing on instrument design for the Habitable Worlds Observatory. It is not related to any of the core topics such as galaxy simulations, star formation histories, or near-field cosmology.",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Samantha Gilbert-Janizek",
+            "Jacob Lustig-Yaeger",
+            "Joshua Krissansen-Totton"
+        ],
+        "title": "The effect of spectral resolution on biosignature detection via reflected light observations of the Earth through time",
+        "abstract": "NASA's Habitable Worlds Observatory (HWO) will search for biosignatures on Earth-like exoplanets using reflected light spectroscopy. A critical instrument design parameter is resolving power, which must balance biosignature detectability against exposure time and detector noise constraints. We assess the resolving power needed to detect and characterize key biosignature gases and habitability indicators including O$_2$, O$_3$, H$_2$O, CH$_4$, CO$_2$ and CO across atmospheres representing the Archean, Proterozoic, and Phanerozoic Earth. We combine analytical detectability calculations spanning spectral resolutions ($\\lambda/\\Delta{\\lambda}$) $R=20$-$5000$ with atmospheric retrievals using the rfast radiative transfer model and pyEDITH exposure time calculator for realistic wavelength-dependent noise modeling. In the visible ($0.4$-$1.0$ $\\mu$m), the nominal resolution $R_{Vis}=140$ is sufficient for detecting O$_2$ in Phanerozoic-like atmospheres. Higher resolutions could theoretically reduce exposure times for low-O$_2$ Proterozoic atmospheres, but require $>10\\times$ reductions in dark current and could increase H$_2$O detection exposure times by $\\sim 2\\times$, penalizing the foundational habitability constraint that anchors downstream biosignature searches. The most efficient path for low-O$_2$ atmospheres may instead be indirect inference via O$_3$, whose Hartley-Huggins bands are detectable at $R_{UV}\\sim 7$. In the near-IR ($1.0$-$1.7$ $\\mu$m), $R_{NIR}\\geq40$ is necessary to avoid a degeneracy between CO$_2$ and CO that could produce false positive detections of abundant CO. The nominal $R_{NIR}=70$ is sufficient for characterizing all Earth-through-time cases. These results support HWO's current baseline resolution choices and provide actionable guidance for finalizing spectrometer requirements while maintaining technological feasibility for the search for life on exoplanets.",
+        "arxiv_id": "2604.26925"
+    },
+    "2604.26780": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26780",
+        "COMMENT": "Describes the real-time analysis framework for the KM3NeT neutrino telescope, relevant to multi-messenger astronomy but not to any of the core topics (no connection to near-field cosmology, star formation histories, quenching, stellar models, galaxy simulations, outflows, or CGM).",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Martina Marconi (on behalf of the KM3NeT Collaboration)"
+        ],
+        "title": "Status of the KM3NeT real-time analysis framework",
+        "abstract": "Multi-messenger astronomy requires real-time systems capable of rapidly responding to external alerts and sharing significant detections with partner observatories. KM3NeT, a deep-sea Cherenkov neutrino telescope in the Mediterranean Sea, is actively contributing to these efforts through a dedicated real-time analysis framework. It comprises two detectors - ARCA, optimised for TeV-PeV neutrinos, and ORCA, for GeV-TeV neutrinos - both also sensitive to MeV neutrinos from core-collapse supernovae, providing a wide field of view and an almost continuous duty cycle. The framework performs low-latency event reconstruction and classification, follows up external alerts from the multi-messenger community, monitors for core-collapse supernova neutrino bursts, and autonomously identifies and distribute cosmic neutrino alerts. Now in advanced commissioning, the KM3NeT real-time alert system represents a major step toward rapid, coordinated multi-messenger observations.",
+        "arxiv_id": "2604.26780"
+    },
+    "2604.26005": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26005",
+        "COMMENT": "The paper discusses primordial black holes as dark matter candidates, focusing on their formation in supersymmetric models. While it is related to cosmology and dark matter, it does not address near-field cosmology, satellite galaxies, star formation histories, galaxy simulations, or stellar models. The topic is outside the main criteria, as it is not focused on galaxy-scale phenomena or resolved stellar populations.",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Andrea Boccia",
+            "Marco Chianese"
+        ],
+        "title": "Asteroid-mass Primordial Black Holes as Dark Matter from Supersymmetry",
+        "abstract": "We study the formation of asteroid-mass Primordial Black Holes (PBHs) as a dark matter candidate in supersymmetric extensions of the Standard Model. We show that the presence of heavy particles predicted in the Minimal Supersymmetric Standard Model (MSSM) can lead to a transient softening of the equation of state of the Universe during their non-relativistic transition, enhancing PBH formation. We compute the effective equation of state for different realizations of the MSSM mass spectrum, parametrized by three characteristic mass scales. Assuming a broad and approximately scale-invariant primordial curvature power spectrum, we evaluate the resulting PBH mass functions and compare them with current observational constraints. We find that, for supersymmetric masses above $\\sim 10^5\\,\\mathrm{GeV}$, the PBH mass function is significantly enhanced in the asteroid-mass window, allowing PBHs to account for the total dark matter abundance without violating existing bounds. In contrast, within the Standard Model the same configurations lead to PBH mass functions that are observationally excluded. For lighter supersymmetric mass spectra, PBH production is shifted toward masses above $\\sim 10^{22}\\,\\mathrm{g}$, which are strongly constrained by microlensing searches, thereby reducing their allowed contribution to the dark matter density.",
+        "arxiv_id": "2604.26005"
+    },
+    "2604.26468": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26468",
+        "COMMENT": "This paper investigates optical outbursts in intermediate polars (IPs), a type of cataclysmic variable. The focus is on accretion phenomena and short-timescale bursts in binary systems, not on galaxy-scale processes, resolved star formation histories, or dwarf galaxies. The topic is outside the main criteria.",
+        "RELEVANCE": 2,
+        "NOVELTY": 6,
+        "authors": [
+            "Jake Mendelsohn",
+            "Simone Scaringi",
+            "Martina Veresvarska",
+            "Krystian I{\\l}kiewicz"
+        ],
+        "title": "A Systematic Search for Optical Outbursts in IPs Using ASAS-SN",
+        "abstract": "Cataclysmic variables can show rapid increases in optical flux. Intermediate polars (IPs), a subset with strong magnetic fields that disrupt the inner accretion disc, have been thought to possess truncated discs that rarely undergo the disc-instability outbursts seen in dwarf novae. However, the discovery of micronovae and magnetic-gating bursts suggests that such events may occur even without a fully developed disc. Using data from the All-Sky Automated Survey for Supernovae (ASAS-SN), we identify a previously unrecognised population of short-timescale optical outbursts in IPs. Initial energy estimates indicate that at least half of these bursts may be consistent with micronovae, though limited cadence reduces our ability to classify each event with high confidence. These detections should therefore be regarded as evidence of short outbursts in IPs rather than definitive micronova identifications. Our results show that such bursts are more common in IPs than assumed and may include a substantial fraction of micronovae. Simulations reveal that if micronovae occur once per year at regular intervals, up to 30\\% of the shortest bursts could be missed over a 10-year observing baseline. Under the same assumptions, and assuming all IPs display micronovae, we would expect 50--70\\% of IPs to show these bursts, yet only 14\\% of known IPs in our sample do so. This discrepancy suggests that not all IPs undergo micronovae. Overall, this work establishes the first comprehensive set of short burst detections in IPs, providing a foundation for future investigations and a list of candidate micronova systems for follow-up analysis.",
+        "arxiv_id": "2604.26468"
+    },
+    "2604.26930": {
+        "SCORE": 8,
+        "ARXIVID": "2604.26930",
+        "COMMENT": "Investigates blazar flaring mechanisms using polarization angle variability, which is not related to any of the core topics (no connection to dwarf galaxies, star formation histories, quenching, stellar models, galaxy simulations, outflows, or CGM).",
+        "RELEVANCE": 1,
+        "NOVELTY": 7,
+        "authors": [
+            "Haocheng Zhang (University of Maryland Baltimore County",
+            "NASA Goddard Space Flight Center)",
+            "Benjamin de Jonge (Washington University in St Louis)",
+            "Manel Errando (Washington University in St Louis)",
+            "Xiaocan Li (Los Alamos National Lab)",
+            "Fan Guo (Los Alamos National Lab",
+            "New Mexico Consortium)"
+        ],
+        "title": "Energy-Dependent Polarization Angle Variability as a Robust Diagnostic for Blazar Flaring Mechanisms",
+        "abstract": "Identifying the physical mechanism driving blazar flares remains a central challenge in high-energy astrophysics. We show that the energy dependence of the standard deviation of the polarization angle variability ($\\sigma_\\text{PA}$) provides a powerful and robust discriminator of blazar flaring mechanisms. Using particle-in-cell-integrated polarized radiative transfer simulations, we perform to-date the most rigorous statistical analyses of polarization variability. We demonstrate that magnetic reconnection and magnetized turbulence imprint qualitatively distinct energy dependence of $\\sigma_\\text{PA}$ that directly reflect their different magnetic field evolution and particle transport. Reconnection predicts higher $\\sigma_\\text{PA}$ with higher photon energy till the synchrotron spectral peak, whereas turbulence produces nearly flat $\\sigma_\\text{PA}$ across the synchrotron spectral component. These trends are resilient to realistic observational limitations. Applying our results to optical and IXPE data of Mrk~421 and 1ES~1959+650, we find strong evidence for reconnection-driven flares embedded in a turbulent blazar zone. Energy-dependent $\\sigma_\\text{PA}$ emerges as a decisive new probe of particle acceleration in relativistic jets.",
+        "arxiv_id": "2604.26930"
+    },
+    "2604.26690": {
+        "SCORE": 7,
+        "ARXIVID": "2604.26690",
+        "COMMENT": "This paper computes nonlinear relativistic effects on cosmological redshift drift using perturbation theory. It is focused on cosmological theory and not on galaxy-scale phenomena, resolved star formation histories, or dwarf galaxy properties. The relevance is low.",
+        "RELEVANCE": 2,
+        "NOVELTY": 5,
+        "authors": [
+            "Pierre B\\'echaz",
+            "Giuseppe Fanizza",
+            "Giovanni Marozzi",
+            "Matheus R. Medeiros Silva"
+        ],
+        "title": "Nonlinear Relativistic Effects on Cosmological Redshift Drift",
+        "abstract": "Using a fully gauge-invariant approach, we compute for the first time in the literature relativistic effects on the redshift drift up to second order in cosmological perturbation theory. This is achieved by employing a set of light-cone coordinates that simplify the description of light propagation in an inhomogeneous and anisotropic universe. We show that redshift-space distortion occurs only as a second-order effect whereas, as known, it is not present among the linear perturbations. We then derive analytical expressions of the bispectrum for the leading-order perturbative contributions on sub-Hubble scales, providing some numerical evaluations. Our finding is that, at low redshift and for large momenta, the non-linearities in the bispectrum are enhanced more than the squared power spectrum.",
+        "arxiv_id": "2604.26690"
+    },
+    "2604.26777": {
+        "SCORE": 7,
+        "ARXIVID": "2604.26777",
+        "COMMENT": "This paper describes the commissioning and first results of a fast photon counter instrument (IQUEYE) for ultra-fast astronomy, including observations of pulsars and FRBs. It does not match any of the core criteria (no focus on galaxies, star formation histories, or relevant simulations).",
+        "RELEVANCE": 2,
+        "NOVELTY": 5,
+        "authors": [
+            "Tomas Cassanelli",
+            "Pascual Marcone-Puga",
+            "Giampiero Naletto",
+            "Luca Zampieri",
+            "Paolo Ochner",
+            "Michele Fiori",
+            "Alessia Spolon",
+            "Susana B. Araujo Furlan",
+            "Albert Wai Kit Lau",
+            "Ryan Mckinven"
+        ],
+        "title": "IQUEYE at Gemini South: instrument, science commission, and first results",
+        "abstract": "The Italian quantum eye (IQUEYE) is a fast photon counter based on the single photon avalanche diode detectors and capable of preserving a ~0.5 ns/h accuracy photon time of arrival. IQUEYE was originally developed for intensity interferometry experiments, but now its scientific scope has been extended towards ultra fast astronomy, including optical pulsars, millisecond pulsars and the enigmatic fast radio bursts. IQUEYE's capabilities are mainly restricted by the number of photons detected, a quantity that scales with the collector size of an optical telescope. Through the visitor instrument program at Gemini South (Cerro Pach\\'on, Chile) we brought IQUEYE to the 8.1-m dish, reaching an order magnitude sensitivity increased from previous operations. At Gemini South we installed IQUEYE to observe giant pulse emitters, millisecond pulsars, and transitional millisecond pulsars for over 40 hours in the span of a week.",
+        "arxiv_id": "2604.26777"
+    },
+    "2604.26876": {
+        "SCORE": 7,
+        "ARXIVID": "2604.26876",
+        "COMMENT": "Overview of neutron skin thickness in finite nuclei and its connection to neutron stars. The focus is on nuclear physics and neutron stars, not on galaxies, star formation, or near-field cosmology.",
+        "RELEVANCE": 2,
+        "NOVELTY": 5,
+        "authors": [
+            "C. A. Bertulani"
+        ],
+        "title": "Neutron Stars and Neutron Skins: Connecting Finite Nuclei to Dense Matter",
+        "abstract": "This is a brief overview of the connection between neutron skin thickness in finite nuclei and the equation of state of neutron-rich matter, with applications to neutron stars. Multiple experimental probes are discussed, including dipole polarizability, parity-violating electron scattering, heavy-ion fragmentation, quasi-free scattering, and ultraperipheral collisions. A consistent picture emerges from Bayesian analyses combining experimental data and energy density functionals, providing constraints on the symmetry energy and its slope.",
+        "arxiv_id": "2604.26876"
+    },
+    "2604.26795": {
+        "SCORE": 7,
+        "ARXIVID": "2604.26795",
+        "COMMENT": "Presents a new formulation for vacuum decay with reduced symmetry, which is theoretical particle physics and not related to any of the core topics.",
+        "RELEVANCE": 1,
+        "NOVELTY": 6,
+        "authors": [
+            "Jos\\'e R. Espinosa",
+            "Ryusuke Jinno",
+            "Thomas Konstandin",
+            "Shogo Matake",
+            "Taiga Miyachi"
+        ],
+        "title": "A positive definite formulation of vacuum decay with reduced symmetry",
+        "abstract": "The Euclidean bounce for vacuum decay enjoys an $O(4)$ symmetry that is lost in the presence of impurities than can catalyze the decay. We present a formulation for the calculation of the tunneling decay action, that is explicitly positive definite, for impurities whose effects are spherically symmetric so that the bounce symmetry is reduced to $O(3)$. The action constructed can be regarded as a generalization of the tunneling potential method, which implicitly assumed $O(4)$ symmetry. We show that the action obtained reduces to the tunneling potential for $O(4)$-symmetric cases and provide analytic examples with $O(3)$ symmetry and arbitrary wall thickness.",
+        "arxiv_id": "2604.26795"
+    },
+    "2604.26710": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26710",
+        "COMMENT": "This paper focuses on a short-period binary system with solar-type stars and analyzes long-term variability due to photospheric spots and orbital period changes. It does not match any of the core criteria such as near-field cosmology, resolved star formation histories, or stellar models. The focus is on binary star variability, not galaxy-scale phenomena.",
+        "RELEVANCE": 2,
+        "NOVELTY": 4,
+        "authors": [
+            "S. M. Rucinski"
+        ],
+        "title": "A short-period binary OGLE-BLG-ELL-006503 showing slow variations in brightness",
+        "abstract": "Analysis of 28 years of OGLE project data for the 0.404 day period binary OGLE BLG ELL-006503 (V1231 Sco) shows a superposition of tidal-interaction variations of about 0.07 magnitude in the I-band onto a time-scale 5-10 year, 0.15-0.17 magnitude brightness drift. Seasonal light-curves suggest that this long-term variability is driven by large photospheric spots (approx 0.3 stellar radii) that exhibit a tendency to orient themselves relative to the tidal interaction line. The eclipse time O-C residuals reveal an orbital period change characterized by a timescale of approximately 2x10^6 years, suggesting a mild mass redistribution, potentially linked to global magnetic fields reconfiguration. Gaia parallax and absolute magnitude estimates indicate a system consisting of solar-type stars. The lack of eclipses and extreme spot activity suggest the binary may consist of late-type, tidally-deformed stars rather than a typical W UMa-type system.",
+        "arxiv_id": "2604.26710"
+    },
+    "2604.26915": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26915",
+        "COMMENT": "This paper tests scale-dependent modified gravity using DESI data, focusing on constraints on deviations from general relativity. It does not address any of the core topics such as near-field cosmology, galaxy simulations, or star formation histories.",
+        "RELEVANCE": 2,
+        "NOVELTY": 4,
+        "authors": [
+            "D. Gonzalez (DESI Collaboration)",
+            "G. Niz (DESI Collaboration)",
+            "A. Aviles (DESI Collaboration)",
+            "C. Garcia-Quintero (DESI Collaboration)",
+            "H. E. Noriega (DESI Collaboration)",
+            "J. Aguilar (DESI Collaboration)",
+            "S. Ahlen (DESI Collaboration)",
+            "D. Bianchi (DESI Collaboration)",
+            "D. Brooks (DESI Collaboration)",
+            "T. Claybaugh (DESI Collaboration)",
+            "A. de la Macorra (DESI Collaboration)",
+            "A. de Mattia (DESI Collaboration)",
+            "P. Doel (DESI Collaboration)",
+            "S. Ferraro (DESI Collaboration)",
+            "J. E. Forero-Romero (DESI Collaboration)",
+            "E. Gazta\\~naga (DESI Collaboration)",
+            "S. Gontcho A Gontcho (DESI Collaboration)",
+            "G. Gutierrez (DESI Collaboration)",
+            "C. Hahn (DESI Collaboration)",
+            "K. Honscheid (DESI Collaboration)",
+            "D. Huterer (DESI Collaboration)",
+            "M. Ishak (DESI Collaboration)",
+            "R. Joyce (DESI Collaboration)",
+            "S. Juneau (DESI Collaboration)",
+            "R. Kehoe (DESI Collaboration)",
+            "D. Kirkby (DESI Collaboration)",
+            "M. Landriau (DESI Collaboration)",
+            "L. Le Guillou (DESI Collaboration)",
+            "M. E. Levi (DESI Collaboration)",
+            "M. Manera (DESI Collaboration)",
+            "A. Meisner (DESI Collaboration)",
+            "R. Miquel (DESI Collaboration)",
+            "S. Nadathur (DESI Collaboration)",
+            "W. J. Percival (DESI Collaboration)",
+            "I. P\\'erez-R\\`afols (DESI Collaboration)",
+            "G. Rossi (DESI Collaboration)",
+            "L. Samushia (DESI Collaboration)",
+            "E. Sanchez (DESI Collaboration)",
+            "D. Schlegel (DESI Collaboration)",
+            "H. Seo (DESI Collaboration)",
+            "J. Silber (DESI Collaboration)",
+            "D. Sprayberry (DESI Collaboration)",
+            "G. Tarl\\'e (DESI Collaboration)",
+            "B. A. Weaver (DESI Collaboration)",
+            "R. Zhou (DESI Collaboration)"
+        ],
+        "title": "Testing Scale-Dependent Modified Gravity with DESI DR1",
+        "abstract": "The Dark Energy Spectroscopic Instrument (DESI) provides an unprecedented opportunity to test deviations from general relativity (GR) that introduce a new physical scale within its redshift range. Using the connection between a Yukawa-like potential and the Hu-Sawicki $f(R)$ model, we place strong constraints on the range of a hypothetical fifth force mediated by a massive scalar field. We analyze the power spectrum measurements from DESI Data Release 1 using a baseline EFT model that employs the fkpt approach for the loop integrals. We find no evidence for deviations from GR and obtain the constraint $\\log_{10} |f_{R_0}| < -4.59$ (95\\% C.L.). This corresponds to an upper bound at redshift zero on the scale at which corrections to GR become important, $\\lambda  3.60 \\times 10^{-31}$ eV. We find that the modified gravity parameter $f_{R_0}$ is largely orthogonal to the cosmological parameters in the model, such that no additional projection effects relative to the GR case are introduced in this Full-Shape analysis. Furthermore, a second modified gravity parameter, the power index $n$, which modulates the time-variation of the associated mass, is found to be consistent with previous analyses that fixed it to unity. Adding DESI BAO data or other cosmological probes does not significantly change these results. The conclusions remain similar if the background evolution is described by evolving dark energy instead of a cosmological constant. Additionally, we test the robustness of the baseline model by varying the maximum wavenumber used in the Full-Shape analysis and analyzing the DESI targets separately. Finally, we analyze the degeneracies between the modified-gravity parameters and the sum of neutrino masses.",
+        "arxiv_id": "2604.26915"
+    },
+    "2604.26003": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26003",
+        "COMMENT": "This paper analyzes the solar wind charge exchange contribution to the soft X-ray sky, focusing on foreground emission and mapping interstellar matter flow. It does not address any of the core topics.",
+        "RELEVANCE": 2,
+        "NOVELTY": 4,
+        "authors": [
+            "K. Dennerl",
+            "G. Ponti",
+            "X. Zheng",
+            "M. J. Freyberg",
+            "S. Friedrich",
+            "Th. M\\\"uller",
+            "M. C. H. Yeung"
+        ],
+        "title": "Determination of the Solar System contribution to the soft X-ray sky",
+        "abstract": "Solar wind charged particles interact with diffuse gas within the heliosphere, producing soft X-rays. This solar wind charge exchange (SWCX) process produces foreground emission that complicates interpretation of X-ray observations. In this work, we analyze X-ray observations of the western Galactic hemisphere by the Extended Roentgen Survey with an Imaging Telescope Array (eROSITA) instrument on the Spectrum-Roentgen-Gamma (SRG) spacecraft. These data avoid contamination by Earth's geocorona and are derived from four surveys of the full sky, including during the minimum of the Sun's activity cycle. We determine the SWCX contribution and subtract it from the survey, providing a less contaminated view of the diffuse soft X-ray sky. We also demonstrate that X-rays can be used to map the flow of interstellar matter through the Solar System.",
+        "arxiv_id": "2604.26003"
+    },
+    "2604.26542": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26542",
+        "COMMENT": "Studies rotational characteristics and photometric variability in hot stars, which is not related to any of the core topics (no connection to dwarf galaxies, star formation histories, quenching, stellar models, galaxy simulations, outflows, or CGM).",
+        "RELEVANCE": 2,
+        "NOVELTY": 4,
+        "authors": [
+            "Pavl\\'ina Rutov\\'a",
+            "Marek Skarka",
+            "Ji\\v{r}\\'i \\v{Z}\\'ak",
+            "Pavol Gajdo\\v{s}"
+        ],
+        "title": "Rotational characteristics of five photometrically variable stars",
+        "abstract": "This study explores photometric variability in a sample of hot stars in order to test whether variability arises from rotational modulation due to surface temperature spots. Frequencies determined from the projected rotational velocities were compared with frequencies estimated on the basis of TESS light curves. In all five cases, the spectroscopic frequency was lower than the photometric one preserving possibility that the observed brightness variations can be rotationally induced. In two of our targets, HT Cet and HD 219487, the photometric frequency spectra suggest more complex variability, likely pulsations. Our results suggest that spot activity inducing rotational modulation may exist in stars hotter than 6500 K, highlighting the value of combined spectroscopic and photometric analysis of variations.",
+        "arxiv_id": "2604.26542"
+    },
+    "2604.26137": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26137",
+        "COMMENT": "This paper reports Parker Solar Probe observations of reconnection exhaust boundaries and mirror-mode structures in the heliospheric current sheet. It is focused on solar and plasma physics, not galaxy-scale phenomena or stellar models.",
+        "RELEVANCE": 1,
+        "NOVELTY": 5,
+        "authors": [
+            "Weijie Sun",
+            "Tai Phan",
+            "Jia Huang",
+            "Yi-Hsin Liu",
+            "James A. Slavin",
+            "Orlando Romeo",
+            "Mingzhe Liu",
+            "Vassilis Angelopoulos",
+            "Ali Rahmati",
+            "Davin Larson",
+            "Nehpreet Walia",
+            "Stuart Bale",
+            "Marc Pulupa",
+            "Jiutong Zhao",
+            "Roberto Livi"
+        ],
+        "title": "Parker Solar Probe Observations of Compound Reconnection Exhaust Boundaries and Mirror-Mode Structures in the Near-Sun Heliospheric Current Sheet",
+        "abstract": "Magnetic reconnection is a fundamental physical process that can drive rapid conversion of magnetic energy into plasma bulk flows, thermal heating, and particle acceleration in space and astrophysical plasmas. Classical reconnection theory predicts that the Alfvenic reconnection exhausts are bounded by pairs of slow-mode shocks. However, identifying and characterizing these shocks through in situ spacecraft observations remains a challenge. Here we report Parker Solar Probe (PSP) observations of a reconnection exhaust embedded in the heliospheric current sheet (HCS) at a heliocentric distance of 12.2 R_O. The reconnection exhaust is bounded on both boundaries by compound magnetic structures rather than a pair of pure slow shocks. Each boundary consists of a rapidly evolving, steep inner slow shock, whose Mach numbers and shock-normal angles change significantly within several minutes, and an outer, gradual compound structure which comprises a slow shock and a rotational discontinuity. These slow shocks are quasi-perpendicular and are accompanied by enhanced proton perpendicular heating. Deep within the reconnection exhaust, high perpendicular temperature together with large plasma beta trigger mirror instability and generate mirror-mode structures. These observations provide new insights into the structure of reconnection exhaust boundaries and their role in energy conversion in the near-Sun plasma.",
+        "arxiv_id": "2604.26137"
+    },
+    "2604.26013": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26013",
+        "COMMENT": "Constraints on neutrino millicharge from supernova neutrinos in Galactic magnetic fields. The focus is on particle physics and supernova neutrinos, not on galaxies, star formation, or relevant simulations.",
+        "RELEVANCE": 1,
+        "NOVELTY": 5,
+        "authors": [
+            "Pedro Dedin Neto",
+            "AmirFarzan Esmaeili",
+            "Guilherme A. Nogueira",
+            "Pedro Cunha de Holanda",
+            "Ernesto Kemp"
+        ],
+        "title": "Time-of-Flight Constraints on Neutrino Millicharge from Supernova Neutrinos in Galactic Magnetic Fields",
+        "abstract": "A millicharged neutrino propagating through magnetic fields experiences a small Lorentz-force deflection, which induces a geometric time delay. In the ultra-relativistic regime relevant for supernova neutrinos, this delay scales as $q_\\nu^2 E_\\nu^{-2}$, where $q_\\nu$ and $E_\\nu$ denote the neutrino millicharge and energy, respectively, and thus shares the same leading energy dependence as the standard time-of-flight delay induced by neutrino mass. Motivated by this similarity, we propose a framework to reinterpret supernova time-of-flight limits on neutrino mass as constraints on neutrino millicharge. We express both effects in terms of a common $E_\\nu^{-2}$ dispersion coefficient and compute the millicharge-induced contribution using a line-of-sight-dependent magnetic delay kernel, extending the original SN1987A uniform-field estimate. Applying this translation to existing SN1987A limits and to projected sensitivities for future Galactic core-collapse supernova observations, we obtain bounds ranging from the $\\sim 10^{-17}\\, e$ level for SN1987A to the low-$10^{-19}\\, e$ regime for next-generation Galactic bursts, with optimistic combinations of detector sensitivity and Galactic sightline approaching $\\sim 10^{-20}\\, e$. We compare these results with other bounds in the literature and discuss how nonzero neutrino mass affects the interpretation.",
+        "arxiv_id": "2604.26013"
+    },
+    "2604.26171": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26171",
+        "COMMENT": "Focuses on changing-look AGN and photometric variability due to dust clouds, which is not related to any of the core topics (no connection to dwarf galaxies, star formation histories, quenching, stellar models, galaxy simulations, outflows, or CGM).",
+        "RELEVANCE": 1,
+        "NOVELTY": 5,
+        "authors": [
+            "Zhang XueGuang (GXU)"
+        ],
+        "title": "Unique photometric variability in SDSS J134628.62+173659.5: clues for moving dust clouds as physical origin of changing-look AGN",
+        "abstract": "The scenario of variations in accreting process around central black hole has been widely accepted as the preferred physical origin of changing-look active galactic nuclei (CLAGN), rather than obscuration effects by moving dust clouds. In this manuscript, after analyzing long-term photometric variability in Type-1.8 AGN SDSS J1346+1736 with apparent broad H$\\alpha$ but very weak broad H$\\beta$, robust clues for obscurations can be confirmed with confidence level higher than 10$\\sigma$. Then, based on obscurations related to moving dust clouds, from dark state with E(B-V)$\\sim$1.26 to bright state with E(B-V)$\\sim$0.55, apparent both broad H$\\alpha$ and broad H$\\beta$ can be clearly expected. Meanwhile, the expected line luminosity from reddening corrected continuum luminosity is consistent with the reddening corrected line luminosity, to support the obscuration effects. Furthermore, through symmetric features in the light curves, probability is only 3.2\\% in SDSS J1346+1736 to support the scenario of variations of accretion rates traced by CAR process. Therefore, besides the more and more preferred scenario of variations in accreting process, the scenario of moving dust clouds could be more reasonable in some CLAGN with apparent variations in optical colors.",
+        "arxiv_id": "2604.26171"
+    },
+    "2604.26036": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26036",
+        "COMMENT": "Introduces a method for tracking solar active region evolution before major flares, which is solar physics and not related to any of the core topics.",
+        "RELEVANCE": 1,
+        "NOVELTY": 5,
+        "authors": [
+            "Augustin Andr\\'e-Hoffmann",
+            "Marianna B. Kors\\'os",
+            "Alexander Nindos",
+            "Spiros Patsourakos",
+            "Manolis K. Georgoulis",
+            "Robertus Erd\\'elyi"
+        ],
+        "title": "Brightenings AnD Polarity Inversion Tracking (BADPIT) method for studying solar active region evolution before major solar flares",
+        "abstract": "This study investigates the relationship between extreme ultraviolet (EUV) transient brightenings (TBs) and the onset of GOES X-class solar flares in active regions (ARs). We introduce the Brightenings AnD Polarity Inversion Tracking (BADPIT) method that detects TBs across multiple SDO/AIA channels. To identify TBs, we impose two independent thresholds: a 3-(sigma) intensity-based criterion and a power-law divergence approach. We apply the BADPIT method to datasets of a flaring and a non-flaring AR for 24 hours as a pathfinder to a comprehensive statistical study for a complete performance verification: the flare-productive AR 11429 and the quiescent AR 13186, both sharing a similar Hale sunspot classification. Preliminary results are encouraging: significantly more TBs are detected in the flaring AR, with up to five times more 3-(sigma) thresholded TBs, while power-law thresholded events were frequent only in the flaring AR and mostly absent in the non-flaring AR. We find that both the power-law threshold method and the 3-(sigma) method can be useful diagnostic tools for distinguishing between imminent flaring or not, several hours before the onset of major solar flares.",
+        "arxiv_id": "2604.26036"
+    },
+    "2604.26442": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26442",
+        "COMMENT": "Studies gamma-ray emission from a millisecond pulsar, focusing on pulse profiles and bow-shock nebulae. Not related to any of the core topics.",
+        "RELEVANCE": 1,
+        "NOVELTY": 5,
+        "authors": [
+            "Ziwei Ou"
+        ],
+        "title": "Point-like Off-pulse GeV Emission from the Millisecond Pulsar PSR J0437-4715",
+        "abstract": "PSR J0437-4715 is a gamma-ray millisecond pulsar, which has been detected by Fermi-LAT. For understanding the nature, we analyze the GeV gamma-ray data obtained with Fermi-LAT around the pulsar region. Based on the pulsar timing ephemeris, we derived the gamma-ray pulse profile and defined on-pulse and off-pulse phase intervals. A binned likelihood analysis was performed to investigate the spectral properties of the pulsar across different phase ranges. No spatial extension was detected for off-pulse, with an upper limit radius of 0.12 degree. We further investigate the relationship between gamma-ray luminosity, X-ray luminosity, and bow-shock radius for a sample of pulsars with detected bow-shock PWN. The relationship between gamma-ray luminosity and X-ray luminosity is explored. The conversion efficiency from spin-down power to GeV emission of outer gap model is consistent with a termination shock located close to the pulsar. We discuss the potential nature of off-pulse GeV emission and the connection to bow shock pulsar wind nebulae.",
+        "arxiv_id": "2604.26442"
+    },
+    "2604.26135": {
+        "SCORE": 6,
+        "ARXIVID": "2604.26135",
+        "COMMENT": "This paper presents a machine learning method for classifying gamma-ray burst progenitors from prompt emission. It does not match any of the specified criteria, as it focuses on GRBs rather than galaxies, star formation histories, or cosmology.",
+        "RELEVANCE": 1,
+        "NOVELTY": 5,
+        "authors": [
+            "Skye Strain",
+            "Nicol\\'o Cibrario",
+            "Michela Negro",
+            "Eric Burns"
+        ],
+        "title": "Label Propagation for Identifying Gamma-Ray Burst Progenitors from Prompt Emission",
+        "abstract": "Gamma-ray bursts (GRBs) are the most energetic bursts of light in our universe, and rapid progenitor association of these events can lead to targeted and optimized follow-up observations, ultimately providing better insights about the physics involved. In this note, we investigate a semi-supervised machine learning algorithm, that utilizes label propagation, as a classification method. Using a dataset of 2512 GRBs we evaluate the method's ability to assign probabilistic class memberships based on a subset of events with known progenitors. Further analysis is ongoing to improve the method and future progress will be made to refine the classification algorithm and the dataset.",
+        "arxiv_id": "2604.26135"
+    },
+    "2604.26371": {
+        "SCORE": 5,
+        "ARXIVID": "2604.26371",
+        "COMMENT": "The paper models wavefront error in spaceborne laser interferometry, relevant for gravitational wave detection missions. It does not address any of the core galaxy-related criteria.",
+        "RELEVANCE": 1,
+        "NOVELTY": 4,
+        "authors": [
+            "Ya-Zheng Tao",
+            "Rui-Hong Gao",
+            "Guangzhou Xu",
+            "Yue-Liang Wu"
+        ],
+        "title": "Analytical Modeling of Far-Field Wavefront Error with Beam-Waist and Lateral-Shift Effects in Spaceborne Laser Interferometry",
+        "abstract": "The coupling between far-field wavefront error (WFE) and laser pointing jitter is an important source of tilt-to-length (TTL) noise in spaceborne laser interferometric links. We extend the Nijboer--Zernike analytical model for far-field WFE of truncated Gaussian beams by incorporating two practical initial-condition parameters, the beam-waist-to-aperture ratio $q$ and the normalized lateral spot-shift ratio $s_r$, to account for realistic beam truncation and alignment conditions.   Based on this model, we analyze the influence of $q$ on far-field WFE in addition to the conventional received-power trade-off, showing that decreasing $q$ from 1 to 0.9 and from 0.9 to 0.8 reduces the mean far-field WFE by approximately 10\\% and 14\\%, respectively, in Monte Carlo simulations of random initial aberrations. We also derive the direct contribution of lateral spot shift and its coupling with transmitted WFE (constrained to $\\lambda/20$). For the normalized lateral spot-shift ratio $s_r$, a $2~\\mu\\mathrm{m}$ entrance-pupil displacement in a Taiji-like telescope corresponds to $s_r=0.001$ and produces a phase-angle coupling coefficient of about $0.0892~\\mathrm{pm/nrad}$, close to the typical far-field TTL requirement $0.1~\\mathrm{pm/nrad}$, while the spot-shift--aberration coupling terms are much smaller and can be neglected in practical tolerance estimation. These results provide a theoretical basis for beam-parameter optimization and alignment tolerance design in future space-based gravitational-wave detection missions.",
+        "arxiv_id": "2604.26371"
+    },
+    "2604.26608": {
+        "SCORE": 5,
+        "ARXIVID": "2604.26608",
+        "COMMENT": "This paper uses polar ice core measurements to constrain the Carrington event, focusing on solar energetic particle events and geomagnetic storms. It does not address any of the core galaxy-related criteria.",
+        "RELEVANCE": 1,
+        "NOVELTY": 4,
+        "authors": [
+            "F. Mekhaldi",
+            "C. I. Paleari",
+            "A. M. Smith",
+            "A. Aldahan",
+            "J. Beer",
+            "M. Christl",
+            "C. Vockenhuber",
+            "H. Hayakawa",
+            "M. Curran",
+            "T. Erhardt",
+            "C. Plummer",
+            "K. Simon",
+            "K. Wilcken",
+            "M. Zheng",
+            "R. Muscheler"
+        ],
+        "title": "36Cl Concentrations from Polar Ice Cores Set New Constraints on the Carrington Event",
+        "abstract": "The Carrington event of 1859 CE is considered as one of the largest geomagnetic storms of the observational era, and often used as a benchmark for a worst-case scenario. Yet, there exists no robust evidence of an associated solar energetic particle event of a significant magnitude, based on measurements of cosmogenic radionuclides 10Be and 14C from ice cores and tree rings, respectively. In this study, we present two 36Cl records from Greenland with 2-year and 4-year resolution from the EGRIP and NGRIP ice-core sites, together with semi-annual 10Be data from EGRIP, as well as annual 10Be and 36Cl concentrations from the Dome Summit Site, Law Dome, East Antarctica. We observe no significant 36Cl concentration increase around 1859 CE in the three records. This allows us to rule out an extreme solar energetic particle event hitting Earth associated with the Carrington event in terms of fluence above 30 MeV. Based on these ice core 36Cl measurements, we can suggest two scenarios: i) a soft SEP event with a maximum fluence above 30 MeV up to three times larger than any Space Age event or, ii) the possibility that there was no Earth-bound SEP event.",
+        "arxiv_id": "2604.26608"
+    },
+    "2604.26307": {
+        "SCORE": 5,
+        "ARXIVID": "2604.26307",
+        "COMMENT": "Study of coronal mass ejections (CMEs) and their interaction with coronal holes, focusing on solar physics. No connection to galaxies, star formation, or any of the core criteria.",
+        "RELEVANCE": 1,
+        "NOVELTY": 4,
+        "authors": [
+            "Suresh Karuppiah",
+            "Mateja Dumbovi\\'c",
+            "Karmen Martini\\'c",
+            "Manuela Temmer",
+            "Stephan G. Heinemann",
+            "Bojan Vr\\v{s}nak"
+        ],
+        "title": "Early Evolution of Earth-Directed Coronal Mass Ejections in the Vicinity of Coronal Holes",
+        "abstract": "We investigate the deflection and rotation behavior of 49 Earth-directed coronal mass ejections (CMEs) spanning the period from 2010 to 2020 aiming to understand the potential influence of coronal holes (CHs) on their trajectories. We perform the GCS reconstruction in multiple time steps and we consider the difference in the longitude, latitude, and inclination between the first and last GCS reconstructions as possible signatures of deflection/rotation. Furthermore, we examine the presence of nearby CHs at the time of eruption and employ the Collection of Analysis Tools for Coronal Holes (CATCH) to estimate relevant CH parameters. To assess the potential influence of CHs on the deflection and rotation of CMEs, we calculate the Coronal Hole Influence Parameter (CHIP) for each event and analyse its relationship with their trajectories. A statistically significant difference is observed between CHIP force and the overall change in a CME's direction in the lower corona. The overall change in a CME's direction accounts cumulatively for the change in latitude, longitude, and rotation. This suggests that the CHIP force in the low corona has a significant influence on the overall change in the direction of Earth-directed CMEs. However, as the CME evolves outward, the CHIP force becomes less effective in causing deflection or rotation at greater distances. Additionally, we observe a negative correlation between the deflection rate of the CMEs and their velocity, suggesting that higher velocities are associated with lower deflection rates. Hence, the velocity of a CME, along with the magnetic-field from CHs, appears to play a significant role in the deflection of CMEs.",
+        "arxiv_id": "2604.26307"
+    },
+    "2604.26513": {
+        "SCORE": 5,
+        "ARXIVID": "2604.26513",
+        "COMMENT": "The paper investigates parity violation during inflation and its implications for primordial gravitational waves, with a focus on PTA signals. This is unrelated to the specified criteria.",
+        "RELEVANCE": 1,
+        "NOVELTY": 4,
+        "authors": [
+            "Gianmassimo Tasinato"
+        ],
+        "title": "Transient Parity Violation during Inflation: Implications for PTA Gravitational Waves",
+        "abstract": "We investigate the consequences of a transient phase of enhanced parity violation during inflation. Modeling this phase through a time-localized Chern--Simons-like coupling, we show that it amplifies primordial gravitational waves at small scales, producing a robust spectral shape with a blue growth of effective slope $n_T \\simeq 2$, largely insensitive to microscopic details. This prediction lies in the range explored by recent pulsar timing array (PTA) analyses under cosmological power-law interpretations, while differing from the canonical supermassive black hole binary expectation. Our framework thus provides a predictive cosmological template to benchmark astrophysical versus primordial origins of the signal, consistent with cosmic microwave background bounds. The signal also exhibits large linear polarization and non-trivial Stokes correlations, corresponding to an almost maximally phase-coherent helicity state. Such features are difficult to realize in classical stochastic backgrounds, and their detection would provide circumstantial evidence for a primordial, coherently generated origin of the gravitational-wave background.",
+        "arxiv_id": "2604.26513"
+    },
+    "2604.26646": {
+        "SCORE": 5,
+        "ARXIVID": "2604.26646",
+        "COMMENT": "This paper focuses on turbulence and heating in the solar chromosphere and corona, which does not match any of the specified criteria such as near-field cosmology, resolved star formation histories, or galaxy simulations. The focus is on solar physics, not galaxies or their satellites.",
+        "RELEVANCE": 1,
+        "NOVELTY": 4,
+        "authors": [
+            "Gary P. Zank",
+            "Xiaocan Li",
+            "Krishna Khanal",
+            "Alphonse C. Sterling",
+            "Masaru Nakanotani",
+            "Linging Zhao",
+            "Laxman Adhikari",
+            "Yalim Mehmet",
+            "Subramania Athiray Panchapakesan",
+            "Fan Guo",
+            "Ronald L. Moore"
+        ],
+        "title": "Turbulence and its Potential Impact on Solar Chromospheric and Coronal Heating",
+        "abstract": "Low-frequency turbulence in the solar chromosphere remains poorly understood. We address 1) the sources of low-frequency turbulence that potentially heat the chromosphere, and 2) how turbulence is transported and dissipated throughout the chromosphere and lower corona. We use particle-in-cell simulations to investigate mixed polarity magnetic fields corresponding to emergent magnetic carpet field in coronal holes or quiet Sun regions for strong (imbalanced) and weak (balanced) guide magnetic fields. The initial mixed polarity magnetic field transitions rapidly to a turbulent state dominated by advected small-scale nonlinear structures, with a minority slab turbulence population and the emergent field is largely annihilated. Turbulence is anisotropic for imbalanced magnetic field and more isotropic for balanced cases. We develop a transport model for turbulence advected and dissipated throughout the chromosphere by randomly distributed energy-containing scale dynamical flows described by log-normal statistics. We compute the expectations for the total energy per unit volume (h) J m^{-3}, the Elsasser specific energy (h) m^2 s^{-2}, the heating rate (h) J m^{-3} s^{-1}, and the correlation length (h) km as functions of height h above the photosphere. Turbulent energy is injected into the low corona by a random \"patchwork\" of sites across the transition region surface. The expected energy injection rates  J m^{-2} s^{-1} for the chromosphere and at the base of the corona exceed the estimated energy requirements needed to heat both the chromosphere and corona. Similarly, we show that spicules can be heated gradually with increasing height by entrained magnetic carpet and photospheric turbulence.",
+        "arxiv_id": "2604.26646"
+    },
+    "2604.26581": {
+        "SCORE": 5,
+        "ARXIVID": "2604.26581",
+        "COMMENT": "This paper is about machine learning methods for density estimation in gravitational-wave searches, which is unrelated to any of the core astrophysics criteria (near-field cosmology, galaxy simulations, etc.).",
+        "RELEVANCE": 1,
+        "NOVELTY": 4,
+        "authors": [
+            "Sam Insley",
+            "Michael J. Williams",
+            "Rahul Dhurkunde",
+            "Ian Harry"
+        ],
+        "title": "Normalizing flows for density estimation in multi-detector gravitational-wave searches",
+        "abstract": "Identifying compact binary coalescences buried within the non-Gaussian and non-stationary data taken by gravitational-wave interferometers requires sophisticated search pipelines, such as the PyCBC analysis. A critical task for these pipelines is determining the statistical significance of candidate events by comparing a \"ranking statistic\" against a large background set. Currently, PyCBC's ranking statistic incorporates the joint probability of the relative arrival times, phase delays and amplitude ratios of the signals seen in different detectors. These parameters are tightly constrained for physical signals but are more broadly distributed for noise. PyCBC currently relies on precomputed binned histogram-based density estimators using Monte-Carlo simulations to obtain these probabilities. However, the storage requirements for these histograms scale prohibitively with the size of the detector network, preventing PyCBC from effectively analyzing four or more detectors. In this paper, we demonstrate that these histograms can be replaced with normalizing flows, a machine learning approach to density estimation. Applying this method to data from the third observing run of Advanced LIGO and Virgo, we demonstrate that normalizing flows reduce storage requirements by over three orders of magnitude. Furthermore, our approach maintains high sensitivity, with less than a 0.05% drop in the recovery of simulated signals at a fixed false-alarm rate. By relaxing several simplifying assumptions previously required by Monte-Carlo methods, we also achieved up to a 6.55% increase in recovered signals for specific detector combinations. These results suggest that normalizing flows provide a scalable, flexible framework for the PyCBC pipeline as it expands to include four or more detectors, or to extend to searches for precessing or higher-mode signals, in future observing runs.",
+        "arxiv_id": "2604.26581"
+    },
+    "2604.26191": {
+        "SCORE": 4,
+        "ARXIVID": "2604.26191",
+        "COMMENT": "The paper discusses gravitational properties of monopole bags in axionic cosmologies, focusing on hybrid defects and their gravitational collapse. This is unrelated to the specified criteria.",
+        "RELEVANCE": 1,
+        "NOVELTY": 3,
+        "authors": [
+            "Yu Komiya",
+            "Fumihiro Takayama"
+        ],
+        "title": "Gravitational Properties of the Monopole Bag",
+        "abstract": "Axionic cosmologies constitute a class of models with phenomenologically rich symmetry breaking in the early universe. In the case where monopoles are present in such a background, the axion profile may be deformed; it is possible to construct a ``monopole bag\" state composed of a central monopole within a closed axion domain wall. We consider the gravitational properties of this hybrid defect, and find a both horizon-less and a black hole-like final state can result as remnants of the monopole-domain wall system after gravitational collapse for different input parameters. We demonstrate that the latter classifies as dyonic regular black hole, evading the usual singular gravitational collapse and retaining a non-trivial axionic profile through exotic electromagnetic properties of an axionic Chern-Simons term.",
+        "arxiv_id": "2604.26191"
+    },
+    "2604.26395": {
+        "SCORE": 4,
+        "ARXIVID": "2604.26395",
+        "COMMENT": "The paper studies the evolution of newly born magnetars and their impact on superluminous supernovae, focusing on nuclear matter properties and bulk viscosity. This is unrelated to the specified criteria.",
+        "RELEVANCE": 1,
+        "NOVELTY": 3,
+        "authors": [
+            "C. X. Liu",
+            "T. F. Feng",
+            "J. M. Dong"
+        ],
+        "title": "Effects of nucleon-nucleon short-range correlation and symmetry energy on the evolution of newly born magnetars",
+        "abstract": "Millisecond magnetars are widely suggested as the central engines powering hydrogen-poor superluminous supernovae (SLSNe). These magnetars primarily lose huge rotational energy through gravitational wave radiation (GWR) and magnetic dipole radiation (MDR), with MDR serving as an energy source for SLSNe. We study the evolution of the magnetar spin, magnetic inclination angle, and the resulting thermal radiative luminosity of the SLSNe, where the impacts of the nucleon-nucleon short-range correlation, the mass and initial spin of the magnetar, and the density-dependent symmetry energy of the dense nuclear matter on the evolution are discussed. The relativistic mean-field theory is employed to calculate the nuclear matter properties, and we particularly concentrate on the time- and space-dependent bulk viscosity which is crucial for the magnetic inclination angle evolution. It is found that the nucleon-nucleon short-range correlation weakens the damping of bulk viscosity of dense matter and therefore inhibits the growth of magnetic inclination angle, and it reduces the MDR (GWR) peak luminosity of a canonical magnetar by several times while it raises the peak thermal radiation luminosity of SLSNe by several times. For magnetars with nonrotating mass obviously lower than the $ 1.4 M_\\odot$ with slow initial rotation, the magnetic inclination angle is more likely to evolve towards 0 degrees quickly, and these magnetars are not suitable as the central engine for SLSNe. Within the \"family\" of FSUGarnet interaction, a stiffer symmetry energy gives a lower threshold of direct Urca process and hence gives a much larger bulk viscosity coefficient, and thus it promotes the growth of the magnetic inclination angle and the GWR for canonical stars but reduces the peak brightness of SLSNe significantly.",
+        "arxiv_id": "2604.26395"
+    },
+    "2604.26293": {
+        "SCORE": 3,
+        "ARXIVID": "2604.26293",
+        "COMMENT": "This paper focuses on celestial pole offsets and Earth orientation parameters, which are unrelated to any of the specified criteria.",
+        "RELEVANCE": 1,
+        "NOVELTY": 2,
+        "authors": [
+            "Wang Wei-long",
+            "Wu Yuan-wei",
+            "Li Xi-shun",
+            "Qiao Hai-hua",
+            "Kong Qiao",
+            "Yang Hai-yan",
+            "Yang Xu-hai"
+        ],
+        "title": "Prediction of Celestial Pole Offsets Based on Sliding Window and Bivariate Least Squares Fitting",
+        "abstract": "As an important component of Earth Orientation Parameters (EOP), the prediction of Celestial Pole Offsets (CPO) holds significant importance for missions such as deep space exploration. To explore a better CPO prediction algorithm that improves accuracy across different forecast spans, a CPO prediction algorithm is proposed based on a sliding window and bivariate least squares fitting. First, experiments determine an optimal sliding window of 900 days. Then, bivariate least squares fitting is performed on the selected 900-day historical data to complete extrapolation prediction. Then, bivariate least squares fitting is performed on the selected 900 day historical data to complete extrapolation prediction. Experimental results show that the proposed algorithm exhibits excellent accuracy. In comparisons with prediction results from participating teams in the Second Earth Orientation Parameters Prediction Comparison Campaign (2nd EOP PCC), the algorithm's Mean Absolute Error (MAE) is superior to both ID154 and ID155. Team ID154 achieved the best dX prediction, while Team ID155 achieved the best dY prediction. Furthermore, the algorithm performs well not only on the EOP 14 C04 series but also on the newly released EOP 20 C04 series after the 2nd EOP PCC. Its prediction results are far better than those in the daily files published by the International Earth Rotation and Reference Systems Service (IERS). In terms of dX forecast accuracy, the MAE for the 10th, 30th, and 57th days were reduced by 53%, 59%, and 60%, respectively. In terms of dY forecast accuracy, the MAE for the 10th, 30th, and 57th days were reduced by 35%, 38%, and 42%, respectively.",
+        "arxiv_id": "2604.26293"
+    }
+}
