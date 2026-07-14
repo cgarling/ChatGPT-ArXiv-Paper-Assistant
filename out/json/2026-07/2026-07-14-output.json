@@ -1,0 +1,27 @@
+{
+    "2607.11730": {
+        "SCORE": 12,
+        "ARXIVID": "2607.11730",
+        "COMMENT": "This paper presents a new all-sky catalogue of absolute spectro-photometric calibrators and synthetic stellar atmosphere models (PHOENIX). The most relevant criterion is 'Stellar Models', as the work involves fitting observed SEDs with interpolated model spectra and provides new flux-calibrated spectra and angular diameters. However, the focus is on calibration and cataloguing rather than introducing fundamentally new stellar evolutionary or atmosphere models, so the relevance is moderate.",
+        "RELEVANCE": 6,
+        "NOVELTY": 6,
+        "authors": [
+            "Violeta G\\'amez Rosas",
+            "Michiel Hogerheijde",
+            "Roy van Boekel",
+            "Jozsef Varga",
+            "Walter Jaffe",
+            "Alexis Matter",
+            "Peter H. Hauschildt",
+            "Leonard Burtscher",
+            "James Leftley",
+            "Bruno Lopez",
+            "Florentin Millour",
+            "Romain G. Petrov",
+            "Harikumar N"
+        ],
+        "title": "STARSFLUX: an all-sky catalogue of absolute spectro-photometric calibrators from 0.3 to 30 $\\mu$m",
+        "abstract": "Obtaining accurate fluxes for faint sources from the ground at near- and mid-infrared wavelengths is challenging because of rapidly varying atmospheric absorption, and is often limited by the lack of a nearby spectro-photometric calibrator. We present the STellar Absolute Reference Spectroscopic Flux Library (STARSFLUX), an all-sky catalogue of 64,484 calibrator spectra spanning 0.3--30 $\\mu$m, based on the Mid-infrared stellar Diameters and Fluxes compilation Catalogue (MDFC). STARSFLUX combines Gaia DR3 stellar parameters, multi-band photometry from space- and ground-based surveys, and synthetic NewEra PHOENIX atmosphere models. For each star, we fit the observed SED with an interpolated model spectrum, angular diameter, and extinction to produce an absolutely flux-calibrated spectrum. The derived angular diameters can also be used to calibrate interferometric observations. We validate the catalogue using three independent tests. First, STARSFLUX angular radii agree closely with Gaia DR3 radii, with a median $|\\Delta R|/R_{\\rm Gaia,DR3} \\simeq 4.8$ per cent. Second, integrated L-band (2.8--4.2 $\\mu$m) fluxes for 12 stars in common with the Cohen infrared standards agree with Cohen values with a mean absolute percentage difference of $4.7 \\pm 2.6$ per cent. Third, comparison with Gaia DR3 BP/RP spectra shows that the near-UV/visible/near-IR absolute spectro-photometric fluxes agree to approximately 3 per cent. The FITS spectra are available at https://home.strw.leidenuniv.nl/~gamez/ and will be submitted to VizieR.",
+        "arxiv_id": "2607.11730"
+    }
+}
