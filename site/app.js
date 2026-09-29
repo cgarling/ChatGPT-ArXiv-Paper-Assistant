@@ -2,6 +2,7 @@ const MONTHS = ["January", "February", "March", "April", "May", "June", "July", 
 
 export const weightedScore = paper => 2 * Number(paper.RELEVANCE || 0) + Number(paper.NOVELTY || 0);
 export const paperId = (paper, fallback = "") => String(paper.arxiv_id || paper.ARXIVID || fallback);
+export const visibleAffiliationCount = (references, authorCount) => Math.max(0, ...references.slice(0, authorCount).flat());
 
 export function mergeReports(reports) {
   const merged = new Map();
@@ -122,6 +123,7 @@ function render() {
     const references = paper.author_affiliations || [];
     const authorLine = element("p", { className: "paper-meta authors" });
     const authorText = element("span");
+    const affiliationList = paper.affiliations?.length && element("ol", { className: "affiliations", "aria-label": "Author affiliations" });
     const renderAuthors = visibleAuthors => {
       authorText.replaceChildren();
       visibleAuthors.forEach((author, index) => {
@@ -130,6 +132,7 @@ function render() {
         const numbers = references[index] || [];
         if (numbers.length) authorText.append(element("sup", { className: "affiliation-reference" }, numbers.join(",")));
       });
+      if (affiliationList) affiliationList.replaceChildren(...paper.affiliations.slice(0, visibleAffiliationCount(references, visibleAuthors.length)).map(affiliation => element("li", {}, affiliation)));
     };
     renderAuthors(authors.slice(0, 10));
     authorLine.append(authorText);
@@ -145,11 +148,7 @@ function render() {
     }
     authorLine.append(` · ${paper.date}`);
     article.append(authorLine);
-    if (paper.affiliations?.length) {
-      const affiliationList = element("ol", { className: "affiliations", "aria-label": "Author affiliations" });
-      for (const affiliation of paper.affiliations) affiliationList.append(element("li", {}, affiliation));
-      article.append(affiliationList);
-    }
+    if (affiliationList) article.append(affiliationList);
     const badges = element("div", { className: "badges", "aria-label": "Paper scores" });
     badges.append(
       element("span", {}, `Relevance ${Number(paper.RELEVANCE || 0)}`),

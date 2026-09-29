@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { filterPapers, mergeReports, sortPapers, weightedScore } from "../site/app.js";
+import { filterPapers, mergeReports, sortPapers, visibleAffiliationCount, weightedScore } from "../site/app.js";
 
 const old = { title: "Old", authors: ["Ada"], abstract: "stars", RELEVANCE: 5, NOVELTY: 9, SCORE: 14 };
 const newest = { title: "New", authors: ["Grace"], affiliations: ["Example Collaboration"], abstract: "galaxies", COMMENT: "useful", RELEVANCE: 6, NOVELTY: 4, SCORE: 10 };
@@ -15,4 +15,7 @@ assert.equal(merged.find(paper => paper.arxiv_id === "2501.2").title, "High");
 assert.equal(weightedScore(old), 19);
 assert.equal(sortPapers([newest, old])[0].title, "Old");
 assert.deepEqual(filterPapers(merged, "grace", 6, 4).map(paper => paper.arxiv_id).sort(), ["2501.1", "2501.2"]);
+const references = [[1], [2], [2], [], [3], [4]];
+assert.equal(visibleAffiliationCount(references, 3), 2);
+assert.equal(visibleAffiliationCount(references, references.length), 4);
 console.log("site data functions: ok");

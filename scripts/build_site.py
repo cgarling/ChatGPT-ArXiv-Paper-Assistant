@@ -6,6 +6,7 @@ import json
 import re
 import shutil
 import sys
+import unicodedata
 from datetime import date
 from pathlib import Path
 
@@ -14,7 +15,9 @@ from arxiv_assistant.utils.utils import latex_text_to_unicode
 
 DATE_FILE = re.compile(r"^(\d{4}-\d{2}-\d{2})-output\.json$")
 SITE_FILES = ("index.html", "app.js", "styles.css")
-AFFILIATION_WORDS = re.compile(r"\b(collaboration|consortium|university|universidad|université|universität|institute|instituto|institut|institution|observatory|observatorio|laboratory|laboratorio|lab|centre|center|department|departamento|college|academy|survey|project|team)\b", re.IGNORECASE)
+AFFILIATION_WORDS = re.compile(r"\b(collaboration|consortium|university|universidad|université|universität|institute|instituto|institut|institution|observatory|observatorio|laboratory|laboratorio|lab|centre|center|department|departamento|college|academy|agency|agencies|survey|project|team)\b", re.IGNORECASE)
+PERSONAL_ANNOTATION = re.compile(r"^(?:jr\.?|sr\.?|i{2,4}|[a-z]|\d+)$|\b(?:orcid|corresponding author|co-?first author|equal contribution|contributed equally|deceased|present address|personal title|on behalf of)\b", re.IGNORECASE)
+INSTITUTIONAL_ACRONYM = re.compile(r"\b[A-Z][A-Z0-9]{1,}\b")
 AUTHOR_SUFFIX = re.compile(r"^(.*?)\s+\(([^()]*)\)\s*$")
 
 
@@ -85,6 +88,10 @@ def repair_fragmented_authors(authors: list[str]) -> list[str]:
     return repaired
 
 
+def contains_non_latin_letter(value: str) -> bool:
+    return any(character.isalpha() and "LATIN" not in unicodedata.name(character, "") for character in value)
+
+
 def normalize_authors(authors: list[str]) -> tuple[list[str], list[str], list[list[int]]]:
     parsed = []
     authors = repair_fragmented_authors(authors)
@@ -102,7 +109,11 @@ def normalize_authors(authors: list[str]) -> tuple[list[str], list[str], list[li
     cleaned = []
     references = []
     for author, suffix in parsed:
-        extract = suffix and ("," in suffix or counts[suffix.casefold()] >= 2 or AFFILIATION_WORDS.search(suffix))
+        acronym = suffix and INSTITUTIONAL_ACRONYM.search(suffix)
+        native_name = suffix and "," not in suffix and not suffix.isupper() and (contains_non_latin_letter(author) or contains_non_latin_letter(suffix))
+        short_alias = suffix and suffix.istitle() and len(suffix.split()) <= 3 and counts[suffix.casefold()] <= 2 and not AFFILIATION_WORDS.search(suffix)
+        personal = suffix and (PERSONAL_ANNOTATION.search(suffix) or native_name or short_alias)
+        extract = suffix and not personal and ("," in suffix or counts[suffix.casefold()] >= 2 or AFFILIATION_WORDS.search(suffix) or acronym and (suffix.isupper() or len(suffix) >= 20))
         cleaned.append(author if extract else f"{author} ({suffix})" if suffix else author)
         if extract:
             key = suffix.casefold()

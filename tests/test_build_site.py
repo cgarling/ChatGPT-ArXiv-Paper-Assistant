@@ -59,17 +59,17 @@ class BuildSiteTests(unittest.TestCase):
 
     def test_fragmented_historical_affiliations_are_repaired(self):
         fragmented = [
-            "Jorge Sanchez Almeida (Instituto de Astrofisica de Canarias", "La Laguna", "Spain)",
+            "Joel C. Roediger (Canadian Space Agency", "Saint-Hubert", "QC", "Canada)",
             "Nitya Kallivayalil (Department of Astronomy", "University of Virginia", "USA)",
         ]
         self.assertEqual(repair_fragmented_authors(fragmented), [
-            "Jorge Sanchez Almeida (Instituto de Astrofisica de Canarias, La Laguna, Spain)",
+            "Joel C. Roediger (Canadian Space Agency, Saint-Hubert, QC, Canada)",
             "Nitya Kallivayalil (Department of Astronomy, University of Virginia, USA)",
         ])
         authors, affiliations, references = normalize_authors(fragmented)
-        self.assertEqual(authors, ["Jorge Sanchez Almeida", "Nitya Kallivayalil"])
+        self.assertEqual(authors, ["Joel C. Roediger", "Nitya Kallivayalil"])
         self.assertEqual(affiliations, [
-            "Instituto de Astrofisica de Canarias, La Laguna, Spain",
+            "Canadian Space Agency, Saint-Hubert, QC, Canada",
             "Department of Astronomy, University of Virginia, USA",
         ])
         self.assertEqual(references, [[1], [2]])
@@ -85,9 +85,37 @@ class BuildSiteTests(unittest.TestCase):
             "Joel Roediger (Canadian Space Agency, Saint-Hubert, QC, Canada)",
             "Wei Zhang (张伟)",
         ])
-        self.assertEqual(authors, ["Ting Li", "Denis Erkal", "Jane Doe (Jr.)", "John Smith", "Alex Roe", "Bea Poe"])
-        self.assertEqual(affiliations, ["the S5 Collaboration", "University of Example", "Private note"])
-        self.assertEqual(references, [[1], [1], [], [2], [3], [3]])
+        self.assertEqual(authors, ["Ting Li", "Denis Erkal", "Jane Doe (Jr.)", "John Smith", "Alex Roe", "Bea Poe", "Joel Roediger", "Wei Zhang (张伟)"])
+        self.assertEqual(affiliations, ["the S5 Collaboration", "University of Example", "Private note", "Canadian Space Agency, Saint-Hubert, QC, Canada"])
+        self.assertEqual(references, [[1], [1], [], [2], [3], [3], [4], []])
+
+    def test_personal_annotations_override_affiliation_signals(self):
+        values = [
+            "Jane Doe (Jr.)",
+            "John Roe (Jr.)",
+            "张伟 (Wei Zhang)",
+            "李伟 (Wei Zhang)",
+            "Ada Lovelace (ORCID: 0000-0002-1825-0097)",
+            "Grace Hopper (on behalf of the US Navy)",
+            "Jiaqi (Martin)",
+            "Yixiao Zhou (Martin)",
+            "Lawrence Bissell (a)",
+            "Walter Seifert (a)",
+        ]
+        authors, affiliations, references = normalize_authors(values)
+        self.assertEqual(authors, values)
+        self.assertEqual(affiliations, [])
+        self.assertEqual(references, [[] for _ in values])
+
+    def test_institutional_acronyms_are_affiliations(self):
+        authors, affiliations, references = normalize_authors([
+            "Ada Lovelace (ESO)",
+            "Grace Hopper (INAF - Osservatorio Astronomico di Brera)",
+            "Katherine Johnson (European Space Agency)",
+        ])
+        self.assertEqual(authors, ["Ada Lovelace", "Grace Hopper", "Katherine Johnson"])
+        self.assertEqual(affiliations, ["ESO", "INAF - Osservatorio Astronomico di Brera", "European Space Agency"])
+        self.assertEqual(references, [[1], [2], [3]])
 
     def test_invalid_json_fails_without_replacing_existing_output(self):
         self.write_report("2025-02-03").write_text("not json", encoding="utf-8")
