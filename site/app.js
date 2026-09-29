@@ -1,8 +1,38 @@
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MATH_OPTIONS = {
+  delimiters: [
+    { left: "$$", right: "$$", display: true },
+    { left: "$", right: "$", display: false },
+    { left: "\\(", right: "\\)", display: false },
+    { left: "\\[", right: "\\]", display: true },
+  ],
+  throwOnError: false,
+  errorColor: "inherit",
+  trust: false,
+};
+const renderedMath = new WeakSet();
 
 export const weightedScore = paper => 2 * Number(paper.RELEVANCE || 0) + Number(paper.NOVELTY || 0);
 export const paperId = (paper, fallback = "") => String(paper.arxiv_id || paper.ARXIVID || fallback);
 export const visibleAffiliationCount = (references, authorCount) => Math.max(0, ...references.slice(0, authorCount).flat());
+
+export function renderMath(node) {
+  const source = node.textContent;
+  const hasMath = source.includes("$") || source.includes("\\(") || source.includes("\\[");
+  if (renderedMath.has(node) || !hasMath || typeof globalThis.renderMathInElement !== "function") return;
+  node.textContent = source.replaceAll("\\$", "\\textdollar{}");
+  try {
+    globalThis.renderMathInElement(node, MATH_OPTIONS);
+  } catch (error) {
+    node.textContent = source;
+    console.error("Could not render math", error);
+    return;
+  }
+  for (const child of node.childNodes) {
+    if (child.nodeType === 3) child.textContent = child.textContent.replaceAll("\\textdollar{}", "$");
+  }
+  renderedMath.add(node);
+}
 
 export function mergeReports(reports) {
   const merged = new Map();
@@ -110,13 +140,14 @@ function render() {
   const sort = document.querySelector("#sort-by").value;
   const papers = sortPapers(filterPapers(state.papers, query, relevance, novelty), sort);
   const container = document.querySelector("#papers");
-  container.replaceChildren();
+  const fragment = document.createDocumentFragment();
   status(papers.length ? `${papers.length} paper${papers.length === 1 ? "" : "s"}` : "No papers match these filters.");
 
   for (const paper of papers) {
     const article = element("article", { className: "paper" });
     const heading = element("h2");
     const link = element("a", { href: `https://arxiv.org/abs/${encodeURIComponent(paperId(paper))}` }, paper.title || paperId(paper));
+    renderMath(link);
     heading.append(link);
     article.append(heading);
     const authors = paper.authors || [];
@@ -155,10 +186,13 @@ function render() {
       element("span", {}, `Novelty ${Number(paper.NOVELTY || 0)}`),
       element("span", {}, `Weighted ${weightedScore(paper)}`),
     );
-    article.append(badges, element("p", {}, paper.abstract || ""));
+    const abstract = element("p", {}, paper.abstract || "");
+    renderMath(abstract);
+    article.append(badges, abstract);
     if (paper.COMMENT) article.append(element("p", { className: "comment" }, paper.COMMENT));
-    container.append(article);
+    fragment.append(article);
   }
+  container.replaceChildren(fragment);
 }
 
 function entriesInRange(from, to) {
