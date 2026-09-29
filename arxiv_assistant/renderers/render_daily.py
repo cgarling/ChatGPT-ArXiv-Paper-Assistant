@@ -35,9 +35,8 @@ def render_paper_content(paper_entry: Dict, idx: int) -> str:
     paper_string += f"**ArXiv ID:** {arxiv_id}\n\n"
     paper_string += f'**Authors:** {", ".join(authors)}\n\n'
     paper_string += f"**Abstract:** {abstract}\n\n"
-    if "COMMENT" in paper_entry:
-        comment = paper_entry["COMMENT"]
-        paper_string += f"**Comment:** {comment}\n\n"
+    if paper_entry.get("COMMENT"):
+        paper_string += f"**Comment:** {paper_entry['COMMENT']}\n\n"
     if "RELEVANCE" in paper_entry and "NOVELTY" in paper_entry:
         # get the relevance and novelty scores
         relevance = paper_entry["RELEVANCE"]
