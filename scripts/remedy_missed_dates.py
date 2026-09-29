@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
         # filter papers by GPT
         if CONFIG["SELECTION"].getboolean("run_openai"):
-            selected_results, filtered_results, total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens = filter_by_gpt(
+            selected_results, filtered_results, total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens, used_models = filter_by_gpt(
                 paper_list,
                 SYSTEM_PROMPT,
                 TOPIC_PROMPT,
@@ -120,6 +120,7 @@ if __name__ == "__main__":
             filtered_paper_dict.update(filtered_results)
         else:
             total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens = 0.0, 0.0, 0, 0
+            used_models = []
             print("Skipping GPT filtering")
 
         # sort the papers by relevance and novelty
@@ -127,7 +128,7 @@ if __name__ == "__main__":
             k: v
             for k, v in sorted(
                 selected_paper_dict.items(),
-                key=lambda x: (x[1].get("SCORE", 0), x[1].get("RELEVANCE", 0)),  # sort first by total scores then by relevance
+                key=lambda x: (x[1].get("SCORE", 0), x[1].get("RELEVANCE", 0)),  # sort by weighted score, then relevance
                 reverse=True
             )
         }
@@ -145,7 +146,7 @@ if __name__ == "__main__":
 
         if CONFIG["OUTPUT"].getboolean("dump_md"):
             head_table = {
-                "headers": [f"*[{CONFIG['SELECTION']['model']}]*", "Prompt", "Completion", "Total"],
+                "headers": [f"*[{' → '.join(used_models) or 'No model'}]*", "Prompt", "Completion", "Total"],
                 "data": [
                     ["**Token**", total_prompt_tokens, total_completion_tokens, total_prompt_tokens + total_completion_tokens],
                     ["**Cost**", f"${round(total_prompt_cost, 2)}", f"${round(total_completion_cost, 2)}", f"${round(total_prompt_cost + total_completion_cost, 2)}"],

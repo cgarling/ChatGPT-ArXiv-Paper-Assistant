@@ -64,6 +64,8 @@ MODEL_PRICING = {
     # The official Gemini API.
     # Here are the prices for the "Pay-as-you-go" plan instead of the free plan.
     # [LAST UPDATE: 2025.2.10]
+    "gemini-3.8-flash": {"prompt": 0.75, "completion": 3.75, "cache": 0.075},
+    "gemini-2.5-flash": {"prompt": 0.3, "completion": 2.5, "cache": 0.03},
     "gemini-2.0-flash": {"prompt": 0.1, "completion": 0.4, "cache": 0.0025},
     "gemini-2.0-flash-lite-preview-02-05": {"prompt": 0.075, "completion": 0.3, "cache": 0.01875},
     "gemini-1.5-flash": {"prompt": 0.075, "completion": 0.3, "cache": 0.01875},  # Prompts up to 128k tokens here. Prices for prompts longer than 128k are doubled.
@@ -73,18 +75,7 @@ MODEL_PRICING = {
     # https://api-docs.deepseek.com/quick_start/pricing
     # The official DeepSeek API.
     # [LAST UPDATE: 2025.1.28]
+    "deepseek-flash": {"prompt": 0.15, "completion": 0.6, "cache": 0.003},
     "deepseek-chat": {"prompt": 0.14, "completion": 0.28},
     "deepseek-reasoner": {"prompt": 0.55, "completion": 2.19},
-
-    # https://docs.github.com/en/billing/concepts/product-billing/github-models
-    # Pricing for GitHub model usage through their endpoint (base_url) 
-    # See example usage by clicking "use this model" on 
-    # https://github.com/marketplace/models/azure-openai/gpt-4-1
-    # and selecting Python -> OpenAI SDK
-    # Price is calculated in filter_gpt.py as, for prompt,
-    # prompt_pricing * prompt_tokens / 1_000_000
-    # because OpenAI gives price in $ / million tokens. 
-    # Each token for GitHub's API is $0.00001, so we need to convert from their table
-    # to price per million tokens, which requires mulitplying by 10.
-    "openai/gpt-4.1": {"prompt": 2.0, "completion": 8.0, "cache": 0.5},
 }

@@ -7,10 +7,14 @@ on:
     types:
       - completed
 
-permissions: write-all
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

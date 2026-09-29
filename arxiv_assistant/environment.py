@@ -47,19 +47,18 @@ with open("prompts/postfix_prompt_abstract.txt", "r", encoding="utf-8") as f:
 
 # keys
 S2_API_KEY = os.environ.get("S2_KEY")
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-OPENAI_BASE_URL = os.environ.get("OPENAI_BASE_URL")
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
+GOOGLE_OPENAI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
+DEEPSEEK_OPENAI_BASE_URL = "https://api.deepseek.com"
 SLACK_KEY = os.environ.get("SLACK_KEY")
 SLACK_CHANNEL_ID = os.environ.get("SLACK_CHANNEL_ID")
 
-print(f"S2_API_KEY: {S2_API_KEY}")
-print(f"OPENAI_API_KEY: {OPENAI_API_KEY}")
-print(f"OPENAI_BASE_URL: {OPENAI_BASE_URL}")
-print(f"SLACK_KEY: {SLACK_KEY}")
-print(f"SLACK_CHANNEL_ID: {SLACK_CHANNEL_ID}")
-
-if OPENAI_API_KEY is None:
-    raise ValueError("OpenAI key is not set - please set OPENAI_API_KEY to your OpenAI key")
+print(f"S2_API_KEY set: {S2_API_KEY is not None}")
+print(f"GOOGLE_API_KEY set: {GOOGLE_API_KEY is not None}")
+print(f"DEEPSEEK_API_KEY set: {DEEPSEEK_API_KEY is not None}")
+print(f"SLACK_KEY set: {SLACK_KEY is not None}")
+print(f"SLACK_CHANNEL_ID set: {SLACK_CHANNEL_ID is not None}")
 
 # now time
 try:
