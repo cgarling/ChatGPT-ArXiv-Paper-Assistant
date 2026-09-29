@@ -72,6 +72,8 @@ MODEL_PRICING = {
     "gemini-1.5-flash-8b": {"prompt": 0.0375, "completion": 0.15, "cache": 0.01},  # Prompts up to 128k tokens here. Prices for prompts longer than 128k are doubled.
     "gemini-1.5-pro": {"prompt": 1.25, "completion": 5, "cache": 0.3125},  # Prompts up to 128k tokens here. Prices for prompts longer than 128k are doubled.
 
+    "openrouter/free": {"prompt": 0, "completion": 0},
+
     # https://api-docs.deepseek.com/quick_start/pricing
     # The official DeepSeek API.
     # [LAST UPDATE: 2025.1.28]

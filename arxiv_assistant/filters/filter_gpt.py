@@ -8,11 +8,14 @@ from tqdm import tqdm
 from typing import Dict, List, Tuple
 
 from arxiv_assistant import environment as env
-from arxiv_assistant.environment import DEEPSEEK_API_KEY, DEEPSEEK_OPENAI_BASE_URL, GOOGLE_API_KEY, GOOGLE_OPENAI_BASE_URL
 from arxiv_assistant.utils.pricing import MODEL_PRICING
 from arxiv_assistant.utils.utils import EnhancedJSONEncoder, Paper, batched
 
 ABSTRACT_CUTOFF = 4000
+
+
+class ProviderBudgetExhausted(RuntimeError):
+    pass
 
 
 def calc_price(model, usage):
@@ -104,8 +107,9 @@ def get_batch_size(batch_size, paper_num, config):
 
 
 PROVIDER_SETTINGS = {
-    "google": (GOOGLE_API_KEY, GOOGLE_OPENAI_BASE_URL),
-    "deepseek": (DEEPSEEK_API_KEY, DEEPSEEK_OPENAI_BASE_URL),
+    "google": (env.GOOGLE_API_KEY, env.GOOGLE_OPENAI_BASE_URL),
+    "openrouter": (env.OPENROUTER_API_KEY, env.OPENROUTER_OPENAI_BASE_URL),
+    "deepseek": (env.DEEPSEEK_API_KEY, env.DEEPSEEK_OPENAI_BASE_URL),
 }
 
 
@@ -130,7 +134,7 @@ def build_providers(config):
             "client": OpenAI(api_key=api_key, base_url=base_url, max_retries=0),
             "last_query_time": None,
             "query_cnt": 0,
-            "used": False,
+            "models_used": [],
         })
     return providers
 
@@ -151,7 +155,7 @@ def call_provider(system_prompt, user_prompt, provider):
 
     for attempt in range(3):
         if provider["max_requests"] > 0 and provider["query_cnt"] >= provider["max_requests"]:
-            raise RuntimeError(f"Request budget exhausted ({provider['max_requests']} requests)")
+            raise ProviderBudgetExhausted(f"Request budget exhausted ({provider['max_requests']} requests)")
 
         if provider["limit_per_minute"] > 0 and provider["last_query_time"] is not None:
             interval = 60 / provider["limit_per_minute"]
@@ -161,7 +165,9 @@ def call_provider(system_prompt, user_prompt, provider):
         provider["last_query_time"] = time.monotonic()
         try:
             completion = call()
-            provider["used"] = True
+            actual_model = getattr(completion, "model", None) or provider["model"]
+            if actual_model not in provider["models_used"]:
+                provider["models_used"].append(actual_model)
             return completion
         except (APIConnectionError, APIStatusError) as ex:
             status_code = getattr(ex, "status_code", None)
@@ -172,19 +178,36 @@ def call_provider(system_prompt, user_prompt, provider):
             time.sleep(delay)
 
 
+def switch_provider(providers, provider, reason):
+    if len(providers) == 1:
+        return False
+    if not providers or providers[0] is not provider:
+        raise RuntimeError("Cannot switch a provider that is not active")
+    providers.pop(0)
+    print(f"{provider['name']} {reason}; switching to {providers[0]['name']}")
+    return True
+
+
 def call_model(system_prompt, user_prompt, providers):
     while providers:
         provider = providers[0]
         try:
             return call_provider(system_prompt, user_prompt, provider), provider
-        except (APIConnectionError, APIStatusError) as ex:
-            status_code = getattr(ex, "status_code", None)
-            retryable = status_code is None or status_code == 429 or status_code >= 500
-            if not retryable or len(providers) == 1:
-                raise
-            providers.pop(0)
-            print(f"{provider['name']} failed after retries ({model_error_message(ex)}); switching to {providers[0]['name']}")
+        except (APIConnectionError, APIStatusError, ProviderBudgetExhausted) as ex:
+            message = model_error_message(ex)
+            if not switch_provider(providers, provider, f"failed ({message})"):
+                raise RuntimeError(f"{provider['name']} failed: {message}") from ex
     raise RuntimeError("No model providers available")
+
+
+def call_parsed_model(system_prompt, user_prompt, providers, parse_response):
+    attempts = []
+    while True:
+        completion, provider = call_model(system_prompt, user_prompt, providers)
+        attempts.append((completion, provider))
+        parsed = parse_response(completion)
+        if parsed is not None or not switch_provider(providers, provider, "returned an invalid response"):
+            return completion, provider, parsed, attempts
 
 
 def model_error_message(ex):
@@ -198,6 +221,16 @@ def model_error_message(ex):
         if message:
             return f"HTTP {status_code}: {message}" if status_code else message
     return f"HTTP {status_code}: {ex}" if status_code else str(ex)
+
+
+def parse_title_response(completion, expected_ids):
+    try:
+        parsed = json.loads(completion.choices[0].message.content)
+    except (AttributeError, TypeError, json.JSONDecodeError):
+        return None
+    if not isinstance(parsed, list) or not all(isinstance(arxiv_id, str) for arxiv_id in parsed):
+        return None
+    return set(parsed) if len(parsed) == len(set(parsed)) and set(parsed) <= expected_ids else None
 
 
 def filter_papers_by_title(
@@ -218,39 +251,39 @@ def filter_papers_by_title(
         # prepare input
         papers_string = [paper_to_titles(paper) for paper in batch]
         user_prompt = get_user_prompt_for_title_filtering(topic_prompt, postfix_prompt, papers_string)
+        batch_ids = {paper.arxiv_id for paper in batch}
         try:
-            completion, provider = call_model(system_prompt, user_prompt, providers)
+            completion, provider, filtered_set, attempts = call_parsed_model(
+                system_prompt, user_prompt, providers, lambda result: parse_title_response(result, batch_ids),
+            )
         except Exception as ex:
             raise RuntimeError(f"Model request failed for title batch of {len(batch)} papers: {model_error_message(ex)}") from None
 
-        # get GPT output
-        prompt_cost, completion_cost = calc_price(provider["model"], completion.usage)
-        total_prompt_cost += prompt_cost
-        total_completion_cost += completion_cost
-        prompt_tokens += completion.usage.prompt_tokens
-        completion_tokens += completion.usage.completion_tokens
-        out_text = completion.choices[0].message.content
-        print({"prompt": {"tokens": completion.usage.prompt_tokens, "cost": prompt_cost}, "completion": {"tokens": completion.usage.completion_tokens, "cost": completion_cost}})
+        for attempt_completion, attempt_provider in attempts:
+            attempt_prompt_cost, attempt_completion_cost = calc_price(attempt_provider["model"], attempt_completion.usage)
+            total_prompt_cost += attempt_prompt_cost
+            total_completion_cost += attempt_completion_cost
+            prompt_tokens += attempt_completion.usage.prompt_tokens
+            completion_tokens += attempt_completion.usage.completion_tokens
+            print({"provider": attempt_provider["name"], "model": getattr(attempt_completion, "model", None) or attempt_provider["model"], "prompt": {"tokens": attempt_completion.usage.prompt_tokens, "cost": attempt_prompt_cost}, "completion": {"tokens": attempt_completion.usage.completion_tokens, "cost": attempt_completion_cost}})
 
-        # parse output
-        try:
-            filtered_set = set(json.loads(out_text))
-            for paper in batch:
-                if paper.arxiv_id in filtered_set:
-                    filtered_results[paper.arxiv_id] = {
-                        "COMMENT": f"Title filtered",
-                        "SCORE": 0,
-                        **dataclasses.asdict(paper),
-                    }
-                    print(f"Filtered out paper {paper.arxiv_id} by title ({paper.title})")
-                else:
-                    new_paper_list.append(paper)
-        except Exception as ex:
+        if filtered_set is None:
             invalid_paper_list.extend(batch)
             if config["OUTPUT"].getboolean("debug_messages"):
-                print(f"Exception happened: Failed to parse LM output as list ({ex})")
-                print(f"`out_text`: {out_text}")
+                print("Failed to parse a complete title-filter response")
+                print(f"`out_text`: {completion.choices[0].message.content}")
             continue
+
+        for paper in batch:
+            if paper.arxiv_id in filtered_set:
+                filtered_results[paper.arxiv_id] = {
+                    "COMMENT": "Title filtered",
+                    "SCORE": 0,
+                    **dataclasses.asdict(paper),
+                }
+                print(f"Filtered out paper {paper.arxiv_id} by title ({paper.title})")
+            else:
+                new_paper_list.append(paper)
 
     print(f"Filtered {len(filtered_results)} papers based on title with cost of ${total_prompt_cost + total_completion_cost}, remaining {len(new_paper_list)} papers:\n"
           f"({prompt_tokens} prompt tokens cost ${total_prompt_cost})\n"
@@ -309,6 +342,23 @@ def parse_chatgpt(raw_out_text, config):
     return json_dicts, invalid_cnt
 
 
+def parse_abstract_response(completion, expected_ids, config):
+    try:
+        json_dicts, invalid_cnt = parse_chatgpt(completion.choices[0].message.content, config)
+        if invalid_cnt or len(json_dicts) != len(expected_ids):
+            return None
+        returned_ids = []
+        for result in json_dicts:
+            returned_ids.append(result["ARXIVID"])
+            if not isinstance(result["COMMENT"], str):
+                return None
+            if not 1 <= int(result["RELEVANCE"]) <= 10 or not 1 <= int(result["NOVELTY"]) <= 10:
+                return None
+        return json_dicts if len(returned_ids) == len(set(returned_ids)) and set(returned_ids) == expected_ids else None
+    except (AttributeError, KeyError, TypeError, ValueError):
+        return None
+
+
 def filter_papers_by_abstract(
     paper_list, id_paper_mapping, providers, system_prompt, topic_prompt, score_prompt, postfix_prompt, config, retry=3,
 ) -> Tuple[List[List[Dict]], Dict, Dict, float, float, int, int]:
@@ -334,21 +384,27 @@ def filter_papers_by_abstract(
         batch_str = [paper_to_string(paper) for paper in batch]
         user_prompt = get_user_prompt_for_abstract_filtering(topic_prompt, score_prompt, postfix_prompt, batch_str)
         try:
-            completion, provider = call_model(system_prompt, user_prompt, providers)
+            completion, provider, json_dicts, attempts = call_parsed_model(
+                system_prompt, user_prompt, providers, lambda result: parse_abstract_response(result, all_arxiv_ids, config),
+            )
         except Exception as ex:
             raise RuntimeError(f"Model request failed for abstract batch of {len(batch)} papers after retries: {model_error_message(ex)}") from None
 
-        # get GPT output
-        prompt_cost, completion_cost = calc_price(provider["model"], completion.usage)
-        total_prompt_cost += prompt_cost
-        total_completion_cost += completion_cost
-        prompt_tokens += completion.usage.prompt_tokens
-        completion_tokens += completion.usage.completion_tokens
-        out_text = completion.choices[0].message.content
-        print({"prompt": {"tokens": completion.usage.prompt_tokens, "cost": prompt_cost}, "completion": {"tokens": completion.usage.completion_tokens, "cost": completion_cost}})
+        for attempt_completion, attempt_provider in attempts:
+            attempt_prompt_cost, attempt_completion_cost = calc_price(attempt_provider["model"], attempt_completion.usage)
+            total_prompt_cost += attempt_prompt_cost
+            total_completion_cost += attempt_completion_cost
+            prompt_tokens += attempt_completion.usage.prompt_tokens
+            completion_tokens += attempt_completion.usage.completion_tokens
+            print({"provider": attempt_provider["name"], "model": getattr(attempt_completion, "model", None) or attempt_provider["model"], "prompt": {"tokens": attempt_completion.usage.prompt_tokens, "cost": attempt_prompt_cost}, "completion": {"tokens": attempt_completion.usage.completion_tokens, "cost": attempt_completion_cost}})
 
-        # parse output
-        json_dicts, _ = parse_chatgpt(out_text, config)
+        if json_dicts is None:
+            invalid_arxiv_ids.update(all_arxiv_ids)
+            scored_batches.append([])
+            if config["OUTPUT"].getboolean("debug_messages"):
+                print("Failed to parse a complete abstract-filter response")
+                print(f"`out_text`: {completion.choices[0].message.content}")
+            continue
 
         for jdict in json_dicts:
             if int(jdict["RELEVANCE"]) < 7:
@@ -487,11 +543,11 @@ def filter_by_gpt(paper_list, system_prompt, topic_prompt, score_prompt, postfix
           f"({total_prompt_tokens} prompt tokens cost ${total_prompt_cost})\n"
           f"({total_completion_tokens} completion tokens cost ${total_completion_cost})")
 
-    used_models = [f"{provider['name']} ({provider['model']})" for provider in all_providers if provider["used"]]
+    used_models = [f"{provider['name']} ({model})" for provider in all_providers for model in provider["models_used"]]
     return selected_results, total_filtered_results, total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens, used_models
 
 # if __name__ == "__main__":
-#     openai_client = OpenAI(api_key=GOOGLE_API_KEY, base_url=GOOGLE_OPENAI_BASE_URL)
+#     openai_client = OpenAI(api_key=env.GOOGLE_API_KEY, base_url=env.GOOGLE_OPENAI_BASE_URL)
 #
 #     # loads papers from 'in/debug_papers.json' and filters them
 #     with open("../../in/debug_papers.json", "r") as f:
