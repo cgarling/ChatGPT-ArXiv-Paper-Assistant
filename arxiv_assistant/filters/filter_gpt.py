@@ -7,7 +7,8 @@ from openai import APIConnectionError, APIStatusError, OpenAI
 from tqdm import tqdm
 from typing import Dict, List, Tuple
 
-from arxiv_assistant.environment import DEEPSEEK_API_KEY, DEEPSEEK_OPENAI_BASE_URL, GOOGLE_API_KEY, GOOGLE_OPENAI_BASE_URL, OUTPUT_DEBUG_FILE_FORMAT
+from arxiv_assistant import environment as env
+from arxiv_assistant.environment import DEEPSEEK_API_KEY, DEEPSEEK_OPENAI_BASE_URL, GOOGLE_API_KEY, GOOGLE_OPENAI_BASE_URL
 from arxiv_assistant.utils.pricing import MODEL_PRICING
 from arxiv_assistant.utils.utils import EnhancedJSONEncoder, Paper, batched
 
@@ -479,7 +480,7 @@ def filter_by_gpt(paper_list, system_prompt, topic_prompt, score_prompt, postfix
     total_completion_tokens += completion_tokens
 
     if config["OUTPUT"].getboolean("dump_debug_file"):
-        with open(OUTPUT_DEBUG_FILE_FORMAT.format("gpt_paper_batches.json"), "w") as outfile:
+        with open(env.OUTPUT_DEBUG_FILE_FORMAT.format("gpt_paper_batches.json"), "w") as outfile:
             json.dump(scored_batches, outfile, cls=EnhancedJSONEncoder, indent=4)
 
     print(f"Total cost is ${total_prompt_cost + total_completion_cost}:\n"

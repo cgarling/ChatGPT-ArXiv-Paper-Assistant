@@ -1,0 +1,78 @@
+name: Run past arxiv day
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: Output date (YYYY-MM-DD)
+        required: true
+        type: string
+      search_start:
+        description: Optional first submission date (YYYY-MM-DD)
+        required: false
+        type: string
+      search_end:
+        description: Optional last submission date (YYYY-MM-DD)
+        required: false
+        type: string
+      update_latest:
+        description: Replace the published latest report
+        required: false
+        default: false
+        type: boolean
+
+permissions: {}
+
+jobs:
+  recover:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run recovery
+        env:
+          OUTPUT_DATE: ${{ inputs.date }}
+          SEARCH_START: ${{ inputs.search_start }}
+          SEARCH_END: ${{ inputs.search_end }}
+          UPDATE_LATEST: ${{ inputs.update_latest }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          SLACK_KEY: ${{ secrets.SLACK_KEY }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          S2_KEY: ${{ secrets.S2_KEY }}
+        run: |
+          args=(--date "$OUTPUT_DATE")
+          if [ -n "$SEARCH_START" ]; then args+=(--search-start "$SEARCH_START"); fi
+          if [ -n "$SEARCH_END" ]; then args+=(--search-end "$SEARCH_END"); fi
+          if [ "$UPDATE_LATEST" = "true" ]; then args+=(--update-latest); fi
+          python main.py "${args[@]}"
+
+      - name: Upload results
+        uses: actions/upload-artifact@v7
+        with:
+          name: arxiv-recovery-${{ inputs.date }}-${{ github.run_id }}
+          path: out/
+          retention-days: 5
+
+  commit-results:
+    needs: recover
+    permissions:
+      contents: write
+    uses: ./.github/workflows/push_results.yaml
+    with:
+      artifact_name: arxiv-recovery-${{ inputs.date }}-${{ github.run_id }}
+      update_latest: ${{ inputs.update_latest }}
+      source: recovery for ${{ inputs.date }}

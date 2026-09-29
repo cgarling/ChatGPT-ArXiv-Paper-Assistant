@@ -84,19 +84,25 @@ print(f"NOW_YEAR: {NOW_YEAR}")
 print(f"NOW_MONTH: {NOW_MONTH}")
 print(f"NOW_DAY: {NOW_DAY}")
 
-# output path
-OUTPUT_DEBUG_DIR = os.path.join(CONFIG["OUTPUT"]["output_path"], "debug", f"{NOW_YEAR}-{format(NOW_MONTH, '02d')}", f"{NOW_YEAR}-{format(NOW_MONTH, '02d')}-{format(NOW_DAY, '02d')}")
-OUTPUT_DEBUG_FILE_FORMAT = os.path.join(OUTPUT_DEBUG_DIR, "{}")
-create_dir(OUTPUT_DEBUG_DIR)
+def configure_output_date(output_date):
+    global OUTPUT_DEBUG_DIR, OUTPUT_DEBUG_FILE_FORMAT, OUTPUT_MD_DIR, OUTPUT_MD_FILE_FORMAT, OUTPUT_JSON_DIR, OUTPUT_JSON_FILE_FORMAT
 
-OUTPUT_MD_DIR = os.path.join(CONFIG["OUTPUT"]["output_path"], "md", f"{NOW_YEAR}-{format(NOW_MONTH, '02d')}")
-OUTPUT_MD_FILE_FORMAT = os.path.join(OUTPUT_MD_DIR, f"{NOW_YEAR}-{format(NOW_MONTH, '02d')}-{format(NOW_DAY, '02d')}-" + "{}")
-create_dir(OUTPUT_MD_DIR)
+    year, month, day = output_date
+    month_string = f"{year}-{month:02d}"
+    date_string = f"{month_string}-{day:02d}"
+    output_path = CONFIG["OUTPUT"]["output_path"]
 
-OUTPUT_JSON_DIR = os.path.join(CONFIG["OUTPUT"]["output_path"], "json", f"{NOW_YEAR}-{format(NOW_MONTH, '02d')}")
-OUTPUT_JSON_FILE_FORMAT = os.path.join(OUTPUT_JSON_DIR, f"{NOW_YEAR}-{format(NOW_MONTH, '02d')}-{format(NOW_DAY, '02d')}-" + "{}")
-create_dir(OUTPUT_JSON_DIR)
+    OUTPUT_DEBUG_DIR = os.path.join(output_path, "debug", month_string, date_string)
+    OUTPUT_DEBUG_FILE_FORMAT = os.path.join(OUTPUT_DEBUG_DIR, "{}")
+    OUTPUT_MD_DIR = os.path.join(output_path, "md", month_string)
+    OUTPUT_MD_FILE_FORMAT = os.path.join(OUTPUT_MD_DIR, f"{date_string}-{{}}")
+    OUTPUT_JSON_DIR = os.path.join(output_path, "json", month_string)
+    OUTPUT_JSON_FILE_FORMAT = os.path.join(OUTPUT_JSON_DIR, f"{date_string}-{{}}")
+    for directory in (OUTPUT_DEBUG_DIR, OUTPUT_MD_DIR, OUTPUT_JSON_DIR):
+        create_dir(directory)
 
+
+configure_output_date((NOW_YEAR, NOW_MONTH, NOW_DAY))
 print(f"OUTPUT_DEBUG_DIR: {OUTPUT_DEBUG_DIR}")
 print(f"OUTPUT_DEBUG_FILE_FORMAT: {OUTPUT_DEBUG_FILE_FORMAT}")
 print(f"OUTPUT_MD_DIR: {OUTPUT_MD_DIR}")
