@@ -38,7 +38,16 @@ At this point your bot should run daily and publish a static website. The result
 11. Make a channel for the bot (and invite it to the channel), get its [Slack channel id](https://stackoverflow.com/questions/40940327/what-is-the-simplest-way-to-find-a-slack-team-id-and-a-channel-id), set it as `SLACK_CHANNEL_ID` in a github secret.
 12. Set the github repo private to avoid github actions being [set to inactive after 60 days](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow).
 
-Each day at 5am UTC, the bot will run and post to slack and publish a GitHub pages website (see the `publish_md` and `cron_runs` actions for details).
+Each day at 5am UTC, the bot will run and post to slack and publish a GitHub Pages website (see the `publish_md` and `cron_runs` actions for details). The dependency-free site is built from the dated JSON archives on `auto_update`; markdown archives remain available but are not used by the website. The reader defaults to the latest report and supports single-day URLs, date ranges, search, score filters, and sorting.
+
+To build and preview the site locally after generating or checking out `out/json`:
+
+```bash
+python scripts/build_site.py --source out/json --output dist
+python -m http.server --directory dist 8000
+```
+
+The build validates every dated JSON report, creates `dist/manifest.json`, and copies reports under `dist/data/`. Open `http://localhost:8000`; serving is required because the browser loads JSON with `fetch`.
 
 ### Running locally
 
