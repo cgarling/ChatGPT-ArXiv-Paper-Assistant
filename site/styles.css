@@ -67,6 +67,9 @@ button[type="submit"] { border-color: var(--accent); background: var(--accent); 
 .status { min-height: 2rem; margin-block: 1.4rem .6rem; color: var(--muted); font-weight: 700; }
 .paper h2 { margin: 0; font-size: clamp(1.5rem, 1.2vw, 2rem); font-weight: 700; letter-spacing: -.01em; line-height: 1.25; }
 .paper > p:not(.paper-meta, .comment) { font-size: 1.05rem; }
+.paper .katex-display { margin: .5em 0; }
+.paper .katex-display > .katex { white-space: normal; }
+.paper .katex-display > .katex > .katex-html > .katex-base { margin: .25em 0; }
 .paper-meta { color: var(--muted); }
 .author-toggle { min-height: auto; padding: .15rem .4rem; border: 0; background: transparent; color: var(--accent); font-weight: 700; text-decoration: underline; }
 .affiliation-reference { margin-left: .1em; color: var(--accent); font-weight: 750; }
