@@ -2,16 +2,15 @@ name: Run daily arxiv
 
 on:
   schedule:
-    # * is a special character in YAML so you have to quote this string
     - cron: '0 5 * * 1-5'
   workflow_dispatch:
 
-
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   build:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
 
     steps:
@@ -34,12 +33,21 @@ jobs:
           SLACK_KEY: ${{ secrets.SLACK_KEY }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
           S2_KEY: ${{ secrets.S2_KEY }}
-        run: |
-          python main.py
+        run: python main.py
 
       - name: Upload results
         uses: actions/upload-artifact@v7
         with:
-          name: arxiv-scanner-outputs
+          name: arxiv-daily-${{ github.run_id }}
           path: out/
           retention-days: 5
+
+  commit-results:
+    needs: build
+    permissions:
+      contents: write
+    uses: ./.github/workflows/push_results.yaml
+    with:
+      artifact_name: arxiv-daily-${{ github.run_id }}
+      update_latest: true
+      source: daily RSS

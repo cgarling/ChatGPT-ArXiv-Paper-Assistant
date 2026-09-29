@@ -3,9 +3,8 @@ name: Publish Github Pages
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: [ "Push Generated Results" ]
-    types:
-      - completed
+    workflows: [ "Run daily arxiv", "Run past arxiv day" ]
+    types: [completed]
 
 permissions:
   contents: read

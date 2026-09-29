@@ -2,12 +2,10 @@ Daily papers hosted [here](https://cgarling.github.io/ChatGPT-ArXiv-Paper-Assist
 
 # ChatGPT ArXiv Paper Assistant: A Daily ArXiv Scanner
 
-> *[Last update: 2025-5-27]*
 > This is an enhanced version of the [GPT paper assistant](https://github.com/tatsu-lab/gpt_paper_assistant).
-> I fixed all known bugs and added various new features to make it easier to use.
 > See the [changelog](CHANGELOG.md) for details.
 
-This repo implements a very simple daily scanner for Arxiv that uses configurable language-model providers to find papers you might find interesting.
+This repo implements a daily scanner for Arxiv that uses configurable language-model providers to find papers you might find interesting.
 It will run daily via github actions and can post this information to slack via a bot or just render it in a static github-pages website.
 The results will be pushed to the `auto_update` branch automatically.
 
@@ -15,7 +13,6 @@ The default provider order is Google then DeepSeek. Create keys in [Google AI St
 
 As a cost estimate, filtering 267 papers by titles with `batch_size=40` takes 7 queries with an average of 1,798 prompt tokens and 144 completion tokens each.
 Filtering 123 papers by abstracts with `batch_size=12` takes 11 queries with an average of 4,477 prompt tokens and 739 completion tokens each.
-This costs $0 under the [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) of the Copilot Free plan.
 
 ## Quickstart
 
@@ -27,7 +24,7 @@ This is the minimal necessary steps to get the scanner to run. It is highly reco
 2. Edit `prompts/paper_topics.txt` to describe the types of papers you want to follow.
 3. Edit `configs/authors.txt` and list the authors you actually want to follow. The numbers behind the author are important. They are Semantic Scholar author IDs which you can find by looking up the authors on semantic scholar and taking the numbers at the end of the URL. Note that currently querying Semantic Scholar for author details is by far the slowest part of the action -- if you want to disable filtering by author, you can set `run_author_match = false` in `configs/config.ini`.
 4. Set your desired ArXiv categories in `configs/config.ini`.
-5. Add GitHub Actions repository secrets for each configured provider: `GOOGLE_API_KEY` and, by default, `DEEPSEEK_API_KEY`.
+5. Add GitHub Actions repository secrets for each configured provider you wish to use: `GOOGLE_API_KEY` and `DEEPSEEK_API_KEY`.
 6. In your repo settings, set github page build sources to be [github actions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow).
 
 At this point your bot should run daily and publish a static website. The results will be pushed to the `auto_update` branch automatically. You can test this by running the github action workflow manually. The default batching, request spacing, and 18-request budget stay within Gemini's free-tier limits of 5 requests per minute and 20 requests per day.
@@ -49,7 +46,22 @@ The steps are generally the same as above, but you have to set up the environmen
 
 Instead of passing credentials via GitHub secrets, set the environment variable for every configured provider (`GOOGLE_API_KEY` and/or `DEEPSEEK_API_KEY`). Set `SLACK_KEY`, `SLACK_CHANNEL_ID`, and `S2_KEY` too if you use those optional integrations.
 
-To run everything, just call `main.py`
+To run the current RSS workflow, call:
+
+```bash
+python main.py
+```
+
+To recover a past report, provide its output date. The shared pipeline uses the arXiv API for historical submission dates and marks the report as approximate because submission and announcement dates can differ:
+
+```bash
+python main.py --date 2025-05-19
+python main.py --date 2025-05-17 --search-start 2025-05-15 --search-end 2025-05-16
+```
+
+Dates must use `YYYY-MM-DD` and cannot be in the future. Both search-range arguments must be provided together. Without overrides, Monday searches the prior Thursday through Friday, Tuesday searches the prior Friday through Monday, and Wednesday through Friday search the previous two calendar days. Weekend output dates require explicit search bounds. Historical runs leave `out/output.md` untouched unless `--update-latest` is passed.
+
+GitHub Actions offers the same recovery through the manual-only **Run past arxiv day** workflow. Its `date` input is required; `search_start`, `search_end`, and `update_latest` are optional. Rerunning replaces that date's markdown and JSON results on `auto_update`; it only replaces the published latest report when `update_latest` is enabled.
 
 **Other notes:**
 

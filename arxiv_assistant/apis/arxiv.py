@@ -8,7 +8,7 @@ import retry
 import warnings
 from typing import Dict, List, Set, Tuple
 
-from arxiv_assistant.environment import OUTPUT_DEBUG_FILE_FORMAT
+from arxiv_assistant import environment as env
 from arxiv_assistant.utils.utils import Paper, normalize_whitespace
 
 
@@ -43,7 +43,7 @@ def get_papers_from_arxiv_api(
     response = requests.get(url, timeout=10)
     response.raise_for_status()
     if dump_debug_file:
-        with open(OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.xml"), "w", encoding="utf-8") as outfile:
+        with open(env.OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.xml"), "w", encoding="utf-8") as outfile:
             outfile.write(response.text)
 
     # Parse the XML response
@@ -104,7 +104,7 @@ def get_papers_from_arxiv_rss(
     response.raise_for_status()
     feed = feedparser.parse(response.text)
     if dump_debug_file:
-        with open(OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.rss"), "w", encoding="utf-8") as outfile:
+        with open(env.OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.rss"), "w", encoding="utf-8") as outfile:
             outfile.write(response.text)
 
     # get the list of entries
