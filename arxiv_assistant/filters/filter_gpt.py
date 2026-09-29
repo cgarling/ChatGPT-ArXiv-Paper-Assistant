@@ -1,15 +1,14 @@
 import dataclasses
-import datetime
 import json
 import math
 import re
-import retry
 import time
-from openai import OpenAI
+from openai import APIConnectionError, APIStatusError, OpenAI
 from tqdm import tqdm
 from typing import Dict, List, Tuple
 
-from arxiv_assistant.environment import OPENAI_API_KEY, OPENAI_BASE_URL, OUTPUT_DEBUG_FILE_FORMAT
+from arxiv_assistant import environment as env
+from arxiv_assistant.environment import DEEPSEEK_API_KEY, DEEPSEEK_OPENAI_BASE_URL, GOOGLE_API_KEY, GOOGLE_OPENAI_BASE_URL
 from arxiv_assistant.utils.pricing import MODEL_PRICING
 from arxiv_assistant.utils.utils import EnhancedJSONEncoder, Paper, batched
 
@@ -104,44 +103,105 @@ def get_batch_size(batch_size, paper_num, config):
     return int(batch_size * scale_factor)
 
 
-start_query_time = None
-query_cnt = 0
+PROVIDER_SETTINGS = {
+    "google": (GOOGLE_API_KEY, GOOGLE_OPENAI_BASE_URL),
+    "deepseek": (DEEPSEEK_API_KEY, DEEPSEEK_OPENAI_BASE_URL),
+}
 
 
-@retry.retry(tries=3, delay=30.0)
-def call_chatgpt(system_prompt, user_prompt, openai_client, model, limit_per_minute=-1):
+def build_providers(config):
+    names = [name.strip() for name in config["SELECTION"]["providers"].split(",") if name.strip()]
+    if not names or len(names) != len(set(names)):
+        raise ValueError("providers must contain unique comma-separated provider names")
+    unknown = set(names) - PROVIDER_SETTINGS.keys()
+    if unknown:
+        raise ValueError(f"Unknown providers: {', '.join(sorted(unknown))}")
+
+    providers = []
+    for name in names:
+        api_key, base_url = PROVIDER_SETTINGS[name]
+        if not api_key:
+            raise ValueError(f"Provider '{name}' requires {name.upper()}_API_KEY")
+        providers.append({
+            "name": name,
+            "model": config["SELECTION"][f"{name}_model"],
+            "limit_per_minute": int(config["SELECTION"][f"{name}_limit_per_minute"]),
+            "max_requests": int(config["SELECTION"][f"{name}_max_requests"]),
+            "client": OpenAI(api_key=api_key, base_url=base_url, max_retries=0),
+            "last_query_time": None,
+            "query_cnt": 0,
+            "used": False,
+        })
+    return providers
+
+
+def call_provider(system_prompt, user_prompt, provider):
     def call():
-        return openai_client.chat.completions.create(
-            model=model,
-            messages=[
+        kwargs = {
+            "model": provider["model"],
+            "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            temperature=0.0,
-            seed=0,
-        )
+            "temperature": 0.0,
+        }
+        if provider["name"] == "deepseek":
+            kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
+        return provider["client"].chat.completions.create(**kwargs)
 
-    if limit_per_minute <= 0:  # no limit
-        return call()
+    for attempt in range(3):
+        if provider["max_requests"] > 0 and provider["query_cnt"] >= provider["max_requests"]:
+            raise RuntimeError(f"Request budget exhausted ({provider['max_requests']} requests)")
 
-    else:  # limit the query num within a minute
-        global start_query_time, query_cnt
+        if provider["limit_per_minute"] > 0 and provider["last_query_time"] is not None:
+            interval = 60 / provider["limit_per_minute"]
+            time.sleep(max(0, interval - (time.monotonic() - provider["last_query_time"])))
 
-        while True:
-            now_time = datetime.datetime.now()
-            if start_query_time is None or now_time - start_query_time > datetime.timedelta(minutes=1):
-                start_query_time = now_time
-                query_cnt = 0
-            if query_cnt < limit_per_minute:
-                query_cnt += 1
-                return call()
-            else:  # wait for a second and recheck
-                time.sleep(1)
-                continue
+        provider["query_cnt"] += 1
+        provider["last_query_time"] = time.monotonic()
+        try:
+            completion = call()
+            provider["used"] = True
+            return completion
+        except (APIConnectionError, APIStatusError) as ex:
+            status_code = getattr(ex, "status_code", None)
+            if attempt == 2 or (status_code is not None and status_code != 429 and status_code < 500):
+                raise
+            delay = 30 * (attempt + 1)
+            print(f"Transient {provider['name']} API error ({status_code or 'connection'}); retrying in {delay}s")
+            time.sleep(delay)
+
+
+def call_model(system_prompt, user_prompt, providers):
+    while providers:
+        provider = providers[0]
+        try:
+            return call_provider(system_prompt, user_prompt, provider), provider
+        except (APIConnectionError, APIStatusError) as ex:
+            status_code = getattr(ex, "status_code", None)
+            retryable = status_code is None or status_code == 429 or status_code >= 500
+            if not retryable or len(providers) == 1:
+                raise
+            providers.pop(0)
+            print(f"{provider['name']} failed after retries ({model_error_message(ex)}); switching to {providers[0]['name']}")
+    raise RuntimeError("No model providers available")
+
+
+def model_error_message(ex):
+    status_code = getattr(ex, "status_code", None)
+    body = getattr(ex, "body", None)
+    if isinstance(body, list) and body:
+        body = body[0]
+    if isinstance(body, dict):
+        error = body.get("error", body)
+        message = error.get("message") if isinstance(error, dict) else None
+        if message:
+            return f"HTTP {status_code}: {message}" if status_code else message
+    return f"HTTP {status_code}: {ex}" if status_code else str(ex)
 
 
 def filter_papers_by_title(
-    paper_list, openai_client, system_prompt, topic_prompt, postfix_prompt, config, retry=3,
+    paper_list, providers, system_prompt, topic_prompt, postfix_prompt, config, retry=3,
 ) -> Tuple[List[Paper], Dict, float, float, int, int]:
     batch_size = get_batch_size(int(config["SELECTION"]["title_batch_size"]), len(paper_list), config)
     print(f"Using batch size of {batch_size} for title filtering")
@@ -154,22 +214,17 @@ def filter_papers_by_title(
     total_completion_cost = 0.0
     prompt_tokens = 0
     completion_tokens = 0
-
     for batch in tqdm(batches_of_papers, desc="Filtering title"):
         # prepare input
         papers_string = [paper_to_titles(paper) for paper in batch]
         user_prompt = get_user_prompt_for_title_filtering(topic_prompt, postfix_prompt, papers_string)
-        model = config["SELECTION"]["model"]
         try:
-            completion = call_chatgpt(system_prompt,user_prompt, openai_client, model)
+            completion, provider = call_model(system_prompt, user_prompt, providers)
         except Exception as ex:
-            if config["OUTPUT"].getboolean("debug_messages"):
-                print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
-            invalid_paper_list.extend(batch)
-            continue
+            raise RuntimeError(f"Model request failed for title batch of {len(batch)} papers: {model_error_message(ex)}") from None
 
         # get GPT output
-        prompt_cost, completion_cost = calc_price(model, completion.usage)
+        prompt_cost, completion_cost = calc_price(provider["model"], completion.usage)
         total_prompt_cost += prompt_cost
         total_completion_cost += completion_cost
         prompt_tokens += completion.usage.prompt_tokens
@@ -206,7 +261,7 @@ def filter_papers_by_title(
             print(f"Retrying {len(invalid_paper_list)} papers failed to be filtered by GPT through title filtering (left {retry - 1} retries)")
             retried_new_paper_list, retried_filtered_results, retried_total_prompt_cost, retried_total_completion_cost, retried_prompt_tokens, retried_completion_tokens = filter_papers_by_title(
                 invalid_paper_list,
-                openai_client,
+                providers,
                 system_prompt,
                 topic_prompt,
                 postfix_prompt,
@@ -255,7 +310,7 @@ def parse_chatgpt(raw_out_text, config):
 
 
 def filter_papers_by_abstract(
-    paper_list, id_paper_mapping, openai_client, system_prompt, topic_prompt, score_prompt, postfix_prompt, config, retry=3, limit_per_minute=-1,
+    paper_list, id_paper_mapping, providers, system_prompt, topic_prompt, score_prompt, postfix_prompt, config, retry=3,
 ) -> Tuple[List[List[Dict]], Dict, Dict, float, float, int, int]:
     batch_size = get_batch_size(int(config["SELECTION"]["abstract_batch_size"]), len(paper_list), config)
     print(f"Using batch size of {batch_size} for abstract filtering")
@@ -269,7 +324,6 @@ def filter_papers_by_abstract(
     total_completion_cost = 0.0
     prompt_tokens = 0
     completion_tokens = 0
-
     for batch in tqdm(batches_of_papers, desc="Filtering abstract"):
         # temp values
         this_scored_batch = []
@@ -279,17 +333,13 @@ def filter_papers_by_abstract(
         # prepare input
         batch_str = [paper_to_string(paper) for paper in batch]
         user_prompt = get_user_prompt_for_abstract_filtering(topic_prompt, score_prompt, postfix_prompt, batch_str)
-        model = config["SELECTION"]["model"]
         try:
-            completion = call_chatgpt(system_prompt,user_prompt, openai_client, model, limit_per_minute=limit_per_minute)
+            completion, provider = call_model(system_prompt, user_prompt, providers)
         except Exception as ex:
-            if config["OUTPUT"].getboolean("debug_messages"):
-                print(f"Exception happened: Failed to call GPT with batch size {len(batch)} ({ex})")
-            invalid_arxiv_ids.update(all_arxiv_ids)
-            continue
+            raise RuntimeError(f"Model request failed for abstract batch of {len(batch)} papers after retries: {model_error_message(ex)}") from None
 
         # get GPT output
-        prompt_cost, completion_cost = calc_price(model, completion.usage)
+        prompt_cost, completion_cost = calc_price(provider["model"], completion.usage)
         total_prompt_cost += prompt_cost
         total_completion_cost += completion_cost
         prompt_tokens += completion.usage.prompt_tokens
@@ -301,13 +351,15 @@ def filter_papers_by_abstract(
         json_dicts, _ = parse_chatgpt(out_text, config)
 
         for jdict in json_dicts:
+            if int(jdict["RELEVANCE"]) < 7:
+                jdict["COMMENT"] = ""
             if jdict["ARXIVID"] not in id_paper_mapping:
                 if config["OUTPUT"].getboolean("debug_messages"):
                     print(f"Exception happened: ARXIVID \"{jdict['ARXIVID']}\" not found in `id_paper_mapping`")
                 continue
 
             result = {
-                "SCORE": jdict["RELEVANCE"] + jdict["NOVELTY"],
+                "SCORE": 2 * int(jdict["RELEVANCE"]) + int(jdict["NOVELTY"]),
                 **jdict,
                 **dataclasses.asdict(id_paper_mapping[jdict["ARXIVID"]]),
             }
@@ -342,7 +394,7 @@ def filter_papers_by_abstract(
             retried_scored_batches, retried_selected_results, retried_filtered_results, retried_total_prompt_cost, retried_total_completion_cost, retried_prompt_tokens, retried_completion_tokens = filter_papers_by_abstract(
                 [id_paper_mapping[arxiv_id] for arxiv_id in invalid_arxiv_ids],
                 id_paper_mapping,
-                openai_client,
+                providers,
                 system_prompt,
                 topic_prompt,
                 score_prompt,
@@ -368,20 +420,22 @@ def filter_papers_by_abstract(
 
 
 def filter_by_gpt(paper_list, system_prompt, topic_prompt, score_prompt, postfix_prompt_title, postfix_prompt_abstract, config):
+    providers = build_providers(config)
+    all_providers = providers.copy()
+    print(f"Model providers: {', '.join(provider['name'] for provider in providers)}")
     total_filtered_results = {}
     total_prompt_cost = 0.0
     total_completion_cost = 0.0
     total_prompt_tokens = 0
     total_completion_tokens = 0
 
-    openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
     id_paper_mapping: Dict[str, Paper] = {paper.arxiv_id: paper for paper in paper_list}
 
     # filter papers by titles
     if config["SELECTION"].getboolean("run_title_filter"):
         paper_list, filtered_results, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_title(
             paper_list,
-            openai_client,
+            providers,
             system_prompt,
             topic_prompt,
             postfix_prompt_title,
@@ -404,14 +458,13 @@ def filter_by_gpt(paper_list, system_prompt, topic_prompt, score_prompt, postfix
         scored_batches, selected_results, filtered_results, prompt_cost, completion_cost, prompt_tokens, completion_tokens = filter_papers_by_abstract(
             paper_list,
             id_paper_mapping,
-            openai_client,
+            providers,
             system_prompt,
             topic_prompt,
             score_prompt,
             postfix_prompt_abstract,
             config,
             retry=int(config["SELECTION"]["abstract_retry"]),
-            limit_per_minute=int(config["SELECTION"]["limit_per_minute"]),
         )
     else:
         scored_batches = []
@@ -427,17 +480,18 @@ def filter_by_gpt(paper_list, system_prompt, topic_prompt, score_prompt, postfix
     total_completion_tokens += completion_tokens
 
     if config["OUTPUT"].getboolean("dump_debug_file"):
-        with open(OUTPUT_DEBUG_FILE_FORMAT.format("gpt_paper_batches.json"), "w") as outfile:
+        with open(env.OUTPUT_DEBUG_FILE_FORMAT.format("gpt_paper_batches.json"), "w") as outfile:
             json.dump(scored_batches, outfile, cls=EnhancedJSONEncoder, indent=4)
 
     print(f"Total cost is ${total_prompt_cost + total_completion_cost}:\n"
           f"({total_prompt_tokens} prompt tokens cost ${total_prompt_cost})\n"
           f"({total_completion_tokens} completion tokens cost ${total_completion_cost})")
 
-    return selected_results, total_filtered_results, total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens
+    used_models = [f"{provider['name']} ({provider['model']})" for provider in all_providers if provider["used"]]
+    return selected_results, total_filtered_results, total_prompt_cost, total_completion_cost, total_prompt_tokens, total_completion_tokens, used_models
 
 # if __name__ == "__main__":
-#     openai_client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENAI_BASE_URL)
+#     openai_client = OpenAI(api_key=GOOGLE_API_KEY, base_url=GOOGLE_OPENAI_BASE_URL)
 #
 #     # loads papers from 'in/debug_papers.json' and filters them
 #     with open("../../in/debug_papers.json", "r") as f:

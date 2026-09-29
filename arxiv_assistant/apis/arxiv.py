@@ -8,8 +8,8 @@ import retry
 import warnings
 from typing import Dict, List, Set, Tuple
 
-from arxiv_assistant.environment import OUTPUT_DEBUG_FILE_FORMAT
-from arxiv_assistant.utils.utils import Paper, normalize_whitespace
+from arxiv_assistant import environment as env
+from arxiv_assistant.utils.utils import Paper, latex_text_to_unicode, normalize_whitespace, split_outside_parentheses
 
 
 @retry.retry(tries=3, delay=30.0)
@@ -43,7 +43,7 @@ def get_papers_from_arxiv_api(
     response = requests.get(url, timeout=10)
     response.raise_for_status()
     if dump_debug_file:
-        with open(OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.xml"), "w", encoding="utf-8") as outfile:
+        with open(env.OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.xml"), "w", encoding="utf-8") as outfile:
             outfile.write(response.text)
 
     # Parse the XML response
@@ -59,7 +59,7 @@ def get_papers_from_arxiv_api(
     paper_list = []
 
     for entry in entries:
-        title = normalize_whitespace(entry.find("{http://www.w3.org/2005/Atom}title").text)
+        title = latex_text_to_unicode(normalize_whitespace(entry.find("{http://www.w3.org/2005/Atom}title").text))
 
         # ignore papers not in primary area
         paper_area = entry.find("{http://arxiv.org/schemas/atom}primary_category").get("term")
@@ -71,7 +71,7 @@ def get_papers_from_arxiv_api(
         # add a new paper
         arxiv_id = normalize_whitespace(entry.find("{http://www.w3.org/2005/Atom}id").text).split("/")[-1].split("v")[0]
         abstract = normalize_whitespace(entry.find("{http://www.w3.org/2005/Atom}summary").text)
-        authors = [normalize_whitespace(author.find("{http://www.w3.org/2005/Atom}name").text) for author in entry.findall("{http://www.w3.org/2005/Atom}author")]
+        authors = [latex_text_to_unicode(normalize_whitespace(author.find("{http://www.w3.org/2005/Atom}name").text)) for author in entry.findall("{http://www.w3.org/2005/Atom}author")]
 
         new_paper = Paper(authors=authors, title=title, abstract=abstract, arxiv_id=arxiv_id)
         paper_list.append(new_paper)
@@ -104,7 +104,7 @@ def get_papers_from_arxiv_rss(
     response.raise_for_status()
     feed = feedparser.parse(response.text)
     if dump_debug_file:
-        with open(OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.rss"), "w", encoding="utf-8") as outfile:
+        with open(env.OUTPUT_DEBUG_FILE_FORMAT.format(f"raw_content_{area}.rss"), "w", encoding="utf-8") as outfile:
             outfile.write(response.text)
 
     # get the list of entries
@@ -133,14 +133,14 @@ def get_papers_from_arxiv_rss(
 
         # otherwise make a new paper, for the author field make sure to strip the HTML tags
         authors = [
-            unescape(re.sub("<[^<]+?>", "", author)).strip()
-            for author in paper.author.replace("\n", ", ").split(",")
+            latex_text_to_unicode(unescape(re.sub("<[^<]+?>", "", author)).strip())
+            for author in split_outside_parentheses(paper.author.replace("\n", ", "))
         ]
         # strip html tags from summary
         summary = re.sub("<[^<]+?>", "", paper.summary)
         summary = unescape(re.sub("\n", " ", summary))
         # strip the last pair of parentehses containing (arXiv:xxxx.xxxxx [area.XX])
-        title = re.sub(r"\(arXiv:[0-9]+\.[0-9]+v[0-9]+ \[.*\]\)$", "", paper.title)
+        title = latex_text_to_unicode(re.sub(r"\(arXiv:[0-9]+\.[0-9]+v[0-9]+ \[.*\]\)$", "", paper.title))
         # strip the abstract
         abstract = summary.split("Abstract: ")[-1]
         # remove the link part of the id

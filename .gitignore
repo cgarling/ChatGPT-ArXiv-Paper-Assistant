@@ -4,4 +4,9 @@ configs/keys.ini
 #configs/paper_topics.txt
 # dont commit venv and ide stuff
 venv
+.venv/
+__pycache__/
+*.py[cod]
+out/
+dist/
 .idea

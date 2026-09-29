@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browse personalized daily arXiv paper recommendations.">
+  <title>Daily arXiv Reader</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.css" integrity="sha384-lPx0C4zIUZLpveABMwOFcFeGZwsvKBJfhJ85FN1PYOV7xApBcFMhcAEMVKF8loOI" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/katex.min.js" integrity="sha384-19KE2cFb3U+RUWmyhBz7aLOGDG8WrRC6hE3oY/HTZZlAAVWYTdmvLC//+TIV3zUx" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <button class="drawer-button" id="drawer-button" type="button" aria-controls="archive" aria-expanded="false">Browse dates</button>
+  <div class="layout">
+    <nav class="sidebar" id="archive" aria-label="Report archive">
+      <div class="sidebar-heading">
+        <span>Daily arXiv</span>
+        <button class="drawer-close" id="drawer-close" type="button" aria-label="Close date archive">×</button>
+      </div>
+      <div id="date-tree" class="date-tree"></div>
+    </nav>
+    <main id="main" tabindex="-1">
+      <header class="page-header">
+        <p class="eyebrow">Personalized paper archive</p>
+        <h1>Daily arXiv Reader</h1>
+        <p id="selection-summary">Loading archive…</p>
+        <div class="display-controls">
+          <label>Display size
+            <select id="display-size">
+              <option value="compact">Compact</option>
+              <option value="comfortable" selected>Comfortable</option>
+              <option value="large">Large</option>
+            </select>
+          </label>
+          <label>Theme
+            <select id="theme">
+              <option value="system" selected>System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <section class="panel range-panel" aria-labelledby="range-heading">
+        <h2 id="range-heading">Read a date range</h2>
+        <form id="range-form">
+          <label>Start date <input id="from-date" name="from" type="date" required></label>
+          <label>End date <input id="to-date" name="to" type="date" required></label>
+          <button type="submit">Load range</button>
+        </form>
+      </section>
+
+      <section class="panel filters" aria-labelledby="filter-heading">
+        <h2 id="filter-heading">Find papers</h2>
+        <div class="filter-grid">
+          <label class="search-field">Search
+            <input id="search" type="search" placeholder="Title, author, abstract, or comment">
+          </label>
+          <label>Minimum relevance
+            <input id="min-relevance" type="number" min="0" max="10" step="1" value="0">
+          </label>
+          <label>Minimum novelty
+            <input id="min-novelty" type="number" min="0" max="10" step="1" value="0">
+          </label>
+          <label>Sort by
+            <select id="sort-by">
+              <option value="weighted">Weighted score</option>
+              <option value="relevance">Relevance</option>
+              <option value="novelty">Novelty</option>
+              <option value="date">Newest date</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <div id="status" class="status" role="status" aria-live="polite">Loading…</div>
+      <section id="papers" class="papers" aria-label="Paper results"></section>
+    </main>
+  </div>
+  <div class="backdrop" id="backdrop" hidden></div>
+</body>
+</html>

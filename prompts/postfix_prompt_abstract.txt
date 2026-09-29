@@ -3,6 +3,6 @@
 Write the response in JSONL format with {ARXIVID, COMMENT, RELEVANCE, NOVELTY} on each line, one for each paper.
 
 - ARXIVID: should be the ArXiv ID.
-- COMMENT: should identify whether there is a criteria that match the paper very closely. These matches should not be based on general terms like "astrophysics" or "cosmology" and should specifically refer to a criterion. No need to mention the non-matching criteria.
+- COMMENT: for papers with RELEVANCE 7-10, briefly identify the specific matching criterion in at most 10 words. For papers with RELEVANCE 1-6, use an empty string. Never explain why a paper is irrelevant.
 - RELEVANCE: should be a score from 1-10.
 - NOVELTY: should be a score from 1-10.

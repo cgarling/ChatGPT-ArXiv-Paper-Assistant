@@ -3,18 +3,15 @@ name: Publish Github Pages
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: [ "Push Generated Results" ]
-    types:
-      - completed
+    workflows: [ "Run daily arxiv", "Run past arxiv day" ]
+    types: [completed]
 
-permissions: write-all
+permissions:
+  contents: read
 
 jobs:
   build:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     steps:
@@ -22,63 +19,28 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: auto_update
-          fetch-depth: 0
 
-      - name: Verify output directory and contents
-        run: |
-          if [ -d "out" ] && [ "$(ls -A out)" ]; then
-              cd out
-              echo "Contents in out:"
-              ls -R
-              mv output.md ../
-          else
-              echo "out directory is empty or does not exist. Aborting."
-              exit 1
-          fi
-
-      - name: Check for output.md
-        id: check_files
-        uses: andstor/file-existence-action@v3
+      - uses: actions/setup-python@v7
         with:
-          files: output.md
+          python-version: "3.x"
 
-      - name: Convert output.md to pages
-        uses: wranders/markdown-to-pages-action@v1
-        if: steps.check_files.outputs.files_exists == 'true'
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          files: output.md
-
-      # - name: Get markdown files in md/
-      #   id: gather_files
-      #   run: |
-      #     found_files=$(find out/md -type f -name '*.md')
-      #     echo "::set-output name=files::${files//$'\n'/\\n}"
-      #     echo "files<<EOF" >> $GITHUB_OUTPUT
-      #     echo "$found_files" >> $GITHUB_OUTPUT
-      #     echo EOF >> $GITHUB_OUTPUT
-      #     if [ -n "$found_files" ]; then
-      #       echo "has_files=true" >> $GITHUB_OUTPUT
-      #     else
-      #       echo "has_files=false" >> $GITHUB_OUTPUT
-      #     fi
-
-      # - name: Convert markdown files to pages
-      #   uses: wranders/markdown-to-pages-action@v1
-      #   if: steps.check_files.outputs.files_exists == 'true'
-      #   if: steps.gather_files.outputs.has_files == 'true'
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     files: ${{ steps.gather_files.outputs.files }}
+      - name: Build static archive
+        run: python scripts/build_site.py --source out/json --output dist
 
       - uses: actions/upload-pages-artifact@v5
-        if: steps.check_files.outputs.files_exists == 'true'
-        # if: steps.gather_files.outputs.has_files == 'true'
         with:
           path: dist
 
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v5
-        if: steps.check_files.outputs.files_exists == 'true'
-        # if: steps.gather_files.outputs.has_files == 'true'
         id: deployment
+        uses: actions/deploy-pages@v5

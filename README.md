@@ -2,23 +2,17 @@ Daily papers hosted [here](https://cgarling.github.io/ChatGPT-ArXiv-Paper-Assist
 
 # ChatGPT ArXiv Paper Assistant: A Daily ArXiv Scanner
 
-> *[Last update: 2025-5-27]*
 > This is an enhanced version of the [GPT paper assistant](https://github.com/tatsu-lab/gpt_paper_assistant).
-> I fixed all known bugs and added various new features to make it easier to use.
 > See the [changelog](CHANGELOG.md) for details.
 
-This repo implements a very simple daily scanner for Arxiv that uses OpenAI API to find papers you might find interesting.
+This repo implements a daily scanner for Arxiv that uses configurable language-model providers to find papers you might find interesting.
 It will run daily via github actions and can post this information to slack via a bot or just render it in a static github-pages website.
 The results will be pushed to the `auto_update` branch automatically.
 
-You can get a **free** API Key with a [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) from [GitHub](https://github.com/marketplace/models/azure-openai/gpt-4o). Its daily limit is enough for filtering ArXiv papers.
-Note that this is not a true OpenAI API key, but rather provides access through their [GitHub Models](https://github.com/marketplace?type=models) platform.
-If you are using this free key, you should enable Models read access on your fork of this repository, either through repository settings or through a [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
-You should ensure that the `OPENAI_BASE_URL` environment variable is set to `'https://models.github.ai/inference'` so that GitHub's endpoint is used rather than OpenAI's, which is the default if no `OPENAI_BASE_URL` envar is defined.
+The default provider order is Google then DeepSeek. Create keys in [Google AI Studio](https://aistudio.google.com/apikey) and the [DeepSeek platform](https://platform.deepseek.com/api_keys). Google uses stable `gemini-3.8-flash`; after retryable Google failures, the scanner permanently falls back to `deepseek-flash` for that run. DeepSeek thinking is disabled to avoid unnecessary reasoning-token costs. Change `providers` in `configs/config.ini` to select or reorder providers.
 
 As a cost estimate, filtering 267 papers by titles with `batch_size=40` takes 7 queries with an average of 1,798 prompt tokens and 144 completion tokens each.
 Filtering 123 papers by abstracts with `batch_size=12` takes 11 queries with an average of 4,477 prompt tokens and 739 completion tokens each.
-This costs $0 under the [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) of the Copilot Free plan.
 
 ## Quickstart
 
@@ -30,10 +24,10 @@ This is the minimal necessary steps to get the scanner to run. It is highly reco
 2. Edit `prompts/paper_topics.txt` to describe the types of papers you want to follow.
 3. Edit `configs/authors.txt` and list the authors you actually want to follow. The numbers behind the author are important. They are Semantic Scholar author IDs which you can find by looking up the authors on semantic scholar and taking the numbers at the end of the URL. Note that currently querying Semantic Scholar for author details is by far the slowest part of the action -- if you want to disable filtering by author, you can set `run_author_match = false` in `configs/config.ini`.
 4. Set your desired ArXiv categories in `configs/config.ini`.
-5. Set your OpenAI key `OPENAI_API_KEY` as a [GitHub secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository). You can get a free API key with a [rate limit](https://docs.github.com/en/github-models/prototyping-with-ai-models#rate-limits) from GitHub [here](https://github.com/marketplace/models/azure-openai/gpt-4o). Its daily limit is enough for filtering ArXiv papers. If you are using GitHub's Models endpoint, also set `OPENAI_BASE_URL` (see note above).
+5. Add GitHub Actions repository secrets for each configured provider you wish to use: `GOOGLE_API_KEY` and `DEEPSEEK_API_KEY`.
 6. In your repo settings, set github page build sources to be [github actions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow).
 
-At this point your bot should run daily and publish a static website. The results will be pushed to the `auto_update` branch automatically. You can test this by running the github action workflow manually.
+At this point your bot should run daily and publish a static website. The results will be pushed to the `auto_update` branch automatically. You can test this by running the github action workflow manually. The default batching, request spacing, and 18-request budget stay within Gemini's free-tier limits of 5 requests per minute and 20 requests per day.
 
 **Optional**:
 
@@ -44,15 +38,39 @@ At this point your bot should run daily and publish a static website. The result
 11. Make a channel for the bot (and invite it to the channel), get its [Slack channel id](https://stackoverflow.com/questions/40940327/what-is-the-simplest-way-to-find-a-slack-team-id-and-a-channel-id), set it as `SLACK_CHANNEL_ID` in a github secret.
 12. Set the github repo private to avoid github actions being [set to inactive after 60 days](https://docs.github.com/en/actions/using-workflows/disabling-and-enabling-a-workflow).
 
-Each day at 5am UTC, the bot will run and post to slack and publish a GitHub pages website (see the `publish_md` and `cron_runs` actions for details).
+Each day at 5am UTC, the bot will run and post to slack and publish a GitHub Pages website (see the `publish_md` and `cron_runs` actions for details). The dependency-free site is built from the dated JSON archives on `auto_update`; markdown archives remain available but are not used by the website. The reader defaults to the latest report and supports single-day URLs, date ranges, search, score filters, and sorting.
+
+To build and preview the site locally after generating or checking out `out/json`:
+
+```bash
+python scripts/build_site.py --source out/json --output dist
+python -m http.server --directory dist 8000
+```
+
+The build validates every dated JSON report, creates `dist/manifest.json`, and copies reports under `dist/data/`. Open `http://localhost:8000`; serving is required because the browser loads JSON with `fetch`.
 
 ### Running locally
 
 The steps are generally the same as above, but you have to set up the environment via `requirements.txt`
 
-Instead of passing credentials via github secrets, you have to set environment variables `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `SLACK_KEY`, `SLACK_CHANNEL_ID`.
+Instead of passing credentials via GitHub secrets, set the environment variable for every configured provider (`GOOGLE_API_KEY` and/or `DEEPSEEK_API_KEY`). Set `SLACK_KEY`, `SLACK_CHANNEL_ID`, and `S2_KEY` too if you use those optional integrations.
 
-To run everything, just call `main.py`
+To run the current RSS workflow, call:
+
+```bash
+python main.py
+```
+
+To recover a past report, provide its output date. The shared pipeline uses the arXiv API for historical submission dates and marks the report as approximate because submission and announcement dates can differ:
+
+```bash
+python main.py --date 2025-05-19
+python main.py --date 2025-05-17 --search-start 2025-05-15 --search-end 2025-05-16
+```
+
+Dates must use `YYYY-MM-DD` and cannot be in the future. Both search-range arguments must be provided together. Without overrides, Monday searches the prior Thursday through Friday, Tuesday searches the prior Friday through Monday, and Wednesday through Friday search the previous two calendar days. Weekend output dates require explicit search bounds. Historical runs leave `out/output.md` untouched unless `--update-latest` is passed.
+
+GitHub Actions offers the same recovery through the manual-only **Run past arxiv day** workflow. Its `date` input is required; `search_start`, `search_end`, and `update_latest` are optional. Rerunning replaces that date's markdown and JSON results on `auto_update`; it only replaces the published latest report when `update_latest` is enabled.
 
 **Other notes:**
 

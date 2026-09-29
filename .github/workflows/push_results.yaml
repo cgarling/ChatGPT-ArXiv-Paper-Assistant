@@ -1,17 +1,28 @@
-name: Push Generated Results
+name: Commit generated results
 
 on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: [ "Run daily arxiv" ]
-    types:
-      - completed
+  workflow_call:
+    inputs:
+      artifact_name:
+        description: Artifact containing the generated out directory
+        required: true
+        type: string
+      update_latest:
+        description: Replace out/output.md from the artifact
+        required: true
+        type: boolean
+      source:
+        description: Human-readable generation source
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 jobs:
-  push-results:
+  commit-results:
+    concurrency:
+      group: auto-update-results
     runs-on: ubuntu-latest
 
     steps:
@@ -20,83 +31,49 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout to `auto_update` Branch
+      - name: Checkout auto_update branch
         run: |
           git fetch origin
-          if ! git show-ref --verify --quiet refs/remotes/origin/auto_update; then
-            echo "auto_update branch does not exist. Creating it from main."
-            git checkout -b auto_update origin/main
-            git push origin auto_update
-          else
-            echo "auto_update branch exists. Checking out to it."
+          if git show-ref --verify --quiet refs/remotes/origin/auto_update; then
             git checkout -b auto_update origin/auto_update
+          else
+            git checkout -b auto_update origin/main
           fi
 
-      - name: Download artifact
-        id: download-artifact
-        uses: dawidd6/action-download-artifact@v24
+      - name: Download results
+        uses: actions/download-artifact@v8
         with:
-          workflow: cron_runs.yaml
-          workflow_conclusion: success
-          name: arxiv-scanner-outputs
-          path: out/
+          name: ${{ inputs.artifact_name }}
+          path: .results
 
-      - name: Verify /out directory and contents
+      - name: Apply results
+        env:
+          UPDATE_LATEST: ${{ inputs.update_latest }}
         run: |
-          if [ -d "out" ] && [ "$(ls -A out)" ]; then
-              echo "Contents in /out:"
-              ls -la out/
-          else
-              echo "/out directory is empty or does not exist. Aborting."
-              exit 1
+          test -d .results/md
+          test -d .results/json
+          mkdir -p out
+          if [ "$UPDATE_LATEST" != "true" ]; then
+            rm -f .results/output.md
           fi
+          cp -a .results/. out/
+          rm -rf .results
 
-#      - name: Debug via Browser
-#        uses: fawazahmed0/action-debug-vscode@main
-#        with:
-#          token: "root"
-
-      - name: Check if main and auto_update are identical
-        id: check_branches
+      - name: Merge main
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin main
-          echo "Comparing HEAD with origin/main..."
-          if git diff --quiet HEAD origin/main; then
-              echo "Branches are identical. Skipping merge/rebase."
-              echo "skip_merge=true" >> $GITHUB_ENV
-          else
-              echo "Branches differ. Proceeding with merge/rebase."
-              echo "skip_merge=false" >> $GITHUB_ENV
-              echo "Changes detected:"
-              git diff HEAD origin/main --stat
-          fi
+          git merge origin/main --no-edit
+          git add -f out/
 
-      - name: Merge main into auto_update
-        if: env.skip_merge == 'false'
+      - name: Commit and push results
+        env:
+          SOURCE: ${{ inputs.source }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git merge origin/main --no-edit || (echo "Conflict detected. Aborting merge." && exit 1)
-
-      - name: Check for changes in /out folder
-        id: check_changes
-        run: |
-          git add out/
-          echo "Checking for changes in /out directory..."
-          git status
           if git diff --cached --quiet; then
-            echo "No changes detected in /out."
-            echo "has_changes=false" >> $GITHUB_ENV
-          else
-            echo "Changes detected in /out."
-            echo "has_changes=true" >> $GITHUB_ENV
+            echo "No result changes to commit."
+            exit 0
           fi
-
-      - name: Commit and push /out folder
-        if: env.has_changes == 'true'
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "[skip ci] Automated update from workflow: $(date +"%Y-%m-%d %H:%M:%S")"
+          git commit -m "[skip ci] Update arXiv results from ${SOURCE}"
           git push origin HEAD:auto_update
-          echo "Changes in /out pushed to the repository."
