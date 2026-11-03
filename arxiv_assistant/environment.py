@@ -1,6 +1,7 @@
 import configparser
 import feedparser
 import os
+import time
 from datetime import UTC, datetime
 
 from arxiv_assistant.utils.io import create_dir
@@ -63,7 +64,8 @@ print(f"SLACK_CHANNEL_ID set: {SLACK_CHANNEL_ID is not None}")
 # now time
 try:
     # get from ArXiv
-    feed = feedparser.parse("https://export.arxiv.org/rss/cs.LG")  # use the cs.LG area
+    # cache-buster: see get_papers_from_arxiv_rss
+    feed = feedparser.parse(f"https://rss.arxiv.org/rss/cs.LG?t={int(time.time())}")  # use the cs.LG area
     if len(feed.entries) > 0:
         # Example `feed.published`: "Tue, 18 Feb 2025 00:00:00 -0500"
         parsed_time = datetime.strptime(feed.entries[0].published, "%a, %d %b %Y %H:%M:%S %z")
