@@ -5,6 +5,7 @@ import feedparser
 import re
 import requests
 import retry
+import time
 import warnings
 from typing import Dict, List, Set, Tuple
 
@@ -98,9 +99,10 @@ def get_papers_from_arxiv_rss(
         announce_type = {"new"}
 
     # get the list of entries
-    url = f"https://export.arxiv.org/rss/{area}"
+    url = f"https://rss.arxiv.org/rss/{area}"
     print(f"Getting papers from {url}")
-    response = requests.get(url, timeout=10)
+    # cache-buster: arXiv's CDN can cache an empty feed (built at the midnight ET rollover) for ~24 h
+    response = requests.get(url, params={"t": int(time.time())}, timeout=10)
     response.raise_for_status()
     feed = feedparser.parse(response.text)
     if dump_debug_file:
