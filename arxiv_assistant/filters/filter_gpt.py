@@ -109,6 +109,10 @@ PROVIDER_SETTINGS = {
 }
 
 
+class RequestBudgetExhausted(RuntimeError):
+    pass
+
+
 def build_providers(config):
     names = [name.strip() for name in config["SELECTION"]["providers"].split(",") if name.strip()]
     if not names or len(names) != len(set(names)):
@@ -151,7 +155,7 @@ def call_provider(system_prompt, user_prompt, provider):
 
     for attempt in range(3):
         if provider["max_requests"] > 0 and provider["query_cnt"] >= provider["max_requests"]:
-            raise RuntimeError(f"Request budget exhausted ({provider['max_requests']} requests)")
+            raise RequestBudgetExhausted(f"Request budget exhausted ({provider['max_requests']} requests)")
 
         if provider["limit_per_minute"] > 0 and provider["last_query_time"] is not None:
             interval = 60 / provider["limit_per_minute"]
@@ -177,7 +181,7 @@ def call_model(system_prompt, user_prompt, providers):
         provider = providers[0]
         try:
             return call_provider(system_prompt, user_prompt, provider), provider
-        except (APIConnectionError, APIStatusError) as ex:
+        except (APIConnectionError, APIStatusError, RequestBudgetExhausted) as ex:
             status_code = getattr(ex, "status_code", None)
             retryable = status_code is None or status_code == 429 or status_code >= 500
             if not retryable or len(providers) == 1:
@@ -351,6 +355,8 @@ def filter_papers_by_abstract(
         json_dicts, _ = parse_chatgpt(out_text, config)
 
         for jdict in json_dicts:
+            # Gemini sometimes returns {"arxiv_id": ..., "relevance": ...} despite the prompt
+            jdict = {key.upper().replace("_", ""): value for key, value in jdict.items()}
             if int(jdict["RELEVANCE"]) < 7:
                 jdict["COMMENT"] = ""
             if jdict["ARXIVID"] not in id_paper_mapping:
